@@ -1,24 +1,30 @@
-import logo from 'assets/logo.svg';
-import './app.css';
+import LoadingComponent from 'components/utils/loading';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { lazy, Suspense } from 'react/cjs/react.production.min';
+import './app.scss';
+
+const LoginScreen = lazy(() => import('screens/login'));
+const NotFoundScreen = lazy(() => import('screens/not-found'));
+
+const screens = [
+  {
+    path: '/login',
+    element: <LoginScreen />,
+  },
+];
 
 function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Suspense fallback={<LoadingComponent />}>
+        <Routes>
+          {screens.map(({ path, element }) => (
+            <Route element={element} path={path} />
+          ))}
+          <Route element={<NotFoundScreen />} path='*' />
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
 
