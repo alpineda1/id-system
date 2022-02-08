@@ -41,7 +41,7 @@ const ContentComponent = ({
         {pages &&
           pages.map(({ text, route, icon, end }, index) => (
             <NavLink
-              activeClassName='is-active'
+              className={({ isActive }) => (isActive ? 'is-active' : '')}
               key={index}
               onClick={handleDrawerClose}
               to={route}
@@ -60,7 +60,7 @@ const ContentComponent = ({
         {utils &&
           utils.map(({ text, route, icon, end }, index) => (
             <NavLink
-              activeClassName='is-active'
+              className={({ isActive }) => (isActive ? 'is-active' : '')}
               key={index}
               onClick={handleDrawerClose}
               to={route}

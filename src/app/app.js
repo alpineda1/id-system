@@ -23,30 +23,32 @@ const screens = [
   {
     path: '/',
     element: <HomeScreen />,
+    layout: true,
   },
   {
     path: '/login',
     element: <LoginScreen />,
+    layout: false,
   },
 ];
 
-function App() {
+const App = () => {
   return (
     <ThemeContextProvider>
       <Router>
-        <LayoutComponent>
-          <Suspense fallback={<LoadingComponent />}>
+        <Suspense fallback={<LoadingComponent />}>
+          <LayoutComponent>
             <Routes>
               {screens.map(({ path, element }, index) => (
                 <Route key={index} element={element} path={path} />
               ))}
               <Route element={<NotFoundScreen />} path='*' />
             </Routes>
-          </Suspense>
-        </LayoutComponent>
+          </LayoutComponent>
+        </Suspense>
       </Router>
     </ThemeContextProvider>
   );
-}
+};
 
 export default App;
