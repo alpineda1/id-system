@@ -27,8 +27,8 @@ function App() {
         <Router>
           <Suspense fallback={<LoadingComponent />}>
             <Routes>
-              {screens.map(({ path, element }) => (
-                <Route element={element} path={path} />
+              {screens.map(({ path, element }, index) => (
+                <Route key={index} element={element} path={path} />
               ))}
               <Route element={<NotFoundScreen />} path='*' />
             </Routes>
