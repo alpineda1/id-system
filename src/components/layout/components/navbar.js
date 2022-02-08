@@ -1,4 +1,12 @@
-import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
+import {
+  AppBar,
+  Avatar,
+  Box,
+  IconButton,
+  Stack,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import IconComponent from 'components/utils/icon';
 import { useState } from 'react';
@@ -86,6 +94,16 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
           <IconComponent icon='list' iconType='phosphor' weight='regular' />
         </IconButton>
         <Box noWrap sx={{ flexGrow: 1 }} component='div' />
+        <Stack spacing={2} direction='row'>
+          <Avatar>N</Avatar>
+          <Typography
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+          >
+            Name Placeholder
+          </Typography>
+        </Stack>
       </ToolbarStyledComponent>
     </AppBarStyledComponent>
   );
