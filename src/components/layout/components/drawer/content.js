@@ -6,20 +6,12 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
+import { pages } from 'components/layout';
 import IconComponent from 'components/utils/icon';
 import { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import ToolbarComponent from '../toolbar';
 import ItemComponent from './item';
-
-const pages = [
-  {
-    text: 'Home',
-    route: '/',
-    icon: 'compass',
-    end: true,
-  },
-];
 
 const utils = [];
 

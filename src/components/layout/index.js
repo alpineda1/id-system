@@ -4,6 +4,15 @@ import BodyComponent from './components/body';
 import DrawerComponent from './components/drawer';
 import NavbarComponent from './components/navbar';
 
+export const pages = [
+  {
+    text: 'Home',
+    route: '/',
+    icon: 'compass',
+    end: true,
+  },
+];
+
 const LayoutComponent = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
