@@ -39,7 +39,7 @@ const ContentComponent = ({
       </ToolbarComponent>
       <List>
         {pages &&
-          pages.map(({ text, route, icon, end }, index) => (
+          pages.map(({ text, route, icon, end = false }, index) => (
             <NavLink
               className={({ isActive }) => (isActive ? 'is-active' : '')}
               key={index}
@@ -58,7 +58,7 @@ const ContentComponent = ({
           ))}
         {utils && <Divider sx={{ my: 1 }} />}
         {utils &&
-          utils.map(({ text, route, icon, end }, index) => (
+          utils.map(({ text, route, icon, end = false }, index) => (
             <NavLink
               className={({ isActive }) => (isActive ? 'is-active' : '')}
               key={index}
