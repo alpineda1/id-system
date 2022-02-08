@@ -12,7 +12,15 @@ import { NavLink } from 'react-router-dom';
 import ToolbarComponent from '../toolbar';
 import ItemComponent from './item';
 
-const pages = [];
+const pages = [
+  {
+    text: 'Home',
+    route: '/',
+    icon: 'compass',
+    end: true,
+  },
+];
+
 const utils = [];
 
 const ContentComponent = ({
@@ -41,12 +49,14 @@ const ContentComponent = ({
               end={end}
             >
               <ItemComponent>
-                <ListItemIcon></ListItemIcon>
+                <ListItemIcon>
+                  <IconComponent icon={icon} weight='regular' />
+                </ListItemIcon>
                 <ListItemText primary={text} />
               </ItemComponent>
             </NavLink>
           ))}
-        <Divider />
+        {utils && <Divider sx={{ my: 1 }} />}
         {utils &&
           utils.map(({ text, route, icon, end }, index) => (
             <NavLink
@@ -58,7 +68,9 @@ const ContentComponent = ({
               end={end}
             >
               <ItemComponent>
-                <ListItemIcon></ListItemIcon>
+                <ListItemIcon>
+                  <IconComponent icon={icon} weight='regular' />
+                </ListItemIcon>
                 <ListItemText primary={text} />
               </ItemComponent>
             </NavLink>

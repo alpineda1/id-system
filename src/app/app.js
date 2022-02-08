@@ -1,3 +1,13 @@
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/inter/800.css';
+import '@fontsource/lexend/400.css';
+import '@fontsource/lexend/500.css';
+import '@fontsource/lexend/600.css';
+import '@fontsource/lexend/700.css';
+import '@fontsource/lexend/800.css';
 import LayoutComponent from 'components/layout';
 import LoadingComponent from 'components/utils/loading';
 import { ThemeContextProvider } from 'contexts/theme';
@@ -23,8 +33,8 @@ const screens = [
 function App() {
   return (
     <ThemeContextProvider>
-      <LayoutComponent>
-        <Router>
+      <Router>
+        <LayoutComponent>
           <Suspense fallback={<LoadingComponent />}>
             <Routes>
               {screens.map(({ path, element }, index) => (
@@ -33,8 +43,8 @@ function App() {
               <Route element={<NotFoundScreen />} path='*' />
             </Routes>
           </Suspense>
-        </Router>
-      </LayoutComponent>
+        </LayoutComponent>
+      </Router>
     </ThemeContextProvider>
   );
 }
