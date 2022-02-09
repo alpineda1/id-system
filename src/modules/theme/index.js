@@ -78,9 +78,9 @@ const ThemeModule = (mode, theme) => ({
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'initial',
           borderRadius: theme.spacing(1.5),
-          fontSize: theme.typography.pxToRem(15),
+          boxShadow: 'none',
+          letterSpacing: '0.15em',
         },
       },
     },
