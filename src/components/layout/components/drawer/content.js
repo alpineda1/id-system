@@ -9,7 +9,7 @@ import {
 import { pages } from 'components/layout';
 import IconComponent from 'components/utils/icon';
 import { Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import ToolbarComponent from '../toolbar';
 import ItemComponent from './item';
 
@@ -25,9 +25,11 @@ const ContentComponent = ({
         <IconButton onClick={handleToggleDrawer}>
           <IconComponent icon='list' iconType='phosphor' weight='regular' />
         </IconButton>
-        <Typography variant='h6' sx={{ pl: 3 }} noWrap component='div'>
-          ID System
-        </Typography>
+        <Link to='/'>
+          <Typography variant='h6' sx={{ pl: 3 }} noWrap component='div'>
+            ID System
+          </Typography>
+        </Link>
       </ToolbarComponent>
       <List>
         {pages &&
