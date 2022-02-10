@@ -14,6 +14,9 @@ import { AuthContextProvider } from 'contexts/auth';
 import { ThemeContextProvider } from 'contexts/theme';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react/cjs/react.production.min';
+import NonAuthRoute from 'routes/non-auth';
+import PrivateRoute from 'routes/private';
+import PublicRoute from 'routes/public';
 import SignUpScreen from 'screens/signup';
 import './app.scss';
 
@@ -25,14 +28,17 @@ const screens = [
   {
     path: '/',
     element: <HomeScreen />,
+    ScreenRoute: PrivateRoute,
   },
   {
     path: '/login',
     element: <LoginScreen />,
+    ScreenRoute: NonAuthRoute,
   },
   {
     path: '/register',
     element: <SignUpScreen />,
+    ScreenRoute: NonAuthRoute,
   },
 ];
 
@@ -44,9 +50,15 @@ const App = () => {
           <Suspense fallback={<LoadingComponent />}>
             <LayoutComponent>
               <Routes>
-                {screens.map(({ path, element }, index) => (
-                  <Route key={index} element={element} path={path} />
-                ))}
+                {screens.map(
+                  ({ path, element, ScreenRoute = PublicRoute }, index) => (
+                    <Route
+                      key={index}
+                      element={<ScreenRoute>{element}</ScreenRoute>}
+                      path={path}
+                    />
+                  ),
+                )}
                 <Route element={<NotFoundScreen />} path='*' />
               </Routes>
             </LayoutComponent>
