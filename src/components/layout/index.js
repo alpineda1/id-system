@@ -1,4 +1,5 @@
 import { Toolbar, useMediaQuery } from '@mui/material';
+import { useAuth } from 'contexts/auth';
 import { Fragment, useState } from 'react';
 import BodyComponent from './components/body';
 import DrawerComponent from './components/drawer';
@@ -18,6 +19,8 @@ const LayoutComponent = ({ children }) => {
 
   const noHover = useMediaQuery('(hover: none)');
 
+  const { user } = useAuth();
+
   const handleToggleDrawer = () => {
     setDrawerOpen((prevOpen) => !prevOpen);
   };
@@ -30,7 +33,7 @@ const LayoutComponent = ({ children }) => {
     setDrawerOpen(true);
   };
 
-  return (
+  return user?.currentUser ? (
     <Fragment>
       <NavbarComponent
         drawerOpen={drawerOpen}
@@ -48,6 +51,8 @@ const LayoutComponent = ({ children }) => {
         {children}
       </BodyComponent>
     </Fragment>
+  ) : (
+    <Fragment>{children}</Fragment>
   );
 };
 

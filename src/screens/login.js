@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/styles';
 import LoginComponent from 'components/login';
-import { useState } from 'react';
+import { useAuth } from 'contexts/auth';
+import React from 'react';
 
 const StyledContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'layout',
@@ -10,17 +11,17 @@ const StyledContainer = styled(Box, {
   alignItems: 'center',
   justifyContent: 'center',
   padding: [theme.spacing(4), 0].join(' '),
-  minHeight: `calc(100vh - ${layout ? theme.spacing(12) : 0})`,
+  minHeight: layout ? `calc(100vh - ${theme.spacing(12)})` : '100vh',
   [theme.breakpoints.up('md')]: {
-    minHeight: `calc(100vh - ${layout ? theme.spacing(13) : 0})`,
+    minHeight: layout ? `calc(100vh - ${theme.spacing(13)})` : '100vh',
   },
 }));
 
 const LoginScreen = () => {
-  const [auth] = useState(true);
+  const { user } = useAuth();
 
   return (
-    <StyledContainer layout={auth}>
+    <StyledContainer layout={user?.currentUser}>
       <LoginComponent />
     </StyledContainer>
   );

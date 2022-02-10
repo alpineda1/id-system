@@ -10,6 +10,7 @@ import '@fontsource/lexend/700.css';
 import '@fontsource/lexend/800.css';
 import LayoutComponent from 'components/layout';
 import LoadingComponent from 'components/utils/loading';
+import { AuthContextProvider } from 'contexts/auth';
 import { ThemeContextProvider } from 'contexts/theme';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react/cjs/react.production.min';
@@ -34,20 +35,22 @@ const screens = [
 
 const App = () => {
   return (
-    <ThemeContextProvider>
-      <Router>
-        <Suspense fallback={<LoadingComponent />}>
-          <LayoutComponent>
-            <Routes>
-              {screens.map(({ path, element }, index) => (
-                <Route key={index} element={element} path={path} />
-              ))}
-              <Route element={<NotFoundScreen />} path='*' />
-            </Routes>
-          </LayoutComponent>
-        </Suspense>
-      </Router>
-    </ThemeContextProvider>
+    <AuthContextProvider>
+      <ThemeContextProvider>
+        <Router>
+          <Suspense fallback={<LoadingComponent />}>
+            <LayoutComponent>
+              <Routes>
+                {screens.map(({ path, element }, index) => (
+                  <Route key={index} element={element} path={path} />
+                ))}
+                <Route element={<NotFoundScreen />} path='*' />
+              </Routes>
+            </LayoutComponent>
+          </Suspense>
+        </Router>
+      </ThemeContextProvider>
+    </AuthContextProvider>
   );
 };
 
