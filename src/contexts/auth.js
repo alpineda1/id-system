@@ -5,14 +5,16 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 const AuthContext = createContext({ currentUser: null });
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState();
+  const [currentUserRoles] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const handleAuth = useMemo(
     () => ({
@@ -22,14 +24,15 @@ export const AuthContextProvider = ({ children }) => {
         signInWithEmailAndPassword(auth, email, password),
       logout: () => signOut(auth),
       currentUser,
+      currentUserRoles,
+      loading,
     }),
-    [currentUser],
+    [currentUser, currentUserRoles, loading],
   );
-
-  useEffect(() => {}, []);
 
   onAuthStateChanged(auth, (currentUser) => {
     setCurrentUser(currentUser);
+    setLoading(false);
   });
 
   return (
