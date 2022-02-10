@@ -16,21 +16,11 @@ export const AuthContextProvider = ({ children }) => {
 
   const handleAuth = useMemo(
     () => ({
-      register: async ({ email, password }) => {
-        try {
-          return await createUserWithEmailAndPassword(auth, email, password);
-        } catch (e) {
-          console.error(e.message);
-        }
-      },
-      login: async ({ email, password }) => {
-        try {
-          return await signInWithEmailAndPassword(auth, email, password);
-        } catch (e) {
-          console.error(e.message);
-        }
-      },
-      logout: async () => await signOut(auth),
+      register: ({ email, password }) =>
+        createUserWithEmailAndPassword(auth, email, password),
+      login: ({ email, password }) =>
+        signInWithEmailAndPassword(auth, email, password),
+      logout: () => signOut(auth),
       currentUser,
     }),
     [currentUser],
