@@ -1,7 +1,10 @@
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Alert, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import logo from 'assets/nu-apc.png';
-import React from 'react';
+import { useAuth } from 'contexts/auth';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,10 +21,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginComponent = () => {
-  const styles = useStyles();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const styles = useStyles();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleEmailChange = (e) => {
+    setError('');
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setError('');
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    setError('');
+
+    try {
+      setError('');
+      setLoading(true);
+      await login(email, password);
+      navigate('/');
+    } catch (e) {
+      setError(e.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,26 +72,39 @@ const LoginComponent = () => {
               </Typography>
             </Stack>
 
+            {error && <Alert severity='error'>{error}</Alert>}
+
             <TextField
               autoComplete='email'
+              disabled={loading}
               label='Email'
+              onChange={handleEmailChange}
               type='email'
+              value={email}
               variant='filled'
               InputProps={{ disableUnderline: true }}
             />
 
             <TextField
               autoComplete='current-password'
+              disabled={loading}
               label='Password'
+              onChange={handlePasswordChange}
               type='password'
+              value={password}
               variant='filled'
               InputProps={{ disableUnderline: true }}
             />
           </Stack>
 
-          <Button type='submit' className={styles.submit} variant='contained'>
+          <LoadingButton
+            loading={loading}
+            type='submit'
+            className={styles.submit}
+            variant='contained'
+          >
             Login
-          </Button>
+          </LoadingButton>
         </Stack>
       </form>
     </div>
