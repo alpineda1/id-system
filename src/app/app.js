@@ -14,6 +14,7 @@ import { AuthContextProvider } from 'contexts/auth';
 import { ThemeContextProvider } from 'contexts/theme';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react/cjs/react.production.min';
+import SignUpScreen from 'screens/signup';
 import './app.scss';
 
 const HomeScreen = lazy(() => import('screens/home'));
@@ -24,12 +25,14 @@ const screens = [
   {
     path: '/',
     element: <HomeScreen />,
-    layout: true,
   },
   {
     path: '/login',
     element: <LoginScreen />,
-    layout: false,
+  },
+  {
+    path: '/register',
+    element: <SignUpScreen />,
   },
 ];
 

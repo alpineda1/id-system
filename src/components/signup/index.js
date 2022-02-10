@@ -20,14 +20,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginComponent = () => {
+const SignUpComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const styles = useStyles();
-  const { login } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -40,15 +41,25 @@ const LoginComponent = () => {
     setPassword(e.target.value);
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    setError('');
+    setConfirmPassword(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setError('');
 
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
       setError('');
       setLoading(true);
-      await login(email, password);
+      await register(email, password);
       navigate('/');
     } catch (e) {
       setError(e.message);
@@ -86,12 +97,23 @@ const LoginComponent = () => {
             />
 
             <TextField
-              autoComplete='current-password'
+              autoComplete='new-password'
               disabled={loading}
               label='Password'
               onChange={handlePasswordChange}
               type='password'
               value={password}
+              variant='filled'
+              InputProps={{ disableUnderline: true }}
+            />
+
+            <TextField
+              autoComplete='new-password'
+              disabled={loading}
+              label='Confirm Password'
+              onChange={handleConfirmPasswordChange}
+              type='password'
+              value={confirmPassword}
               variant='filled'
               InputProps={{ disableUnderline: true }}
             />
@@ -103,7 +125,7 @@ const LoginComponent = () => {
             className={styles.submit}
             variant='contained'
           >
-            Login
+            Create account
           </LoadingButton>
         </Stack>
       </form>
@@ -111,4 +133,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default SignUpComponent;

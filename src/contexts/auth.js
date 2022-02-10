@@ -18,9 +18,9 @@ export const AuthContextProvider = ({ children }) => {
 
   const handleAuth = useMemo(
     () => ({
-      register: ({ email, password }) =>
+      register: (email, password) =>
         createUserWithEmailAndPassword(auth, email, password),
-      login: ({ email, password }) =>
+      login: (email, password) =>
         signInWithEmailAndPassword(auth, email, password),
       logout: () => signOut(auth),
       currentUser,
