@@ -19,7 +19,7 @@ const LayoutComponent = ({ children }) => {
 
   const noHover = useMediaQuery('(hover: none)');
 
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
 
   const handleToggleDrawer = () => {
     setDrawerOpen((prevOpen) => !prevOpen);
@@ -33,7 +33,7 @@ const LayoutComponent = ({ children }) => {
     setDrawerOpen(true);
   };
 
-  return user?.currentUser ? (
+  return currentUser ? (
     <Fragment>
       <NavbarComponent
         drawerOpen={drawerOpen}
