@@ -3,13 +3,16 @@ import {
   Avatar,
   Box,
   IconButton,
+  Skeleton,
   Stack,
   Toolbar,
-  Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import IconComponent from 'components/utils/icon';
-import { useState } from 'react';
+import { useAuth } from 'contexts/auth';
+import { db } from 'firebase.app';
+import { doc, getDoc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
 const ToolbarStyledComponent = styled(Toolbar)(({ theme }) => ({
   paddingLeft: theme.spacing(2),
@@ -69,8 +72,23 @@ const AppBarStyledComponent = styled(AppBar, {
 }));
 
 const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
-  // States
   const [onTop, setOnTop] = useState(true);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userDocumentRef = doc(db, 'users', currentUser.uid);
+      const dataRef = await getDoc(userDocumentRef);
+      setData(dataRef.data());
+
+      setLoading(false);
+    };
+
+    getUserData();
+  }, [currentUser.uid]);
 
   const handleScroll = () => {
     if (window.scrollY >= 25) setOnTop(false);
@@ -95,14 +113,14 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
         </IconButton>
         <Box noWrap sx={{ flexGrow: 1 }} component='div' />
         <Stack spacing={2} direction='row'>
-          <Avatar>N</Avatar>
-          <Typography
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
-          >
-            Name Placeholder
-          </Typography>
+          {loading ? (
+            <Skeleton variant='circular' width={40} height={40} />
+          ) : (
+            <Avatar>
+              {data.name?.first[0]}
+              {data.name?.last[0]}
+            </Avatar>
+          )}
         </Stack>
       </ToolbarStyledComponent>
     </AppBarStyledComponent>

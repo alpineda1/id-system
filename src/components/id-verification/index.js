@@ -3,29 +3,41 @@ import { Alert, Container, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from 'contexts/auth';
 import { db } from 'firebase.app';
 import { doc, getDoc } from 'firebase/firestore';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const IdVerificationComponent = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const idRef = useRef();
+  const isMounted = useRef(true);
 
   const { currentUser } = useAuth();
+
+  useEffect(() => {
+    return () => (isMounted.current = false);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
 
-    const userDocumentRef = doc(db, 'users', currentUser.uid);
-    const dataRef = await getDoc(userDocumentRef);
-    const { idNumber } = dataRef.data();
+    try {
+      const userDocumentRef = doc(db, 'users', currentUser.uid);
+      const dataRef = await getDoc(userDocumentRef);
+      const { idNumber } = dataRef.data();
 
-    if (idNumber !== idRef.current.value) {
+      if (idNumber !== idRef.current.value) {
+        setLoading(false);
+        setError('ID Number is incorrect');
+        return;
+      }
+    } catch (e) {
+      if (!isMounted.current) return;
+
       setLoading(false);
-      setError('ID Number is incorrect');
-      return;
+      setError(e.message);
     }
 
     setLoading(false);
