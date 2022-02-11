@@ -2,6 +2,8 @@
 
 This project was bootstrapped with `create-react-app`
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4b9aa6bf-c39f-4526-b5c1-826cf21c9ad9/deploy-status)](https://app.netlify.com/sites/id-system/deploys)
+
 ## Setup Environment
 
 - Clone repository `git clone https://github.com/alpineda1/id-system.git`
