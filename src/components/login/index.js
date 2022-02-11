@@ -3,16 +3,13 @@ import { Alert, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import logo from 'assets/nu-apc.png';
 import { useAuth } from 'contexts/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     maxWidth: theme.spacing(50),
-  },
-  submit: {
-    padding: [theme.spacing(1.5), theme.spacing(2)].join(' '),
   },
   office: {
     fontWeight: 600,
@@ -26,9 +23,15 @@ const LoginComponent = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const isMounted = useRef(true);
+
   const styles = useStyles();
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => (isMounted.current = false);
+  }, []);
 
   const handleEmailChange = (e) => {
     setError('');
@@ -48,9 +51,13 @@ const LoginComponent = () => {
     try {
       setError('');
       setLoading(true);
+
       await login(email, password);
+
       navigate('/');
     } catch (e) {
+      if (!isMounted.current) return;
+
       setError(e.message);
       setLoading(false);
     }
@@ -97,12 +104,7 @@ const LoginComponent = () => {
             />
           </Stack>
 
-          <LoadingButton
-            loading={loading}
-            type='submit'
-            className={styles.submit}
-            variant='contained'
-          >
+          <LoadingButton loading={loading} type='submit' variant='contained'>
             Login
           </LoadingButton>
         </Stack>

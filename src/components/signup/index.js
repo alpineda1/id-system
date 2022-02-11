@@ -3,20 +3,15 @@ import { Alert, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import logo from 'assets/nu-apc.png';
 import { useAuth } from 'contexts/auth';
-import React, { useState } from 'react';
+import { db } from 'firebase.app';
+import { doc, setDoc } from 'firebase/firestore';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     maxWidth: theme.spacing(50),
-  },
-  submit: {
-    padding: [theme.spacing(1.5), theme.spacing(2)].join(' '),
-  },
-  office: {
-    fontWeight: 600,
-    color: '#DC3E15',
   },
 }));
 
@@ -27,9 +22,15 @@ const SignUpComponent = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const isMounted = useRef(true);
+
   const styles = useStyles();
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => (isMounted.current = false);
+  }, []);
 
   const handleEmailChange = (e) => {
     setError('');
@@ -59,9 +60,15 @@ const SignUpComponent = () => {
     try {
       setError('');
       setLoading(true);
-      await register(email, password);
+
+      const { user } = await register(email, password);
+      await setDoc(doc(db, 'users', user.uid), { roles: ['user'] });
+
       navigate('/');
     } catch (e) {
+      console.error(e);
+      if (!isMounted.current) return;
+
       setError(e.message);
       setLoading(false);
     }
@@ -78,8 +85,7 @@ const SignUpComponent = () => {
                 APC Identification System
               </Typography>
               <Typography sx={{ textAlign: 'center' }} variant='body1'>
-                Login with <span className={styles.office}>Office 365</span>{' '}
-                Account
+                This registration page is for simulation purposes only
               </Typography>
             </Stack>
 
@@ -119,12 +125,7 @@ const SignUpComponent = () => {
             />
           </Stack>
 
-          <LoadingButton
-            loading={loading}
-            type='submit'
-            className={styles.submit}
-            variant='contained'
-          >
+          <LoadingButton loading={loading} type='submit' variant='contained'>
             Create account
           </LoadingButton>
         </Stack>

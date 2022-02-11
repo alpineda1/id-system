@@ -102,6 +102,9 @@ const ThemeModule = (mode, theme) => ({
           '& .MuiTouchRipple-root': {
             opacity: 0.4,
           },
+          '&.MuiLoadingButton-root': {
+            padding: [theme.spacing(1.5), theme.spacing(2)].join(' '),
+          },
         },
       },
     },
