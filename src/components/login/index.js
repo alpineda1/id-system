@@ -3,7 +3,7 @@ import { Alert, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import logo from 'assets/nu-apc.png';
 import { useAuth } from 'contexts/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +26,15 @@ const LoginComponent = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const isMounted = useRef(true);
+
   const styles = useStyles();
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => (isMounted.current = false);
+  }, []);
 
   const handleEmailChange = (e) => {
     setError('');
@@ -48,9 +54,13 @@ const LoginComponent = () => {
     try {
       setError('');
       setLoading(true);
+
       await login(email, password);
+
       navigate('/');
     } catch (e) {
+      if (!isMounted.current) return;
+
       setError(e.message);
       setLoading(false);
     }
