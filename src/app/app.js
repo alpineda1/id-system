@@ -9,6 +9,7 @@ import '@fontsource/lexend/600.css';
 import '@fontsource/lexend/700.css';
 import '@fontsource/lexend/800.css';
 import LayoutComponent from 'components/layout';
+import ContainerComponent from 'components/utils/container';
 import LoadingComponent from 'components/utils/loading';
 import { AuthContextProvider } from 'contexts/auth';
 import { ThemeContextProvider } from 'contexts/theme';
@@ -29,16 +30,19 @@ const screens = [
     path: '/',
     element: <HomeScreen />,
     ScreenRoute: PrivateRoute,
+    fullscreen: true,
   },
   {
     path: '/login',
     element: <LoginScreen />,
     ScreenRoute: NonAuthRoute,
+    fullscreen: true,
   },
   {
     path: '/register',
     element: <SignUpScreen />,
     ScreenRoute: NonAuthRoute,
+    fullscreen: true,
   },
 ];
 
@@ -51,10 +55,24 @@ const App = () => {
             <LayoutComponent>
               <Routes>
                 {screens.map(
-                  ({ path, element, ScreenRoute = PublicRoute }, index) => (
+                  (
+                    {
+                      path,
+                      element,
+                      fullscreen = false,
+                      ScreenRoute = PublicRoute,
+                    },
+                    index,
+                  ) => (
                     <Route
                       key={index}
-                      element={<ScreenRoute>{element}</ScreenRoute>}
+                      element={
+                        <ScreenRoute>
+                          <ContainerComponent fullscreen={fullscreen}>
+                            {element}
+                          </ContainerComponent>
+                        </ScreenRoute>
+                      }
                       path={path}
                     />
                   ),

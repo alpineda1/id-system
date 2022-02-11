@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: theme.spacing(50),
   },
-  submit: {
-    padding: [theme.spacing(1.5), theme.spacing(2)].join(' '),
-  },
   office: {
     fontWeight: 600,
     color: '#DC3E15',
@@ -107,12 +104,7 @@ const LoginComponent = () => {
             />
           </Stack>
 
-          <LoadingButton
-            loading={loading}
-            type='submit'
-            className={styles.submit}
-            variant='contained'
-          >
+          <LoadingButton loading={loading} type='submit' variant='contained'>
             Login
           </LoadingButton>
         </Stack>

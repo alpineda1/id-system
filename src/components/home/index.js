@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
+import IdVerificationComponent from 'components/id-verification';
 import { useAuth } from 'contexts/auth';
-import React from 'react';
+import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HomeComponent = () => {
@@ -15,13 +16,14 @@ const HomeComponent = () => {
       console.error(e.message);
     }
   };
+
   return (
-    <div>
-      <div>Home</div>
+    <Fragment>
+      <IdVerificationComponent />
       <div>
         <Button onClick={handleClick}>Logout</Button>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

@@ -13,13 +13,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: theme.spacing(50),
   },
-  submit: {
-    padding: [theme.spacing(1.5), theme.spacing(2)].join(' '),
-  },
-  office: {
-    fontWeight: 600,
-    color: '#DC3E15',
-  },
 }));
 
 const SignUpComponent = () => {
@@ -69,8 +62,6 @@ const SignUpComponent = () => {
       setLoading(true);
 
       const { user } = await register(email, password);
-
-      console.log(user.uid);
       await setDoc(doc(db, 'users', user.uid), { roles: ['user'] });
 
       navigate('/');
@@ -94,8 +85,7 @@ const SignUpComponent = () => {
                 APC Identification System
               </Typography>
               <Typography sx={{ textAlign: 'center' }} variant='body1'>
-                Login with <span className={styles.office}>Office 365</span>{' '}
-                Account
+                This registration page is for simulation purposes only
               </Typography>
             </Stack>
 
@@ -135,12 +125,7 @@ const SignUpComponent = () => {
             />
           </Stack>
 
-          <LoadingButton
-            loading={loading}
-            type='submit'
-            className={styles.submit}
-            variant='contained'
-          >
+          <LoadingButton loading={loading} type='submit' variant='contained'>
             Create account
           </LoadingButton>
         </Stack>
