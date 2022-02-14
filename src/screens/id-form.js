@@ -1,4 +1,4 @@
-import IDFormComponent from 'components/ID form';
+import IDFormComponent from 'components/id-form';
 import React from 'react';
 
 const IDFormScreen = () => {
