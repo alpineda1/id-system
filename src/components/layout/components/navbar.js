@@ -22,6 +22,7 @@ import { useAuth } from 'contexts/auth';
 import { db } from 'firebase.app';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ToolbarStyledComponent = styled(Toolbar)(({ theme }) => ({
   paddingLeft: theme.spacing(2),
@@ -98,9 +99,9 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
   const [loading, setLoading] = useState(true);
   const [popoverElement, setPopoverElement] = useState(null);
 
-  const classes = useStyles();
-
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+  const classes = useStyles();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -125,6 +126,15 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
   const handleScroll = () => {
     if (window.scrollY >= 25) setOnTop(false);
     else setOnTop(true);
+  };
+
+  const handleLogout = () => {
+    try {
+      logout();
+      navigate('/login');
+    } catch (e) {
+      console.error(e.message);
+    }
   };
 
   const open = Boolean(popoverElement);
@@ -190,7 +200,7 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
 
                   <Divider className={classes.divider} />
 
-                  <ListItemButton onClick={logout}>
+                  <ListItemButton onClick={handleLogout}>
                     <ListItemIcon>
                       <IconComponent icon='sign-out' />
                     </ListItemIcon>
