@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 //import Webcam from "react-webcam";
 import { Grid, Container, Button,  TextField, Typography, Box } from '@mui/material';
-
+import logo from 'assets/nu-apc.png'; 
 
 const defaultValues = {
   name: "",
@@ -103,13 +103,13 @@ const Form = () => {
           <div style={{ width: "400px" }}>
         
           </div>
-          {/*will change */}
+{/*will change */}
           <Box sx={{ fontSize: 'h6.fontSize', m: 1, lineHeight: 2.5 }}> </Box>
         </Grid>
         <Typography>
 
         <Box sx={{ fontSize: 'h6.fontSize', m: 1, lineHeight: 2.5 }}>Picture: </Box>
-{/**will change */}
+{/**will change stack spacing supposedly but got confused */}
 <Box sx={{ fontSize: 'h6.fontSize', m: 1, lineHeight: 2.5 }}> </Box>
 
         </Typography>
@@ -137,17 +137,10 @@ const Form = () => {
             SUBMIT
           </LoadingButton>
       </Grid>
-      <Grid>
-      
-    </Grid>
- 
-
     </form>
-     
-
       </form>
     </Container>
   );
 };
 
-export default Form;
+export default IDForm;
