@@ -6,14 +6,12 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import { pages } from 'components/layout';
+import { pages, utils } from 'components/layout';
 import IconComponent from 'components/utils/icon';
 import { Fragment } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import ToolbarComponent from '../toolbar';
 import ItemComponent from './item';
-
-const utils = [];
 
 const ContentComponent = ({
   handleDrawerClose = () => {},
