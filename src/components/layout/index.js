@@ -14,6 +14,8 @@ export const pages = [
   },
 ];
 
+export const utils = [];
+
 const LayoutComponent = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 

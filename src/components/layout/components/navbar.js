@@ -2,14 +2,27 @@ import {
   AppBar,
   Avatar,
   Box,
+  Divider,
   IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Popover,
+  Skeleton,
   Stack,
   Toolbar,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 import IconComponent from 'components/utils/icon';
-import { useState } from 'react';
+import { useAuth } from 'contexts/auth';
+import { db } from 'firebase.app';
+import { doc, getDoc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ToolbarStyledComponent = styled(Toolbar)(({ theme }) => ({
   paddingLeft: theme.spacing(2),
@@ -68,14 +81,63 @@ const AppBarStyledComponent = styled(AppBar, {
   }),
 }));
 
+const useStyles = makeStyles((theme) => ({
+  avatar: {
+    cursor: 'pointer',
+  },
+  divider: {
+    margin: [theme.spacing(1), 0].join(' '),
+  },
+  popover: {
+    margin: [theme.spacing(1), 0].join(' '),
+  },
+}));
+
 const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
-  // States
   const [onTop, setOnTop] = useState(true);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [popoverElement, setPopoverElement] = useState(null);
+
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+  const classes = useStyles();
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userDocumentRef = doc(db, 'users', currentUser.uid);
+      const dataRef = await getDoc(userDocumentRef);
+      setData(dataRef.data());
+
+      setLoading(false);
+    };
+
+    getUserData();
+  }, [currentUser.uid]);
+
+  const handlePopoverOpen = (e) => {
+    setPopoverElement(e.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setPopoverElement(null);
+  };
 
   const handleScroll = () => {
     if (window.scrollY >= 25) setOnTop(false);
     else setOnTop(true);
   };
+
+  const handleLogout = () => {
+    try {
+      logout();
+      navigate('/login');
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  const open = Boolean(popoverElement);
 
   window.addEventListener('scroll', handleScroll);
 
@@ -95,14 +157,59 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
         </IconButton>
         <Box noWrap sx={{ flexGrow: 1 }} component='div' />
         <Stack spacing={2} direction='row'>
-          <Avatar>N</Avatar>
-          <Typography
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
-          >
-            Name Placeholder
-          </Typography>
+          {loading ? (
+            <Skeleton variant='circular' width={40} height={40} />
+          ) : (
+            <div>
+              <Avatar
+                aria-owns={open ? 'account-popover' : undefined}
+                aria-haspopup='true'
+                className={classes.avatar}
+                onClick={handlePopoverOpen}
+              >
+                {data.name?.first[0]}
+                {data.name?.last[0]}
+              </Avatar>
+
+              <Popover
+                id='account-popover'
+                className={classes.popover}
+                anchorEl={popoverElement}
+                open={open}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                onClose={handlePopoverClose}
+              >
+                <List>
+                  <ListItem alignItems='flex-start'>
+                    <ListItemText>
+                      <Typography variant='h6'>
+                        {data.name?.first} {data.name?.last}
+                      </Typography>
+                      <Typography variant='body1'>
+                        {data.course?.abbreviation}
+                      </Typography>
+                    </ListItemText>
+                  </ListItem>
+
+                  <Divider className={classes.divider} />
+
+                  <ListItemButton onClick={handleLogout}>
+                    <ListItemIcon>
+                      <IconComponent icon='sign-out' />
+                    </ListItemIcon>
+                    <ListItemText>Sign out</ListItemText>
+                  </ListItemButton>
+                </List>
+              </Popover>
+            </div>
+          )}
         </Stack>
       </ToolbarStyledComponent>
     </AppBarStyledComponent>

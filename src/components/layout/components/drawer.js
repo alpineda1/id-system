@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/styles';
 import React from 'react';
 import ContentComponent from './drawer/content';
 import PermanentComponent from './drawer/permanent';

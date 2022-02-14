@@ -1,5 +1,5 @@
 import { ListItemButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import React from 'react';
 
 const ItemStyledComponent = styled(ListItemButton)(({ theme }) => ({
