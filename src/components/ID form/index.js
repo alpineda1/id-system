@@ -10,7 +10,7 @@ const defaultValues = {
   idnumber:""
 };
 
-const Form = () => {
+const IDForm = () => {
   const [formValues, setFormValues] = useState(defaultValues);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
