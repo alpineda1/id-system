@@ -18,6 +18,7 @@ import { lazy, Suspense } from 'react/cjs/react.production.min';
 import NonAuthRoute from 'routes/non-auth';
 import PrivateRoute from 'routes/private';
 import PublicRoute from 'routes/public';
+import IDFormScreen from 'screens/id-form';
 import SignUpScreen from 'screens/signup';
 import './app.scss';
 
@@ -43,6 +44,11 @@ const screens = [
     element: <SignUpScreen />,
     ScreenRoute: NonAuthRoute,
     fullscreen: true,
+  },
+  {
+    path: '/id/form',
+    element: <IDFormScreen />,
+    ScreenRoute: PrivateRoute,
   },
 ];
 
