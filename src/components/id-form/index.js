@@ -155,7 +155,7 @@ const IDFormComponent = () => {
               id='name-input'
               disabled
               name='name'
-              label='Name'
+              label='Last Name'
               type='text'
               variant='filled'
               value={loading ? '' : `${data.name?.first} ${data.name?.last}`}
@@ -168,6 +168,21 @@ const IDFormComponent = () => {
                 disableUnderline: true,
               }}
             />
+ <TextField
+              id='name-input'
+              disabled
+              name='name'
+              label='First Name'
+              type='text'
+              variant='filled' />
+ <TextField
+              id='name-input'
+              disabled
+              name='name'
+              label='Middle Name'
+              type='text'
+              variant='filled'
+/>
 
             <TextField
               id='idnumber-input'
