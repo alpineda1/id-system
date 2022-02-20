@@ -174,7 +174,9 @@ const IDFormComponent = () => {
               name='name'
               label='First Name'
               type='text'
-              variant='filled' />
+              variant='filled' 
+              value={loading ? '' : `${data.name?.first} `}/>
+
  <TextField
               id='name-input'
               disabled
@@ -182,6 +184,7 @@ const IDFormComponent = () => {
               label='Middle Name'
               type='text'
               variant='filled'
+              value={loading ? '' : `${data.name?.middle} `}
 />
 
             <TextField
@@ -227,6 +230,7 @@ const IDFormComponent = () => {
               label='Nickname'
               type='text'
               variant='filled'
+              pattern="[a-zA-Z]*"
               value={data.name?.nick}
               InputProps={{
                 endAdornment: (
