@@ -61,18 +61,17 @@ import logo from 'assets/nu-apc.png';
 {/*ID back*/}
 <CardContent>  
   <Card sx={{ maxWidth: 455 }}>
-
-
+  
 <Grid container spacing={3}>
-  <Grid item xs>
-     <Paper   align="center"> image signature </Paper>
+  <Grid item xs = {5}>
+     <Paper   align="center"> student image signature preview </Paper>
       
         </Grid>
-        <Grid item xs>
-     <Paper  align="center" > image signature </Paper>
+        <Grid item xs={5}>
+     <Paper  align="center" >registrar image signature </Paper>
       
         </Grid>
-      
+    
         <CardMedia
     component="img"
     alt="apc-nu logo"
