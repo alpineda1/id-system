@@ -80,11 +80,13 @@ const IDFormComponent = () => {
     return () => (isMounted.current = false);
   }, [currentUser.uid]);
 
+  {/* ID photo upload */}
   const handlePhotoUpload = (e) => {
     const file = e.target?.files?.[0];
     setIdFile({ file, url: URL.createObjectURL(file) });
   };
 
+    {/* signature photo upload */}
   const handleSignatureUpload = (e) => {
     const file = e.target?.files?.[0];
     setSignatureFile({ file, url: URL.createObjectURL(file) });
