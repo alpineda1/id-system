@@ -20,6 +20,7 @@ import PrivateRoute from 'routes/private';
 import PublicRoute from 'routes/public';
 import IDFormScreen from 'screens/id-form';
 import SignUpScreen from 'screens/signup';
+import HistoryListScreen from 'screens/history-list';
 import './app.scss';
 
 const HomeScreen = lazy(() => import('screens/home'));
