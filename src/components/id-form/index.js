@@ -177,7 +177,16 @@ const IDFormComponent = () => {
               label='First Name'
               type='text'
               variant='filled' 
-              value={loading ? '' : `${data.name?.first} `}/>
+              value={loading ? '' : `${data.name?.first} `}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {loading && <CircularProgress size={25} />}
+                  </InputAdornment>
+                      ),
+                      disableUnderline: true,
+                    }}
+                  />
 
  <TextField
               id='name-input'
@@ -187,8 +196,16 @@ const IDFormComponent = () => {
               type='text'
               variant='filled'
               value={loading ? '' : `${data.name?.middle} `}
-/>
-
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {loading && <CircularProgress size={25} />}
+                  </InputAdornment>
+                      ),
+                      disableUnderline: true,
+                    }}
+                  />
+                  
             <TextField
               id='idnumber-input'
               disabled
