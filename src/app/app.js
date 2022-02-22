@@ -50,6 +50,12 @@ const screens = [
     element: <IDFormScreen />,
     ScreenRoute: PrivateRoute,
   },
+
+  {
+    path: '/history/list',
+    element: <HistoryListScreen />,
+    ScreenRoute: PrivateRoute,
+  },
 ];
 
 const App = () => {
