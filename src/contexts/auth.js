@@ -40,17 +40,15 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const userDocumentRef = doc(db, 'users', currentUser.uid);
+      const userDocumentRef = doc(db, 'users', currentUser?.uid);
       const dataRef = await getDoc(userDocumentRef);
       const data = dataRef.data();
 
       setCurrentUserRoles(data.roles);
-      console.log(!!data?.photoURL);
-      console.log(!!data?.signatureURL);
       setHasID(!!data?.photoURL && !!data?.signatureURL);
     };
 
-    if (!loading && !!currentUser?.uid) getUserData();
+    if (!loading && currentUser?.uid) getUserData();
   }, [currentUser?.uid, loading]);
 
   return (

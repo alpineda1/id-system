@@ -101,7 +101,7 @@ const IDFormComponent = () => {
       }
     };
 
-    getUserData();
+    if (!!currentUser.uid) getUserData();
 
     return () => (isMounted.current = false);
   }, [currentUser.uid]);

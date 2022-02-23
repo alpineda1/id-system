@@ -1,9 +1,18 @@
 //import Webcam from "react-webcam";
 import { Container } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { useAuth } from 'contexts/auth';
+import { useSnackbar } from 'contexts/snackbar';
 import { db } from 'firebase.app';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
+
+const useStyles = makeStyles((theme) => ({
+  idCard: {
+    borderRadius: theme.spacing(1.5),
+    outline: ['1px solid', theme.palette.divider].join(' '),
+  },
+}));
 
 const IDPreviewComponent = () => {
   const [data, setData] = useState({
@@ -18,14 +27,16 @@ const IDPreviewComponent = () => {
     },
     idNumber: '',
   });
-  const [error, setError] = useState('');
   const [idFile, setIdFile] = useState('');
   const [signatureFile, setSignatureFile] = useState('');
   const [loading, setLoading] = useState(true);
 
   const isMounted = useRef(true);
 
+  const classes = useStyles();
+
   const { currentUser } = useAuth();
+  const { open } = useSnackbar();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -40,21 +51,22 @@ const IDPreviewComponent = () => {
 
         setLoading(false);
       } catch (e) {
+        open(e.message, 'error');
+
         if (!isMounted.current) return;
 
-        setError(e.message);
         setLoading(false);
       }
     };
 
-    getUserData();
+    if (!!currentUser.uid) getUserData();
 
     return () => (isMounted.current = false);
-  }, [currentUser.uid]);
+  }, [currentUser.uid, open]);
 
   return (
     <Container maxWidth='sm' sx={{ width: '100%' }}>
-      Hello
+      <div className={classes.idCard}>dfsfsd</div>
     </Container>
   );
 };
