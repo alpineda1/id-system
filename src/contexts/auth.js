@@ -13,7 +13,7 @@ const AuthContext = createContext({ currentUser: null });
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState({});
   const [currentUserRoles, setCurrentUserRoles] = useState([]);
   const [hasID, setHasID] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -45,10 +45,12 @@ export const AuthContextProvider = ({ children }) => {
       const data = dataRef.data();
 
       setCurrentUserRoles(data.roles);
+      console.log(!!data?.photoURL);
+      console.log(!!data?.signatureURL);
       setHasID(!!data?.photoURL && !!data?.signatureURL);
     };
 
-    if (!loading && !currentUser?.uid) getUserData();
+    if (!loading && !!currentUser?.uid) getUserData();
   }, [currentUser?.uid, loading]);
 
   return (
