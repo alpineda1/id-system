@@ -1,92 +1,62 @@
+//import Webcam from "react-webcam";
+import { Container } from '@mui/material';
+import { useAuth } from 'contexts/auth';
+import { db } from 'firebase.app';
+import { doc, getDoc } from 'firebase/firestore';
+import { useEffect, useRef, useState } from 'react';
 
-import React, { useState, useEffect, useRef } from "react"
-import { Alert, Container, Card, CardMedia, CardContent, Typography, Grid } from '@mui/material';
-import { db, storage } from 'firebase.app';
-import logo from 'assets/nu-apc.png';
+const IDPreviewComponent = () => {
+  const [data, setData] = useState({
+    name: {
+      first: '',
+      last: '',
+      middle: '',
+      nick: '',
+    },
+    course: {
+      abbreviation: '',
+    },
+    idNumber: '',
+  });
+  const [error, setError] = useState('');
+  const [idFile, setIdFile] = useState('');
+  const [signatureFile, setSignatureFile] = useState('');
+  const [loading, setLoading] = useState(true);
 
-    const IDPreview = () => {
+  const isMounted = useRef(true);
 
-        useEffect (() => {
-            const getImage = async () => {
-                let result = await storage.ref("photo").list();
-                let urlPromises = result.items.map((image))
-                image.getDownloadURL()
-        
-        return Promise.all(urlPromises)
-            };
-        const loadImage = async () => {
-            const urls = await getImage();
-            setFiles(urls);
-        };
-        loadImage();
-        }, []);
+  const { currentUser } = useAuth();
 
-        console.log(files)
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const userDocumentRef = doc(db, 'users', currentUser.uid);
+        const dataRef = await getDoc(userDocumentRef);
+        const data = dataRef.data();
+        setData(data);
 
+        if (data?.photoURL) setIdFile({ url: data.photoURL });
+        if (data?.signatureURL) setSignatureFile({ url: data.signatureURL });
+
+        setLoading(false);
+      } catch (e) {
+        if (!isMounted.current) return;
+
+        setError(e.message);
+        setLoading(false);
+      }
+    };
+
+    getUserData();
+
+    return () => (isMounted.current = false);
+  }, [currentUser.uid]);
 
   return (
-    <Container maxWidth='m' sx={{ width: '100%' }}>
-      <Typography variant='h6' align = "center">
-      ID Preview
-         </Typography>
-    
-         <CardContent>
-         <Card sx={{ maxWidth: 455 }}>
-         <Grid container spacing={2}>
-           <grid item xs={4}>  
+    <Container maxWidth='sm' sx={{ width: '100%' }}>
+      Hello
+    </Container>
+  );
+};
 
-  <CardMedia
-    component="img"
-    alt="ID-photo"
-    height="170"
-    image={getImage}
-  />
-</grid>
-</Grid>
-<grid item xs = {4}>
-        <Typography gutterBottom variant="h5" component="div">
-          Name  
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-         idnumber
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-         cousre
-        </Typography>
-        </grid>
-        </Card>
-      </CardContent>
-  
-
-{/*ID back*/}
-<CardContent>  
-  <Card sx={{ maxWidth: 455 }}>
-  
-<Grid container spacing={3}>
-  <Grid item xs = {5}>
-     <Paper   align="center"> student image signature preview </Paper>
-      
-        </Grid>
-        <Grid item xs={5}>
-     <Paper  align="center" >registrar image signature </Paper>
-      
-        </Grid>
-    
-        <CardMedia
-    component="img"
-    alt="apc-nu logo"
-    height="140"
-    img src = {logo}
-  />
-  </Grid>
-  
-        </Card>
-  
-      </CardContent>
-  
-
-  </Container>
-  )
-}
-
-export default IDPreview;
+export default IDPreviewComponent;
