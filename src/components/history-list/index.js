@@ -27,7 +27,7 @@ const HistoryList = () => {
         />
         </div>
         </Stack>
-      <Button  variant="contained" >sample</Button>
+      <Button  variant="contained" >Pineda, Angelika L || 2018-100263</Button>
           </Stack>
          
   ); 
