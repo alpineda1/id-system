@@ -160,13 +160,17 @@ const IDFormComponent = () => {
       await uploadFiles(photoStorageRef, signatureStorageRef);
 
       const getDownloadFiles = async (photoRef, signatureRef) => {
-        const photo = photoRef
+        const photo = idFile.del
+          ? ''
+          : photoRef
           ? await getDownloadURL(photoRef)
           : data?.photoURL
           ? data.photoURL
           : '';
 
-        const signature = signatureRef
+        const signature = signatureFile.del
+          ? ''
+          : signatureRef
           ? await getDownloadURL(signatureRef)
           : data?.signatureURL
           ? data.signatureURL
@@ -365,7 +369,7 @@ const IDFormComponent = () => {
                     color='secondary'
                     disabled={loading}
                     file={idFile}
-                    onClick={() => setIdFile('')}
+                    onClick={() => setIdFile({ del: true })}
                     variant='contained'
                   >
                     <IconComponent icon='trash' />
@@ -412,7 +416,7 @@ const IDFormComponent = () => {
                     color='secondary'
                     disabled={loading}
                     file={signatureFile}
-                    onClick={() => setSignatureFile('')}
+                    onClick={() => setSignatureFile({ del: true })}
                     variant='contained'
                   >
                     <IconComponent icon='trash' />
