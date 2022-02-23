@@ -12,18 +12,28 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/system';
+import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
 import { db, storage } from 'firebase.app';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
 
-const StyledButton = styled(Button, {
+const UploadButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'file',
 })(({ file, theme }) => ({
   borderRadius: theme.spacing(1.5),
   ...(file && {
-    borderRadius: [0, 0, theme.spacing(1.5), theme.spacing(1.5)].join(' '),
+    borderRadius: [0, 0, 0, theme.spacing(1.5)].join(' '),
+  }),
+}));
+
+const RemoveButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'file',
+})(({ file, theme }) => ({
+  borderRadius: theme.spacing(1.5),
+  ...(file && {
+    borderRadius: [0, 0, theme.spacing(1.5), 0].join(' '),
   }),
 }));
 
@@ -34,6 +44,13 @@ const Input = styled('input')({
 const useStyles = makeStyles((theme) => ({
   image: {
     borderRadius: [theme.spacing(1.5), theme.spacing(1.5), 0, 0].join(' '),
+  },
+  label: {
+    width: '100%',
+  },
+  uploadContainer: {
+    borderRadius: theme.spacing(1.5),
+    outline: '1px solid #dddddd',
   },
 }));
 
@@ -65,7 +82,12 @@ const IDFormComponent = () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
         const dataRef = await getDoc(userDocumentRef);
-        setData(dataRef.data());
+        const data = dataRef.data();
+        setData(data);
+
+        if (data?.photoURL) setIdFile({ url: data.photoURL });
+        if (data?.signatureURL) setSignatureFile({ url: data.signatureURL });
+
         setLoading(false);
       } catch (e) {
         if (!isMounted.current) return;
@@ -79,6 +101,13 @@ const IDFormComponent = () => {
 
     return () => (isMounted.current = false);
   }, [currentUser.uid]);
+
+  const handleNickChange = (e) => {
+    setData((prev) => ({
+      ...prev,
+      name: { ...prev.name, nick: e.target.value },
+    }));
+  };
 
   const handlePhotoUpload = (e) => {
     const file = e.target?.files?.[0];
@@ -96,20 +125,30 @@ const IDFormComponent = () => {
     setLoading(true);
 
     try {
-      const photoStorageRef = ref(
-        storage,
-        `/users/photo/${currentUser.uid}.${idFile.file.name.split('.')[1]}`,
-      );
-      const signatureStorageRef = ref(
-        storage,
-        `users/signature/${currentUser.uid}.${
-          signatureFile.file.name.split('.')[1]
-        }`,
-      );
+      const photoStorageRef = idFile?.file
+        ? ref(
+            storage,
+            `/users/photo/${currentUser.uid}.${idFile.file.name.split('.')[1]}`,
+          )
+        : '';
+
+      const signatureStorageRef = signatureFile?.file
+        ? ref(
+            storage,
+            `users/signature/${currentUser.uid}.${
+              signatureFile.file.name.split('.')[1]
+            }`,
+          )
+        : '';
 
       const uploadFiles = async (photoRef, signatureRef) => {
-        const photo = await uploadBytes(photoRef, idFile.file);
-        const signature = await uploadBytes(signatureRef, signatureFile.file);
+        const photo = photoRef
+          ? await uploadBytes(photoRef, idFile.file)
+          : null;
+
+        const signature = signatureRef
+          ? await uploadBytes(signatureRef, signatureFile.file)
+          : null;
 
         return Promise.all([photo, signature]);
       };
@@ -117,8 +156,17 @@ const IDFormComponent = () => {
       await uploadFiles(photoStorageRef, signatureStorageRef);
 
       const getDownloadFiles = async (photoRef, signatureRef) => {
-        const photo = await getDownloadURL(photoRef);
-        const signature = await getDownloadURL(signatureRef);
+        const photo = photoRef
+          ? await getDownloadURL(photoRef)
+          : data?.photoURL
+          ? data.photoURL
+          : '';
+
+        const signature = signatureRef
+          ? await getDownloadURL(signatureRef)
+          : data?.signatureURL
+          ? data.signatureURL
+          : '';
 
         return Promise.all([photo, signature]);
       };
@@ -129,6 +177,7 @@ const IDFormComponent = () => {
       );
 
       await updateDoc(doc(db, 'users', currentUser.uid), {
+        name: data.name,
         photoURL,
         signatureURL,
       });
@@ -150,6 +199,7 @@ const IDFormComponent = () => {
             <Typography variant='h6'>ID System Form</Typography>
             {error && <Alert severity='error'>{error}</Alert>}
           </Stack>
+
           <Stack spacing={3}>
             <TextField
               id='name-input'
@@ -168,6 +218,7 @@ const IDFormComponent = () => {
                 disableUnderline: true,
               }}
             />
+
             <TextField
               id='name-input'
               disabled
@@ -181,29 +232,28 @@ const IDFormComponent = () => {
                   <InputAdornment position='end'>
                     {loading && <CircularProgress size={25} />}
                   </InputAdornment>
-                      ),
-                      disableUnderline: true,
-                    }}
-                  />
- <TextField
+                ),
+                disableUnderline: true,
+              }}
+            />
+
+            <TextField
               id='name-input'
               disabled
               name='name'
               label='First Name'
               type='text'
-              variant='filled' 
+              variant='filled'
               value={loading ? '' : `${data.name?.first} `}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
                     {loading && <CircularProgress size={25} />}
                   </InputAdornment>
-                      ),
-                      disableUnderline: true,
-                    }}
-                  />
-
-
+                ),
+                disableUnderline: true,
+              }}
+            />
 
             <TextField
               id='idnumber-input'
@@ -243,13 +293,13 @@ const IDFormComponent = () => {
 
             <TextField
               id='nickname-input'
-              disabled
               name='Nickname'
               label='Nickname'
               type='text'
               variant='filled'
-              pattern="[a-zA-Z]*"
+              pattern='[a-zA-Z]*'
               value={data.name?.nick}
+              onChange={handleNickChange}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -260,31 +310,50 @@ const IDFormComponent = () => {
               }}
             />
 
-            <Stack>
+            <Stack className={classes.uploadContainer}>
               {idFile.url && (
                 <img className={classes.image} src={idFile.url} alt='Random' />
               )}
 
-              <label htmlFor='id-photo'>
-                <Input
-                  accept='image/*'
-                  id='id-photo'
-                  type='file'
-                  onChange={handlePhotoUpload}
-                />
-                <StyledButton
-                  disabled={loading}
-                  file={idFile}
-                  variant='contained'
-                  component='span'
-                  fullWidth
-                >
-                  Upload ID Picture
-                </StyledButton>
-              </label>
+              <Stack direction='row'>
+                <label className={classes.label} htmlFor='id-photo'>
+                  <Input
+                    accept='image/*'
+                    id='id-photo'
+                    type='file'
+                    onChange={handlePhotoUpload}
+                  />
+
+                  <UploadButton
+                    disabled={loading}
+                    file={idFile}
+                    variant='contained'
+                    component='span'
+                    fullWidth
+                  >
+                    {!idFile.url ? (
+                      <>Upload ID Picture</>
+                    ) : (
+                      <>Change ID Picture</>
+                    )}
+                  </UploadButton>
+                </label>
+
+                {idFile.url && (
+                  <RemoveButton
+                    color='secondary'
+                    disabled={loading}
+                    file={idFile}
+                    onClick={() => setIdFile('')}
+                    variant='contained'
+                  >
+                    <IconComponent icon='trash' />
+                  </RemoveButton>
+                )}
+              </Stack>
             </Stack>
 
-            <Stack>
+            <Stack className={classes.uploadContainer}>
               {signatureFile.url && (
                 <img
                   className={classes.image}
@@ -293,23 +362,42 @@ const IDFormComponent = () => {
                 />
               )}
 
-              <label htmlFor='signature'>
-                <Input
-                  accept='image/*'
-                  id='signature'
-                  type='file'
-                  onChange={handleSignatureUpload}
-                />
-                <StyledButton
-                  disabled={loading}
-                  file={signatureFile}
-                  variant='contained'
-                  component='span'
-                  fullWidth
-                >
-                  Upload E-Signature
-                </StyledButton>
-              </label>
+              <Stack direction='row'>
+                <label className={classes.label} htmlFor='signature'>
+                  <Input
+                    accept='image/*'
+                    id='signature'
+                    type='file'
+                    onChange={handleSignatureUpload}
+                  />
+
+                  <UploadButton
+                    disabled={loading}
+                    file={signatureFile}
+                    variant='contained'
+                    component='span'
+                    fullWidth
+                  >
+                    {!signatureFile.url ? (
+                      <>Upload E-Signature</>
+                    ) : (
+                      <>Change E-Signature</>
+                    )}
+                  </UploadButton>
+                </label>
+
+                {signatureFile.url && (
+                  <RemoveButton
+                    color='secondary'
+                    disabled={loading}
+                    file={signatureFile}
+                    onClick={() => setSignatureFile('')}
+                    variant='contained'
+                  >
+                    <IconComponent icon='trash' />
+                  </RemoveButton>
+                )}
+              </Stack>
             </Stack>
           </Stack>
 

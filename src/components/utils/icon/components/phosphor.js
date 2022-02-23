@@ -26,6 +26,7 @@ import {
   SortAscending,
   SortDescending,
   Sun,
+  Trash,
   UserCircle,
   UserCirclePlus,
   UserPlus,
@@ -86,6 +87,8 @@ const Phosphor = ({ icon, weight }) => {
       return <SortDescending weight={weight} />;
     case 'sun':
       return <Sun weight={weight} />;
+    case 'trash':
+      return <Trash weight={weight} />;
     case 'user-circle':
       return <UserCircle weight={weight} />;
     case 'user-circle-plus':
