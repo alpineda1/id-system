@@ -7,9 +7,9 @@ import NavbarComponent from './components/navbar';
 
 export const pages = [
   {
-    text: 'Home',
+    text: 'Form',
     route: '/',
-    icon: 'compass',
+    icon: 'textbox',
     end: true,
   },
 ];

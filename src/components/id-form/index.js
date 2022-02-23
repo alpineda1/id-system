@@ -196,7 +196,11 @@ const IDFormComponent = () => {
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
           <Stack spacing={3}>
-            <Typography variant='h6'>ID System Form</Typography>
+            <Typography variant='h3'>ID Form</Typography>
+            <Typography variant='body1'>
+              Upload your <strong>identification photo</strong> and{' '}
+              <strong>e-signature</strong>. Nickname could also be changed here.
+            </Typography>
             {error && <Alert severity='error'>{error}</Alert>}
           </Stack>
 
