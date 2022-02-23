@@ -31,9 +31,11 @@ const HistoryList = () => {
 
   <Typography variant="subtitle1">Sort By</Typography>
 <ButtonGroup variant="contained" aria-label="outlined primary button group">
-  <Button>Today</Button>
-  <Button>Week</Button>
-  <Button>Month</Button>
+  <Button>SOCIT</Button>
+  <Button>SOMA</Button>
+  <Button>SOM</Button>
+  <Button>SOE</Button>
+  <Button>OTHERS</Button>
 </ButtonGroup>
         
         </Stack>
