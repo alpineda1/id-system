@@ -29,7 +29,7 @@ const HistoryList = () => {
         </div>
 </Stack>
 
-  <Typography variant="subtitle1">Sort By</Typography>
+  <Typography variant="subtitle1">Sort By Program</Typography>
 <ButtonGroup variant="contained" aria-label="outlined primary button group">
   <Button>SOCIT</Button>
   <Button>SOMA</Button>
@@ -37,7 +37,17 @@ const HistoryList = () => {
   <Button>SOE</Button>
   <Button>OTHERS</Button>
 </ButtonGroup>
-        
+
+
+<Typography variant="subtitle1">Sort By Date</Typography>
+<ButtonGroup variant="contained" aria-label="outlined primary button group">
+  <Button>Today</Button>
+  <Button>Yesterday</Button>
+  <Button>This Week</Button>
+  <Button>This Month</Button>
+  <Button>All</Button>
+</ButtonGroup>
+
         </Stack>
       <Button  variant="contained" >Delacerna, Jerome D || 2018-100003</Button>
       <Button  variant="contained" >Pineda, Angelika L || 2018-100100</Button>
