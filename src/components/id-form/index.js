@@ -14,6 +14,7 @@ import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/system';
 import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
+import { useSnackbar } from 'contexts/snackbar';
 import { db, storage } from 'firebase.app';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -76,6 +77,7 @@ const IDFormComponent = () => {
 
   const classes = useStyles();
   const { currentUser } = useAuth();
+  const { open } = useSnackbar();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -181,7 +183,18 @@ const IDFormComponent = () => {
         photoURL,
         signatureURL,
       });
+
+      const successMessage =
+        !data?.photoURL || !data?.signatureURL
+          ? 'Successfully uploaded images'
+          : photoStorageRef && signatureStorageRef
+          ? 'Successfully updated images'
+          : 'Successfully updated fields';
+
+      open(successMessage, 'success');
     } catch (e) {
+      open(e.message, 'error');
+
       if (!isMounted.current) return;
 
       setError(e.message);
