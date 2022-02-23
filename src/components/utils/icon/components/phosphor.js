@@ -17,6 +17,7 @@ import {
   Funnel,
   House,
   IdentificationBadge,
+  IdentificationCard,
   Leaf,
   List,
   Moon,
@@ -70,6 +71,8 @@ const Phosphor = ({ icon, weight }) => {
       return <FolderSimplePlus weight={weight} />;
     case 'identification-badge':
       return <IdentificationBadge weight={weight} />;
+    case 'identification-card':
+      return <IdentificationCard weight={weight} />;
     case 'leaf':
       return <Leaf weight={weight} />;
     case 'list':

@@ -19,6 +19,7 @@ import { db, storage } from 'firebase.app';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const UploadButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'file',
@@ -78,6 +79,7 @@ const IDFormComponent = () => {
   const classes = useStyles();
   const { currentUser } = useAuth();
   const { open } = useSnackbar();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -192,6 +194,8 @@ const IDFormComponent = () => {
           : 'Successfully updated fields';
 
       open(successMessage, 'success');
+
+      navigate('/preview');
     } catch (e) {
       open(e.message, 'error');
 

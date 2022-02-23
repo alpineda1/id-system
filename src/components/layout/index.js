@@ -12,6 +12,13 @@ export const pages = [
     icon: 'textbox',
     end: true,
   },
+  {
+    text: 'Preview',
+    route: '/preview',
+    icon: 'identification-card',
+    end: false,
+    hasID: true,
+  },
 ];
 
 export const utils = [];

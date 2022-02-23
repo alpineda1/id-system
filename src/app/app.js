@@ -16,6 +16,7 @@ import { SnackbarProvider } from 'contexts/snackbar';
 import { ThemeContextProvider } from 'contexts/theme';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react/cjs/react.production.min';
+import HasIDRoute from 'routes/has-id';
 import NonAuthRoute from 'routes/non-auth';
 import PrivateRoute from 'routes/private';
 import PublicRoute from 'routes/public';
@@ -50,7 +51,7 @@ const screens = [
   {
     path: 'preview',
     element: <IDPreviewScreen />,
-    ScreenRoute: PrivateRoute,
+    ScreenRoute: HasIDRoute,
     fullscreen: true,
   },
   {
