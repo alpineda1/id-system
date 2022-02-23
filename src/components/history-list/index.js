@@ -1,6 +1,6 @@
 import React from "react"
 //import { useState, useEffect} from "react";
-import { Button, Typography , Stack, TextField,Card,ButtonGroup} from '@mui/material';
+import { Button, Typography , Stack, TextField,ButtonGroup} from '@mui/material';
 //import {db} from 'firebase.app'
 //import FilterResults from 'react-filter-search';
 //import SearchInput, {createFilter} from 'react-search-input'
@@ -28,14 +28,14 @@ const HistoryList = () => {
         />
         </div>
 </Stack>
-<Card>
+
   <Typography variant="subtitle1">Sort By</Typography>
 <ButtonGroup variant="contained" aria-label="outlined primary button group">
   <Button>Today</Button>
   <Button>Week</Button>
   <Button>Month</Button>
 </ButtonGroup>
-        </Card>
+        
         </Stack>
       <Button  variant="contained" >Delacerna, Jerome D || 2018-100003</Button>
       <Button  variant="contained" >Pineda, Angelika L || 2018-100100</Button>
