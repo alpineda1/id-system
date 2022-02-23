@@ -1,6 +1,6 @@
 import React from "react"
 //import { useState, useEffect} from "react";
-import { Button, Typography , Stack, TextField,ButtonGroup} from '@mui/material';
+import { Button, Typography , Stack, TextField,ButtonGroup, ListItem, ListItemText,List,Divider} from '@mui/material';
 //import {db} from 'firebase.app'
 //import FilterResults from 'react-filter-search';
 //import SearchInput, {createFilter} from 'react-search-input'
@@ -49,6 +49,24 @@ const HistoryList = () => {
 </ButtonGroup>
 
         </Stack>
+
+        <List sx={3} component="nav" aria-label="mailbox folders">
+  <ListItem button>
+    <ListItemText primary="Delacerna, Jerome D || 2018-100003" />
+  </ListItem>
+  <Divider />
+  <ListItem button divider>
+    <ListItemText primary="Pineda, Angelika L || 2018-100100" />
+  </ListItem>
+  <ListItem button>
+    <ListItemText primary="Rianzares, Kervin R || 2018-100242" />
+  </ListItem>
+  <Divider  />
+  <ListItem button>
+    <ListItemText primary="Sarte, Neil Y || 2018-100241" />
+  </ListItem>
+</List>
+
       <Button  variant="contained" >Delacerna, Jerome D || 2018-100003</Button>
       <Button  variant="contained" >Pineda, Angelika L || 2018-100100</Button>
       <Button  variant="contained" >Rianzares, Kervin R || 2018-100242</Button>
