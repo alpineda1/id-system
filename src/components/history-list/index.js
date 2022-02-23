@@ -17,11 +17,13 @@ const HistoryList = () => {
 
       <div className="search">
         <TextField
-        sx={{ flexDirection: 'row-reverse' }}
           id="outlined-basic"
           variant="outlined"
           fullWidth
           label="Search"
+          direction="row"
+          alignItems = "center"
+          justify="flex-end"
         />
         </div>
         </Stack>
