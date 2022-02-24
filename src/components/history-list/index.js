@@ -25,6 +25,7 @@ const HistoryList = () => {
           direction="row"
           alignItems = "center"
           justify="flex-end"
+          sx={{ flexDirection: 'row-reverse' }}
           style={{ height: "80" , width: "90%"}}
         />
         </div>
