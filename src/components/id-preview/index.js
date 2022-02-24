@@ -1,6 +1,5 @@
-//import Webcam from "react-webcam";
-import { Container, Stack, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Container, Grid, Stack, Typography } from '@mui/material';
+import { makeStyles, useTheme } from '@mui/styles';
 import APCLogo from 'assets/apc-business.jpg';
 import LoadingComponent from 'components/utils/loading';
 import { useAuth } from 'contexts/auth';
@@ -28,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+  },
+  centerStack: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cardPhotoContainer: {
     flex: 9,
@@ -102,6 +107,7 @@ const IDPreviewComponent = () => {
 
   const { currentUser } = useAuth();
   const { open } = useSnackbar();
+  const theme = useTheme();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -143,48 +149,16 @@ const IDPreviewComponent = () => {
                   />
                 </div>
                 <div className={classes.cardDetails}>
-                  <Stack
-                    sx={{
-                      width: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                    spacing={5}
-                  >
+                  <Stack className={classes.centerStack} spacing={5}>
                     <img
                       className={classes.cardDetailsLogo}
                       src={APCLogo}
                       alt='Asia Pacific College logo'
                     />
 
-                    <Stack
-                      sx={{
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      spacing={2}
-                    >
-                      <Stack
-                        sx={{
-                          width: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                        spacing={2}
-                      >
-                        <Stack
-                          sx={{
-                            width: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                          spacing={1}
-                        >
+                    <Stack className={classes.centerStack} spacing={2}>
+                      <Stack className={classes.centerStack} spacing={2}>
+                        <Stack className={classes.centerStack} spacing={1}>
                           <Typography
                             className={classes.cardFullname}
                             variant='body1'
@@ -217,7 +191,41 @@ const IDPreviewComponent = () => {
         </div>
 
         <div className={classes.cardContainer}>
-          <div className={classes.cardContent}></div>
+          <div className={classes.cardContent}>
+            <Stack
+              className={classes.centerStack}
+              sx={{ width: '100%' }}
+              spacing={3}
+            >
+              <Grid
+                container
+                sx={{ padding: [0, theme.spacing(4)].join(' ') }}
+                spacing={2}
+              >
+                <Grid item xs={6}>
+                  <Stack spacing={1} className={classes.centerStack}>
+                    <Typography variant='body2'>
+                      {data?.name?.first}{' '}
+                      {data?.name?.middle && `${data?.name?.middle}.`}{' '}
+                      {data?.name?.last}
+                    </Typography>
+
+                    <Typography variant='body2'>Student</Typography>
+                  </Stack>
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Stack spacing={1} className={classes.centerStack}>
+                    <Typography variant='body2'>
+                      Stanley Glenn Brucal
+                    </Typography>
+
+                    <Typography variant='body2'>Registrar</Typography>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Stack>
+          </div>
         </div>
       </Stack>
     </Container>
