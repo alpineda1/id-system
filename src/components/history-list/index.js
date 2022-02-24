@@ -32,7 +32,7 @@ const HistoryList = () => {
 
 
 <Divider/>
-      <Button  variant="contained" maxWidth='50px' >Dela Cerna, Jerome D || 2018-100003</Button>
+      <Button  variant="contained" style={{ width: "80%" }}  >Dela Cerna, Jerome D || 2018-100003</Button>
       <Button  variant="contained" >Pineda, Angelika L || 2018-100100</Button>
       <Button  variant="contained" >Rianzares, Kervin R || 2018-100242</Button>
       <Button  variant="contained" >Sarte, Neil Y || 2018-100241</Button>
