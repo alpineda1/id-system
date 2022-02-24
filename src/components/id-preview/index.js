@@ -266,7 +266,7 @@ const IDPreviewComponent = () => {
 
                       <Stack spacing={0.5} className={classes.centerStack}>
                         <Typography variant='body2'>
-                          Stanley Glenn Brucal
+                          Stanley Glenn E. Brucal
                         </Typography>
 
                         <Typography variant='body2'>Registrar</Typography>
