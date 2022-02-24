@@ -215,83 +215,87 @@ const IDPreviewComponent = () => {
 
         <div className={classes.cardContainer}>
           <div className={classes.cardContent}>
-            <Stack
-              className={classes.centerStack}
-              sx={{ width: '100%', paddingTop: theme.spacing(5) }}
-              spacing={4}
-            >
-              <Grid
-                container
-                sx={{ padding: [0, theme.spacing(7)].join(' ') }}
-                spacing={6}
+            {loading ? (
+              <LoadingComponent />
+            ) : (
+              <Stack
+                className={classes.centerStack}
+                sx={{ width: '100%', paddingTop: theme.spacing(5) }}
+                spacing={4}
               >
-                <Grid item xs={6}>
-                  <Stack spacing={2} className={classes.centerStack}>
-                    <div className={classes.signatureContainer}>
-                      <img
-                        className={classes.signature}
-                        src={data?.signatureURL}
-                        alt='Student signature'
-                      />
-                    </div>
+                <Grid
+                  container
+                  sx={{ padding: [0, theme.spacing(7)].join(' ') }}
+                  spacing={6}
+                >
+                  <Grid item xs={6}>
+                    <Stack spacing={2} className={classes.centerStack}>
+                      <div className={classes.signatureContainer}>
+                        <img
+                          className={classes.signature}
+                          src={data?.signatureURL}
+                          alt='Student signature'
+                        />
+                      </div>
 
-                    <Divider sx={{ width: '100%' }} />
+                      <Divider sx={{ width: '100%' }} />
 
-                    <Stack spacing={0.5} className={classes.centerStack}>
-                      <Typography variant='body2'>
-                        {data?.name?.first}{' '}
-                        {data?.name?.middle && `${data?.name?.middle}.`}{' '}
-                        {data?.name?.last}
-                      </Typography>
+                      <Stack spacing={0.5} className={classes.centerStack}>
+                        <Typography variant='body2'>
+                          {data?.name?.first}{' '}
+                          {data?.name?.middle && `${data?.name?.middle}.`}{' '}
+                          {data?.name?.last}
+                        </Typography>
 
-                      <Typography variant='body2'>Student</Typography>
+                        <Typography variant='body2'>Student</Typography>
+                      </Stack>
                     </Stack>
-                  </Stack>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Stack spacing={2} className={classes.centerStack}>
+                      <div className={classes.signatureContainer}>
+                        <img
+                          className={classes.signature}
+                          src={registrarSignature}
+                          alt='Student signature'
+                        />
+                      </div>
+
+                      <Divider sx={{ width: '100%' }} />
+
+                      <Stack spacing={0.5} className={classes.centerStack}>
+                        <Typography variant='body2'>
+                          Stanley Glenn Brucal
+                        </Typography>
+
+                        <Typography variant='body2'>Registrar</Typography>
+                      </Stack>
+                    </Stack>
+                  </Grid>
                 </Grid>
 
-                <Grid item xs={6}>
-                  <Stack spacing={2} className={classes.centerStack}>
-                    <div className={classes.signatureContainer}>
-                      <img
-                        className={classes.signature}
-                        src={registrarSignature}
-                        alt='Student signature'
-                      />
-                    </div>
-
-                    <Divider sx={{ width: '100%' }} />
-
-                    <Stack spacing={0.5} className={classes.centerStack}>
-                      <Typography variant='body2'>
-                        Stanley Glenn Brucal
-                      </Typography>
-
-                      <Typography variant='body2'>Registrar</Typography>
-                    </Stack>
+                <Stack spacing={3} className={classes.centerStack}>
+                  <Stack spacing={0.5} className={classes.centerStack}>
+                    <Typography variant='body1' className={classes.apcTitle}>
+                      ASIA PACIFIC COLLEGE
+                    </Typography>
+                    <Typography variant='body2' className={classes.apcDetails}>
+                      3 Humabon Place, Magallanes, Makati City, 1232 PH
+                    </Typography>
+                    <Typography variant='body2' className={classes.apcDetails}>
+                      www.apc.edu.ph • 8852-9232
+                    </Typography>
                   </Stack>
-                </Grid>
-              </Grid>
 
-              <Stack spacing={3} className={classes.centerStack}>
-                <Stack spacing={0.5} className={classes.centerStack}>
-                  <Typography variant='body1' className={classes.apcTitle}>
-                    ASIA PACIFIC COLLEGE
-                  </Typography>
-                  <Typography variant='body2' className={classes.apcDetails}>
-                    3 Humabon Place, Magallanes, Makati City, 1232 PH
-                  </Typography>
-                  <Typography variant='body2' className={classes.apcDetails}>
-                    www.apc.edu.ph • 8852-9232
-                  </Typography>
+                  <img
+                    className={classes.NUAPCLogo}
+                    src={NUAPCLogo}
+                    alt='NU-APC logo'
+                  />
                 </Stack>
-
-                <img
-                  className={classes.NUAPCLogo}
-                  src={NUAPCLogo}
-                  alt='NU-APC logo'
-                />
               </Stack>
-            </Stack>
+            )}
           </div>
         </div>
       </Stack>
