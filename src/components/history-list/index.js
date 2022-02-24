@@ -12,8 +12,7 @@ const HistoryList = () => {
     <Stack spacing={2} >
       <Stack spacing={2}>
       <Stack spacing={2}>
-      <Stack spacing={2}>
-           <Typography variant='h6' align="center">ID  Histroy List</Typography>
+           <Typography variant='h6' align="center">ID Application Histroy List</Typography>
       </Stack>
 
       <div className="search">
@@ -29,26 +28,6 @@ const HistoryList = () => {
         </div>
 </Stack>
 
-  <Typography variant="subtitle1">Sort By Program</Typography>
-<ButtonGroup variant="contained" aria-label="outlined primary button group">
-  <Button>SOCIT</Button>
-  <Button>SOMA</Button>
-  <Button>SOM</Button>
-  <Button>SOE</Button>
-  <Button>OTHERS</Button>
-</ButtonGroup>
-
-
-<Typography variant="subtitle1">Sort By Date</Typography>
-<ButtonGroup variant="contained" aria-label="outlined primary button group">
-  <Button>Today</Button>
-  <Button>Yesterday</Button>
-  <Button>This Week</Button>
-  <Button>This Month</Button>
-  <Button>All</Button>
-</ButtonGroup>
-
-        </Stack>
 
 <Divider/>
       <Button  variant="contained" >Dela Cerna, Jerome D || 2018-100003</Button>
