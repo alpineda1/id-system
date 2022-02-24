@@ -25,7 +25,7 @@ const HistoryList = () => {
           direction="row"
           alignItems = "center"
           justify="flex-end"
-          style={{ height: 28 , width: "80%"}}
+          style={{ height: 80 , width: "80%"}}
         />
         </div>
 </Stack>
