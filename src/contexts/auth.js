@@ -1,19 +1,21 @@
-import { auth } from 'firebase.app';
+import { auth, db } from 'firebase.app';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext({ currentUser: null });
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState();
-  const [currentUserRoles] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
+  const [currentUserRoles, setCurrentUserRoles] = useState([]);
+  const [hasID, setHasID] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const handleAuth = useMemo(
@@ -25,15 +27,29 @@ export const AuthContextProvider = ({ children }) => {
       logout: () => signOut(auth),
       currentUser,
       currentUserRoles,
+      hasID,
       loading,
     }),
-    [currentUser, currentUserRoles, loading],
+    [currentUser, currentUserRoles, hasID, loading],
   );
 
-  onAuthStateChanged(auth, (currentUser) => {
+  onAuthStateChanged(auth, async (currentUser) => {
     setCurrentUser(currentUser);
     setLoading(false);
   });
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userDocumentRef = doc(db, 'users', currentUser?.uid);
+      const dataRef = await getDoc(userDocumentRef);
+      const data = dataRef.data();
+
+      setCurrentUserRoles(data.roles);
+      setHasID(!!data?.photoURL && !!data?.signatureURL);
+    };
+
+    if (!loading && currentUser?.uid) getUserData();
+  }, [currentUser?.uid, loading]);
 
   return (
     <AuthContext.Provider value={handleAuth}>{children}</AuthContext.Provider>

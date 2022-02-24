@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { pages, utils } from 'components/layout';
 import IconComponent from 'components/utils/icon';
+import { useAuth } from 'contexts/auth';
 import { Fragment } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import ToolbarComponent from '../toolbar';
@@ -17,6 +18,8 @@ const ContentComponent = ({
   handleDrawerClose = () => {},
   handleToggleDrawer,
 }) => {
+  const { hasID } = useAuth();
+
   return (
     <Fragment>
       <ToolbarComponent>
@@ -31,23 +34,25 @@ const ContentComponent = ({
       </ToolbarComponent>
       <List>
         {pages &&
-          pages.map(({ text, route, icon, end = false }, index) => (
-            <NavLink
-              className={({ isActive }) => (isActive ? 'is-active' : '')}
-              key={index}
-              onClick={handleDrawerClose}
-              to={route}
-              id={route}
-              end={end}
-            >
-              <ItemComponent>
-                <ListItemIcon>
-                  <IconComponent icon={icon} weight='regular' />
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ItemComponent>
-            </NavLink>
-          ))}
+          pages
+            .filter((p) => (hasID ? p : !p.hasID))
+            .map(({ text, route, icon, end = false }, index) => (
+              <NavLink
+                className={({ isActive }) => (isActive ? 'is-active' : '')}
+                key={index}
+                onClick={handleDrawerClose}
+                to={route}
+                id={route}
+                end={end}
+              >
+                <ItemComponent>
+                  <ListItemIcon>
+                    <IconComponent icon={icon} weight='regular' />
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ItemComponent>
+              </NavLink>
+            ))}
         {utils && <Divider sx={{ my: 1 }} />}
         {utils &&
           utils.map(({ text, route, icon, end = false }, index) => (

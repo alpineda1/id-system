@@ -107,12 +107,12 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
     const getUserData = async () => {
       const userDocumentRef = doc(db, 'users', currentUser.uid);
       const dataRef = await getDoc(userDocumentRef);
-      setData(dataRef.data());
+      setData(dataRef?.data());
 
       setLoading(false);
     };
 
-    getUserData();
+    if (!!currentUser.uid) getUserData();
   }, [currentUser.uid]);
 
   const handlePopoverOpen = (e) => {

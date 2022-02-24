@@ -12,15 +12,17 @@ import LayoutComponent from 'components/layout';
 import ContainerComponent from 'components/utils/container';
 import LoadingComponent from 'components/utils/loading';
 import { AuthContextProvider } from 'contexts/auth';
+import { SnackbarProvider } from 'contexts/snackbar';
 import { ThemeContextProvider } from 'contexts/theme';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react/cjs/react.production.min';
+import HasIDRoute from 'routes/has-id';
 import NonAuthRoute from 'routes/non-auth';
 import PrivateRoute from 'routes/private';
 import PublicRoute from 'routes/public';
-import IDFormScreen from 'screens/id-form';
-import SignUpScreen from 'screens/signup';
 import HistoryListScreen from 'screens/history-list';
+import IDPreviewScreen from 'screens/id-preview';
+import SignUpScreen from 'screens/signup';
 import './app.scss';
 
 const HomeScreen = lazy(() => import('screens/home'));
@@ -35,25 +37,25 @@ const screens = [
     fullscreen: true,
   },
   {
-    path: '/login',
+    path: 'login',
     element: <LoginScreen />,
     ScreenRoute: NonAuthRoute,
     fullscreen: true,
   },
   {
-    path: '/register',
+    path: 'register',
     element: <SignUpScreen />,
     ScreenRoute: NonAuthRoute,
     fullscreen: true,
   },
   {
-    path: '/id/form',
-    element: <IDFormScreen />,
-    ScreenRoute: PrivateRoute,
+    path: 'preview',
+    element: <IDPreviewScreen />,
+    ScreenRoute: HasIDRoute,
+    fullscreen: true,
   },
-
   {
-    path: '/history/list',
+    path: 'history/list',
     element: <HistoryListScreen />,
     ScreenRoute: PrivateRoute,
   },
@@ -63,38 +65,40 @@ const App = () => {
   return (
     <AuthContextProvider>
       <ThemeContextProvider>
-        <Router>
-          <Suspense fallback={<LoadingComponent />}>
-            <LayoutComponent>
-              <Routes>
-                {screens.map(
-                  (
-                    {
-                      path,
-                      element,
-                      fullscreen = false,
-                      ScreenRoute = PublicRoute,
-                    },
-                    index,
-                  ) => (
-                    <Route
-                      key={index}
-                      element={
-                        <ScreenRoute>
-                          <ContainerComponent fullscreen={fullscreen}>
-                            {element}
-                          </ContainerComponent>
-                        </ScreenRoute>
-                      }
-                      path={path}
-                    />
-                  ),
-                )}
-                <Route element={<NotFoundScreen />} path='*' />
-              </Routes>
-            </LayoutComponent>
-          </Suspense>
-        </Router>
+        <SnackbarProvider>
+          <Router>
+            <Suspense fallback={<LoadingComponent />}>
+              <LayoutComponent>
+                <Routes>
+                  {screens.map(
+                    (
+                      {
+                        path,
+                        element,
+                        fullscreen = false,
+                        ScreenRoute = PublicRoute,
+                      },
+                      index,
+                    ) => (
+                      <Route
+                        key={index}
+                        element={
+                          <ScreenRoute>
+                            <ContainerComponent fullscreen={fullscreen}>
+                              {element}
+                            </ContainerComponent>
+                          </ScreenRoute>
+                        }
+                        path={path}
+                      />
+                    ),
+                  )}
+                  <Route element={<NotFoundScreen />} path='*' />
+                </Routes>
+              </LayoutComponent>
+            </Suspense>
+          </Router>
+        </SnackbarProvider>
       </ThemeContextProvider>
     </AuthContextProvider>
   );

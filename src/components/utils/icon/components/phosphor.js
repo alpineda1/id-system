@@ -17,6 +17,7 @@ import {
   Funnel,
   House,
   IdentificationBadge,
+  IdentificationCard,
   Leaf,
   List,
   Moon,
@@ -26,6 +27,8 @@ import {
   SortAscending,
   SortDescending,
   Sun,
+  Textbox,
+  Trash,
   UserCircle,
   UserCirclePlus,
   UserPlus,
@@ -68,6 +71,8 @@ const Phosphor = ({ icon, weight }) => {
       return <FolderSimplePlus weight={weight} />;
     case 'identification-badge':
       return <IdentificationBadge weight={weight} />;
+    case 'identification-card':
+      return <IdentificationCard weight={weight} />;
     case 'leaf':
       return <Leaf weight={weight} />;
     case 'list':
@@ -86,6 +91,10 @@ const Phosphor = ({ icon, weight }) => {
       return <SortDescending weight={weight} />;
     case 'sun':
       return <Sun weight={weight} />;
+    case 'textbox':
+      return <Textbox weight={weight} />;
+    case 'trash':
+      return <Trash weight={weight} />;
     case 'user-circle':
       return <UserCircle weight={weight} />;
     case 'user-circle-plus':

@@ -1,7 +1,7 @@
-import IdVerificationComponent from 'components/id-verification';
+import IDFormComponent from 'components/id-form';
 
 const HomeComponent = () => {
-  return <IdVerificationComponent />;
+  return <IDFormComponent />;
 };
 
 export default HomeComponent;
