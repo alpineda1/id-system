@@ -1,6 +1,8 @@
-import { Container, Grid, Stack, Typography } from '@mui/material';
+import { Container, Divider, Grid, Stack, Typography } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
-import APCLogo from 'assets/apc-business.jpg';
+import APCLogo from 'assets/apc-business.png';
+import NUAPCLogo from 'assets/nu-apc.png';
+import registrarSignature from 'assets/registrar-e-sign.png';
 import LoadingComponent from 'components/utils/loading';
 import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
@@ -60,11 +62,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme?.palette?.secondary?.main,
   },
   cardDetailsLogo: {
-    width: theme.spacing(10),
+    width: theme.spacing(12),
     height: 'auto',
+    paddingTop: theme.spacing(2),
   },
   cardFullname: {
-    fontSize: '1.1em !important',
+    fontSize: '1.2em !important',
     fontWeight: '600 !important',
     padding: [0, theme.spacing(5)].join(' '),
   },
@@ -83,7 +86,27 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontWeight: 600,
   },
-  cardBack: {},
+  signatureContainer: {
+    position: 'relative',
+    width: '60%',
+  },
+  signature: {
+    width: '100%',
+    height: 'auto',
+    position: 'absolute',
+    bottom: theme.spacing(-4),
+  },
+  apcTitle: {
+    fontSize: '1.2em !important',
+    fontWeight: '500 !important',
+  },
+  apcDetails: {
+    fontWeight: '500 !important',
+  },
+  NUAPCLogo: {
+    width: '25%',
+    height: 'auto',
+  },
 }));
 
 const IDPreviewComponent = () => {
@@ -149,7 +172,7 @@ const IDPreviewComponent = () => {
                   />
                 </div>
                 <div className={classes.cardDetails}>
-                  <Stack className={classes.centerStack} spacing={5}>
+                  <Stack className={classes.centerStack} spacing={3}>
                     <img
                       className={classes.cardDetailsLogo}
                       src={APCLogo}
@@ -194,36 +217,80 @@ const IDPreviewComponent = () => {
           <div className={classes.cardContent}>
             <Stack
               className={classes.centerStack}
-              sx={{ width: '100%' }}
-              spacing={3}
+              sx={{ width: '100%', paddingTop: theme.spacing(5) }}
+              spacing={4}
             >
               <Grid
                 container
-                sx={{ padding: [0, theme.spacing(4)].join(' ') }}
-                spacing={2}
+                sx={{ padding: [0, theme.spacing(7)].join(' ') }}
+                spacing={6}
               >
                 <Grid item xs={6}>
-                  <Stack spacing={1} className={classes.centerStack}>
-                    <Typography variant='body2'>
-                      {data?.name?.first}{' '}
-                      {data?.name?.middle && `${data?.name?.middle}.`}{' '}
-                      {data?.name?.last}
-                    </Typography>
+                  <Stack spacing={2} className={classes.centerStack}>
+                    <div className={classes.signatureContainer}>
+                      <img
+                        className={classes.signature}
+                        src={data?.signatureURL}
+                        alt='Student signature'
+                      />
+                    </div>
 
-                    <Typography variant='body2'>Student</Typography>
+                    <Divider sx={{ width: '100%' }} />
+
+                    <Stack spacing={0.5} className={classes.centerStack}>
+                      <Typography variant='body2'>
+                        {data?.name?.first}{' '}
+                        {data?.name?.middle && `${data?.name?.middle}.`}{' '}
+                        {data?.name?.last}
+                      </Typography>
+
+                      <Typography variant='body2'>Student</Typography>
+                    </Stack>
                   </Stack>
                 </Grid>
 
                 <Grid item xs={6}>
-                  <Stack spacing={1} className={classes.centerStack}>
-                    <Typography variant='body2'>
-                      Stanley Glenn Brucal
-                    </Typography>
+                  <Stack spacing={2} className={classes.centerStack}>
+                    <div className={classes.signatureContainer}>
+                      <img
+                        className={classes.signature}
+                        src={registrarSignature}
+                        alt='Student signature'
+                      />
+                    </div>
 
-                    <Typography variant='body2'>Registrar</Typography>
+                    <Divider sx={{ width: '100%' }} />
+
+                    <Stack spacing={0.5} className={classes.centerStack}>
+                      <Typography variant='body2'>
+                        Stanley Glenn Brucal
+                      </Typography>
+
+                      <Typography variant='body2'>Registrar</Typography>
+                    </Stack>
                   </Stack>
                 </Grid>
               </Grid>
+
+              <Stack spacing={3} className={classes.centerStack}>
+                <Stack spacing={0.5} className={classes.centerStack}>
+                  <Typography variant='body1' className={classes.apcTitle}>
+                    ASIA PACIFIC COLLEGE
+                  </Typography>
+                  <Typography variant='body2' className={classes.apcDetails}>
+                    3 Humabon Place, Magallanes, Makati City, 1232 PH
+                  </Typography>
+                  <Typography variant='body2' className={classes.apcDetails}>
+                    www.apc.edu.ph • 8852-9232
+                  </Typography>
+                </Stack>
+
+                <img
+                  className={classes.NUAPCLogo}
+                  src={NUAPCLogo}
+                  alt='NU-APC logo'
+                />
+              </Stack>
             </Stack>
           </div>
         </div>
