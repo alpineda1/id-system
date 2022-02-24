@@ -11,7 +11,7 @@ const HistoryList = () => {
     return (
     <Stack spacing={3} >
       <Stack spacing={3}>
-      <Stack spacing={2}>
+      <Stack spacing={5}>
 
            <Typography variant='h3' align="center">ID Application History List</Typography>
       </Stack>
