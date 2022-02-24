@@ -13,7 +13,7 @@ const HistoryList = () => {
       <Stack spacing={2}>
       <Stack spacing={2}>
       <Stack spacing={2}>
-           <Typography variant='h6' align="center">ID Application Histroy List</Typography>
+           <Typography variant='h6' align="center">ID Application History List</Typography>
       </Stack>
 
 </Stack>
@@ -26,6 +26,7 @@ const HistoryList = () => {
           direction="row"
           alignItems = "center"
           justify="flex-end"
+          size="small"
         />
         </div>
 </Stack>
