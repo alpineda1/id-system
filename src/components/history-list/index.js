@@ -12,9 +12,16 @@ const HistoryList = () => {
     <Stack spacing={2} >
       <Stack spacing={2}>
       <Stack spacing={2}>
+      <Stack spacing={2}>
            <Typography variant='h6' align="center">ID Application Histroy List</Typography>
       </Stack>
 
+      <Datepicker 
+    controls={['date']}
+    min="1989-01-01"
+    max="2050-12-31"
+/>
+</Stack>
       <div className="search">
         <TextField
           id="outlined-basic"
@@ -30,7 +37,7 @@ const HistoryList = () => {
 
 
 <Divider/>
-      <Button  variant="contained" >Dela Cerna, Jerome D || 2018-100003</Button>
+      <Button  variant="contained" maxWidth='50px' >Dela Cerna, Jerome D || 2018-100003</Button>
       <Button  variant="contained" >Pineda, Angelika L || 2018-100100</Button>
       <Button  variant="contained" >Rianzares, Kervin R || 2018-100242</Button>
       <Button  variant="contained" >Sarte, Neil Y || 2018-100241</Button>
