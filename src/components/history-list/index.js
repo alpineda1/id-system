@@ -11,7 +11,7 @@ const HistoryList = () => {
     return (
     <Stack spacing={3} >
       <Stack spacing={3}>
-      <Stack spacing={5}>
+      <Stack spacing={1}>
 
            <Typography variant='h3' align="center">ID Application History List</Typography>
       </Stack>
@@ -25,18 +25,18 @@ const HistoryList = () => {
           direction="row"
           alignItems = "center"
           justify="flex-end"
-          style={{ height: 80 , width: "80%"}}
+          style={{ height: "80" , width: "90%"}}
         />
         </div>
 </Stack>
 
-      <Button  variant="contained"  style={{ width: "100%" }} >Dela Cerna, Jerome D || 2018-100003</Button>
-      <Button  variant="contained"  style={{ width: "100%" }}>Pineda, Angelika L || 2018-100100</Button>
-      <Button  variant="contained"  style={{ width: "100%" }}>Rianzares, Kervin R || 2018-100242</Button>
+<Button  variant="contained"  style={{ width: "100%" ,fontSize: '25px' }} >Dela Cerna, Jerome D || 2018-100003</Button>
+      <Button  variant="contained"  style={{ width: "100%",fontSize: '15px' }}>Pineda, Angelika L || 2018-100100</Button>
+      <Button  variant="contained"  style={{ width: "100%",fontSize: '20px' }}>Rianzares, Kervin R || 2018-100242</Button>
       <Button  variant="contained"  style={{ width: "100%" }}>Sarte, Neil Y || 2018-100241</Button>
       <Button  variant="contained"  style={{ width: "100%" }}>Veluz, Sage S || 2018-100263</Button>
       <Button  variant="contained"  style={{ width: "100%" }}>Ylagan, Lala L || 2019-100300</Button>
-          </Stack>
+               </Stack>
          
   ); 
 }
