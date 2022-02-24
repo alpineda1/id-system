@@ -16,6 +16,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [currentUserRoles, setCurrentUserRoles] = useState([]);
   const [hasID, setHasID] = useState(false);
+  const [hasIDLoading, setHasIDLoading] = useState(true);
   const [loading, setLoading] = useState(true);
 
   const handleAuth = useMemo(
@@ -28,9 +29,10 @@ export const AuthContextProvider = ({ children }) => {
       currentUser,
       currentUserRoles,
       hasID,
+      hasIDLoading,
       loading,
     }),
-    [currentUser, currentUserRoles, hasID, loading],
+    [currentUser, currentUserRoles, hasID, hasIDLoading, loading],
   );
 
   onAuthStateChanged(auth, async (currentUser) => {
@@ -46,6 +48,7 @@ export const AuthContextProvider = ({ children }) => {
 
       setCurrentUserRoles(data.roles);
       setHasID(!!data?.photoURL && !!data?.signatureURL);
+      setHasIDLoading(false);
     };
 
     if (!loading && currentUser?.uid) getUserData();
