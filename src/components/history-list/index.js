@@ -32,12 +32,12 @@ const HistoryList = () => {
 
 
 <Divider/>
-      <Button  variant="contained" style={{ width: "80%" }}  >Dela Cerna, Jerome D || 2018-100003</Button>
-      <Button  variant="contained" >Pineda, Angelika L || 2018-100100</Button>
-      <Button  variant="contained" >Rianzares, Kervin R || 2018-100242</Button>
-      <Button  variant="contained" >Sarte, Neil Y || 2018-100241</Button>
-      <Button  variant="contained" >Veluz, Sage S || 2018-100263</Button>
-      <Button  variant="contained" >Ylagan, Lala L || 2019-100300</Button>
+      <Button  variant="contained"  style={{ width: "120%" }} >Dela Cerna, Jerome D || 2018-100003</Button>
+      <Button  variant="contained"  style={{ width: "120%" }}>Pineda, Angelika L || 2018-100100</Button>
+      <Button  variant="contained"  style={{ width: "120%" }}>Rianzares, Kervin R || 2018-100242</Button>
+      <Button  variant="contained"  style={{ width: "120%" }}>Sarte, Neil Y || 2018-100241</Button>
+      <Button  variant="contained"  style={{ width: "120%" }}>Veluz, Sage S || 2018-100263</Button>
+      <Button  variant="contained"  style={{ width: "120%" }}>Ylagan, Lala L || 2019-100300</Button>
           </Stack>
          
   ); 
