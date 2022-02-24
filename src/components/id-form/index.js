@@ -16,7 +16,7 @@ import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
 import { db, storage } from 'firebase.app';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -25,9 +25,10 @@ const UploadButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'file',
 })(({ file, theme }) => ({
   borderRadius: theme.spacing(1.5),
-  ...(file && {
-    borderRadius: [0, 0, 0, theme.spacing(1.5)].join(' '),
-  }),
+  ...(file &&
+    !file.del && {
+      borderRadius: [0, 0, 0, theme.spacing(1.5)].join(' '),
+    }),
 }));
 
 const RemoveButton = styled(Button, {
@@ -145,6 +146,18 @@ const IDFormComponent = () => {
           )
         : '';
 
+      if (!photoStorageRef && !idFile.url) {
+        setError('ID Photo cannot be empty');
+        setLoading(false);
+        return;
+      }
+
+      if (!signatureStorageRef && !signatureFile.url) {
+        setError('E-signature cannot be empty');
+        setLoading(false);
+        return;
+      }
+
       const uploadFiles = async (photoRef, signatureRef) => {
         const photo = photoRef
           ? await uploadBytes(photoRef, idFile.file)
@@ -188,6 +201,7 @@ const IDFormComponent = () => {
         name: data.name,
         photoURL,
         signatureURL,
+        submittedAt: serverTimestamp(),
       });
 
       const successMessage =
@@ -357,7 +371,7 @@ const IDFormComponent = () => {
                     fullWidth
                   >
                     {!idFile.url ? (
-                      <>Upload ID Picture</>
+                      <>Attach ID Picture</>
                     ) : (
                       <>Change ID Picture</>
                     )}
@@ -404,7 +418,7 @@ const IDFormComponent = () => {
                     fullWidth
                   >
                     {!signatureFile.url ? (
-                      <>Upload E-Signature</>
+                      <>Attach E-Signature</>
                     ) : (
                       <>Change E-Signature</>
                     )}
