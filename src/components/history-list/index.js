@@ -31,15 +31,15 @@ const HistoryList = () => {
 <Button  variant="contained"   alignItems ='flex-start'  m={5}
         style={{ width: "100%" ,fontSize: '20px' }} >Dela Cerna, Jerome D || 2018-100003</Button>
       <Button  variant="contained" alignItems ='flex-start'  
-      style={{ width: "120%",fontSize: '20px' }}>Pineda, Angelika L || 2018-100100</Button>
+      style={{ width: "100%",fontSize: '20px' }}>Pineda, Angelika L || 2018-100100</Button>
       <Button  variant="contained" alignItems ='flex-start' 
-      style={{ width: "120%",fontSize: '20px' }}>Rianzares, Kervin R || 2018-100242</Button>
+      style={{ width: "100%",fontSize: '20px' }}>Rianzares, Kervin R || 2018-100242</Button>
       <Button  variant="contained" 
-      alignItems ='flex-start' style={{ width: "120%" ,fontSize: '20px'}}>Sarte, Neil Y || 2018-100241</Button>
+      alignItems ='flex-start' style={{ width: "100%" ,fontSize: '20px'}}>Sarte, Neil Y || 2018-100241</Button>
       <Button  variant="contained" 
-      alignItems ='flex-start' style={{ width: "120%",fontSize: '20px' }}>Veluz, Sage S || 2018-100263</Button>
+      alignItems ='flex-start' style={{ width: "100%",fontSize: '20px' }}>Veluz, Sage S || 2018-100263</Button>
       <Button  variant="contained"  
-      alignItems ='flex-start' style={{ width: "120%" ,fontSize: '20px'}}>Ylagan, Lala L || 2019-100300</Button>
+      alignItems ='flex-start' style={{ width: "100%" ,fontSize: '20px'}}>Ylagan, Lala Jamei L || 2019-100300</Button>
                </Stack>
          
   ); 
