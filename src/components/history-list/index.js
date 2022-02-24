@@ -12,20 +12,20 @@ const HistoryList = () => {
     <Stack spacing={3} >
       <Stack spacing={3}>
       <Stack spacing={2}>
-      <Stack spacing={2}>
+
            <Typography variant='h3' align="center">ID Application History List</Typography>
       </Stack>
 
-</Stack>
       <div className="search">
         <TextField
           id="outlined-basic"
           variant="outlined"
+          fullWidth
           label="Search"
           direction="row"
           alignItems = "center"
           justify="flex-end"
-          style={{ height: 10 , width: "80%"}}
+          style={{ height: 28 , width: "80%"}}
         />
         </div>
 </Stack>
