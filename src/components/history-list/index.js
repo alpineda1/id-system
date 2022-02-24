@@ -16,7 +16,7 @@ const HistoryList = () => {
            <Typography variant='h3' align="center">ID Application History List</Typography>
       </Stack>
 
-      <div className="search" sx={{ flexDirection: 'row-reverse' }}  style={{  width: "100%"}}>
+      <div className="search"  >
         <TextField
           id="outlined-basic"
           variant="outlined"
@@ -29,7 +29,7 @@ const HistoryList = () => {
 </Stack>
 
 <Button  variant="contained"   alignItems ='flex-start'  m={5}
-        style={{ width: "120%" ,fontSize: '20px' }} >Dela Cerna, Jerome D || 2018-100003</Button>
+        style={{ width: "100%" ,fontSize: '20px' }} >Dela Cerna, Jerome D || 2018-100003</Button>
       <Button  variant="contained" alignItems ='flex-start'  
       style={{ width: "120%",fontSize: '20px' }}>Pineda, Angelika L || 2018-100100</Button>
       <Button  variant="contained" alignItems ='flex-start' 
