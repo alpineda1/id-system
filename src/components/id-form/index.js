@@ -230,10 +230,10 @@ const IDFormComponent = () => {
               id='name-input'
               disabled
               name='name'
-              label='Last Name'
+              label='First Name'
               type='text'
               variant='filled'
-              value={loading ? '' : `${data.name?.first} ${data.name?.last}`}
+              value={loading ? '' : data.name?.first}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -251,7 +251,7 @@ const IDFormComponent = () => {
               label='Middle Name'
               type='text'
               variant='filled'
-              value={loading ? '' : `${data.name?.middle} `}
+              value={loading ? '' : data.name?.middle}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -266,10 +266,10 @@ const IDFormComponent = () => {
               id='name-input'
               disabled
               name='name'
-              label='First Name'
+              label='Last Name'
               type='text'
               variant='filled'
-              value={loading ? '' : `${data.name?.first} `}
+              value={loading ? '' : data.name?.last}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
