@@ -16,7 +16,7 @@ const HistoryList = () => {
            <Typography variant='h3' align="center">ID Application History List</Typography>
       </Stack>
 
-      <div className="search" sx={{ flexDirection: 'row-reverse' }}  style={{ height: 90 , width: "100%"}}>
+      <div className="search" sx={{ flexDirection: 'row-reverse' }}  style={{  width: "100%"}}>
         <TextField
           id="outlined-basic"
           variant="outlined"
