@@ -9,8 +9,8 @@ import { Button, Typography , Stack, TextField,Divider} from '@mui/material';
 const HistoryList = () => {
 
     return (
-    <Stack spacing={2} >
-      <Stack spacing={2}>
+    <Stack spacing={3} >
+      <Stack spacing={3}>
       <Stack spacing={2}>
       <Stack spacing={2}>
            <Typography variant='h3' align="center">ID Application History List</Typography>
