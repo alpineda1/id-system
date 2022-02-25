@@ -1,23 +1,15 @@
 import React from "react"
-import { useState} from "react";
+//import { useState} from "react";
 import { Button, Typography , Stack, TextField} from '@mui/material';
-import { DatePicker } from "react-datepicker";;
+import { DateRangePicker } from 'rsuite';
 //import {db} from 'firebase.app'
 //import FilterResults from 'react-filter-search';
 //import SearchInput, {createFilter} from 'react-search-input'
 //import { SearchIcon, CloseIcon} from "@mui/material"
 
 const HistoryList = () => {
-
-  const [dates, setDates] = useState({
-
-    checkin:  new  Date('1989-01-28'),
-    
-    checkout:  new  Date('2022-04-28')
-    
-    })
-    const [open, setOpen] = useState(false)
-
+  const styles = { width: 260, display: 'block', marginBottom: 10 };
+ 
 
     return (
     <Stack spacing={3} >
@@ -37,19 +29,11 @@ const HistoryList = () => {
           alignItems ='flex-start'
         />
         </div>
-        <DatePicker
+        
 
-dates={dates}
-setDates={setDates}
-open={open}
-setOpen={setOpen}>
 
-<button  onClick={() =>  setOpen(!open)}>
-{dates.checkin && dates.checkin.toDateString()} |{' '}
-{dates.checkout && dates.checkout.toDateString()}
-</button>
 
-</DatePicker>
+        <DateRangePicker size="lg" placeholder="Calendar" style={styles} />
 
 </Stack>
 
