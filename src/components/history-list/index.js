@@ -1,9 +1,10 @@
 import React from "react"
 //import { useState} from "react";
-import { Button, Typography , Stack, TextField, Box} from '@mui/material';
-import StaticDateRangePicker from '@mui/lab/StaticDateRangePicker';
+import { Button, Typography , Stack, TextField} from '@mui/material';
+//import StaticDateRangePicker from '@mui/lab/StaticDateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 //import {db} from 'firebase.app'
 //import FilterResults from 'react-filter-search';
@@ -14,6 +15,9 @@ const HistoryList = () => {
   const [value, setValue] = React.useState([null, null]);
  
 
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
     return (
     <Stack spacing={3} >
       <Stack spacing={3}>
@@ -33,23 +37,17 @@ const HistoryList = () => {
         />
         </div>
         
-
-
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <StaticDateRangePicker
-        displayStaticWrapperAs="desktop"
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      
+      <DesktopDatePicker
+        label="Date desktop"
+        inputFormat="MM/dd/yyyy"
         value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
-        renderInput={(startProps, endProps) => (
-          <React.Fragment>
-            <TextField {...startProps} />
-            <Box sx={{ mx: 2 }}> to </Box>
-            <TextField {...endProps} />
-          </React.Fragment>
-        )}
+        onChange={handleChange}
+        renderInput={(params) => <TextField {...params} />}
       />
+
+
     </LocalizationProvider>
   
 </Stack>
