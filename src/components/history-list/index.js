@@ -1,14 +1,17 @@
 import React from "react"
 //import { useState} from "react";
-import { Button, Typography , Stack, TextField} from '@mui/material';
-import { DateRangePicker } from 'rsuite';
+import { Button, Typography , Stack, TextField, Box} from '@mui/material';
+import StaticDateRangePicker from '@mui/lab/StaticDateRangePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 //import {db} from 'firebase.app'
 //import FilterResults from 'react-filter-search';
 //import SearchInput, {createFilter} from 'react-search-input'
 //import { SearchIcon, CloseIcon} from "@mui/material"
 
 const HistoryList = () => {
-  const styles = { width: 260, display: 'block', marginBottom: 10 };
+  const [value, setValue] = React.useState([null, null]);
  
 
     return (
@@ -32,9 +35,23 @@ const HistoryList = () => {
         
 
 
-
-        <DateRangePicker size="lg" placeholder="Calendar" style={styles} />
-
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <StaticDateRangePicker
+        displayStaticWrapperAs="desktop"
+        value={value}
+        onChange={(newValue) => {
+          setValue(newValue);
+        }}
+        renderInput={(startProps, endProps) => (
+          <React.Fragment>
+            <TextField {...startProps} />
+            <Box sx={{ mx: 2 }}> to </Box>
+            <TextField {...endProps} />
+          </React.Fragment>
+        )}
+      />
+    </LocalizationProvider>
+  
 </Stack>
 
 <Button  variant="contained"   alignItems ='flex-start'  m={5}
