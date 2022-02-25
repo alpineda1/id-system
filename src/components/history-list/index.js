@@ -40,7 +40,7 @@ const HistoryList = () => {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
       
       <DesktopDatePicker
-        label="Date desktop"
+        label="Date"
         inputFormat="MM/dd/yyyy"
         value={value}
         onChange={handleChange}
