@@ -9,7 +9,7 @@ const StyledComponent = styled(Box, {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: [theme.spacing(4), 0].join(' '),
+  padding: [theme.spacing(4), theme.spacing(2)].join(' '),
   minHeight: !fullscreen
     ? 'initial'
     : layout

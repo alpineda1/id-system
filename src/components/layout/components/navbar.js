@@ -167,8 +167,8 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
                 className={classes.avatar}
                 onClick={handlePopoverOpen}
               >
-                {data.name?.first[0]}
-                {data.name?.last[0]}
+                {data?.name?.first[0]}
+                {data?.name?.last[0]}
               </Avatar>
 
               <Popover
@@ -190,10 +190,10 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
                   <ListItem alignItems='flex-start'>
                     <ListItemText>
                       <Typography variant='h6'>
-                        {data.name?.first} {data.name?.last}
+                        {data?.name?.first} {data?.name?.last}
                       </Typography>
                       <Typography variant='body1'>
-                        {data.course?.abbreviation}
+                        {data?.course?.abbreviation}
                       </Typography>
                     </ListItemText>
                   </ListItem>

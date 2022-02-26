@@ -27,7 +27,7 @@ export const SnackbarProvider = ({ children }) => {
         setSnackbar({
           isOpen: true,
           message: message,
-          sevrity: severity,
+          severity: severity,
         });
       },
     }),

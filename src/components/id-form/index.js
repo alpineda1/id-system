@@ -87,11 +87,15 @@ const IDFormComponent = () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
         const dataRef = await getDoc(userDocumentRef);
-        const data = dataRef.data();
-        setData(data);
+        const localData = dataRef.data();
 
-        if (data?.photoURL) setIdFile({ url: data.photoURL });
-        if (data?.signatureURL) setSignatureFile({ url: data.signatureURL });
+        if (!isMounted.current) return;
+
+        setData(localData);
+
+        if (localData?.photoURL) setIdFile({ url: localData?.photoURL });
+        if (localData?.signatureURL)
+          setSignatureFile({ url: localData?.signatureURL });
 
         setLoading(false);
       } catch (e) {
@@ -178,7 +182,7 @@ const IDFormComponent = () => {
           : photoRef
           ? await getDownloadURL(photoRef)
           : data?.photoURL
-          ? data.photoURL
+          ? data?.photoURL
           : '';
 
         const signature = signatureFile.del
@@ -186,7 +190,7 @@ const IDFormComponent = () => {
           : signatureRef
           ? await getDownloadURL(signatureRef)
           : data?.signatureURL
-          ? data.signatureURL
+          ? data?.signatureURL
           : '';
 
         return Promise.all([photo, signature]);
@@ -198,7 +202,7 @@ const IDFormComponent = () => {
       );
 
       await updateDoc(doc(db, 'users', currentUser.uid), {
-        name: data.name,
+        name: data?.name,
         photoURL,
         signatureURL,
         submittedAt: serverTimestamp(),
@@ -247,7 +251,7 @@ const IDFormComponent = () => {
               label='First Name'
               type='text'
               variant='filled'
-              value={loading ? '' : data.name?.first}
+              value={loading ? '' : data?.name?.first || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -265,7 +269,7 @@ const IDFormComponent = () => {
               label='Middle Name'
               type='text'
               variant='filled'
-              value={loading ? '' : data.name?.middle}
+              value={loading ? '' : data?.name?.middle || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -283,7 +287,7 @@ const IDFormComponent = () => {
               label='Last Name'
               type='text'
               variant='filled'
-              value={loading ? '' : data.name?.last}
+              value={loading ? '' : data?.name?.last || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -301,7 +305,7 @@ const IDFormComponent = () => {
               label='ID number'
               type='text'
               variant='filled'
-              value={data.idNumber}
+              value={loading ? '' : data?.idNumber || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -319,7 +323,7 @@ const IDFormComponent = () => {
               label='Course'
               type='text'
               variant='filled'
-              value={data.course?.abbreviation}
+              value={loading ? '' : data?.course?.abbreviation || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -337,7 +341,7 @@ const IDFormComponent = () => {
               type='text'
               variant='filled'
               pattern='[a-zA-Z]*'
-              value={data.name?.nick}
+              value={loading ? '' : data?.name?.nick || ''}
               onChange={handleNickChange}
               InputProps={{
                 endAdornment: (

@@ -46,7 +46,7 @@ export const AuthContextProvider = ({ children }) => {
       const dataRef = await getDoc(userDocumentRef);
       const data = dataRef.data();
 
-      setCurrentUserRoles(data.roles);
+      setCurrentUserRoles(data?.roles || []);
       setHasID(!!data?.photoURL && !!data?.signatureURL);
       setHasIDLoading(false);
     };
