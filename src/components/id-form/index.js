@@ -227,8 +227,15 @@ const IDFormComponent = () => {
         signatureStorageRef,
       );
 
-      await updateDoc(doc(db, 'users', currentUser.uid), {
+      const userDocRef = doc(db, 'users', currentUser.uid);
+      const userAcccountDocRef = doc(userDocRef, 'accounts', accountID);
+
+      await updateDoc(userDocRef, {
         name: data?.name,
+        submittedAt: serverTimestamp(),
+      });
+
+      await updateDoc(userAcccountDocRef, {
         photoURL,
         signatureURL,
         submittedAt: serverTimestamp(),
