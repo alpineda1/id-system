@@ -1,7 +1,7 @@
-import IDFormComponent from 'components/id-form';
+import React from 'react';
 
 const HomeComponent = () => {
-  return <IDFormComponent />;
+  return <>Home Component</>;
 };
 
 export default HomeComponent;

@@ -1,6 +1,6 @@
 import { Toolbar, useMediaQuery } from '@mui/material';
 import { useAuth } from 'contexts/auth';
-import { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import BodyComponent from './components/body';
 import DrawerComponent from './components/drawer';
 import NavbarComponent from './components/navbar';
@@ -8,9 +8,9 @@ import NavbarComponent from './components/navbar';
 export const pages = [
   {
     text: 'Form',
-    route: '/',
+    route: '/form',
     icon: 'textbox',
-    end: true,
+    end: false,
   },
   {
     text: 'Preview',

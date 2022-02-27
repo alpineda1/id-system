@@ -8,7 +8,7 @@ const ThemeModule = (mode, theme) => ({
     ...(mode === 'light' ? LightTheme.palette : DarkTheme.palette),
   },
   shape: {
-    borderRadius: theme.spacing(1),
+    borderRadius: 8,
   },
   typography: {
     fontFamily: 'Inter, Roboto, Helvetica, Arial, sans-serif',

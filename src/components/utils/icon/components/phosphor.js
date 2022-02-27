@@ -7,6 +7,7 @@ import {
   CaretLeft,
   ChartBar,
   Compass,
+  Cursor,
   EnvelopeSimple,
   File,
   FileText,
@@ -53,6 +54,8 @@ const Phosphor = ({ icon, weight }) => {
       return <ChartBar weight={weight} />;
     case 'compass':
       return <Compass weight={weight} />;
+    case 'cursor':
+      return <Cursor weight={weight} />;
     case 'envelope-simple':
       return <EnvelopeSimple weight={weight} />;
     case 'file-text':

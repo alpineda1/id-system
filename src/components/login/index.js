@@ -30,6 +30,8 @@ const LoginComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    isMounted.current = true;
+
     return () => (isMounted.current = false);
   }, []);
 

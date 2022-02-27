@@ -4,7 +4,8 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const UserRoute = ({ children }) => {
-  const { currentUser, currentUserRoles, loading } = useAuth();
+  const { currentUser, currentUserRoles, currentUserRolesLoading, loading } =
+    useAuth();
 
   return loading ? (
     <LoadingComponent />
@@ -12,6 +13,8 @@ const UserRoute = ({ children }) => {
     <Navigate to='/login' replace />
   ) : currentUserRoles.includes('user') ? (
     children
+  ) : currentUserRolesLoading ? (
+    <LoadingComponent />
   ) : (
     <Navigate to='/' replace />
   );

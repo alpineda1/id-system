@@ -16,18 +16,29 @@ import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
 import { db, storage } from 'firebase.app';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  serverTimestamp,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const UploadButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'file',
 })(({ file, theme }) => ({
   borderRadius: theme.spacing(1.5),
-  ...(file && {
-    borderRadius: [0, 0, 0, theme.spacing(1.5)].join(' '),
-  }),
+  ...(file &&
+    !file.del && {
+      borderRadius: [0, 0, 0, theme.spacing(1.5)].join(' '),
+    }),
 }));
 
 const RemoveButton = styled(Button, {
@@ -69,6 +80,13 @@ const IDFormComponent = () => {
     },
     idNumber: '',
   });
+  const [accountID, setAccountID] = useState('');
+  const [accountData, setAccountData] = useState({
+    idNumber: '',
+    course: '',
+    strand: '',
+    level: '',
+  });
   const [error, setError] = useState('');
   const [idFile, setIdFile] = useState('');
   const [signatureFile, setSignatureFile] = useState('');
@@ -80,20 +98,48 @@ const IDFormComponent = () => {
   const { currentUser } = useAuth();
   const { open } = useSnackbar();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
+    isMounted.current = true;
+
     const getUserData = async () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
-        const dataRef = await getDoc(userDocumentRef);
-        const data = dataRef.data();
-        setData(data);
+        const queryRef = id
+          ? query(
+              collection(userDocumentRef, 'accounts'),
+              where('idNumber', '==', id),
+            )
+          : query(
+              collection(userDocumentRef, 'accounts'),
+              orderBy('createdAt'),
+            );
 
-        if (data?.photoURL) setIdFile({ url: data.photoURL });
-        if (data?.signatureURL) setSignatureFile({ url: data.signatureURL });
+        const dataRef = await getDoc(userDocumentRef);
+        const querySnapshot = await getDocs(queryRef);
+
+        const localData = dataRef.data();
+        const localAccountData = querySnapshot.docs.slice(-1)[0].data();
+
+        if (!isMounted.current) return;
+
+        setData(localData);
+        setAccountID(querySnapshot.docs.slice(-1)[0].id);
+        setAccountData({
+          ...localAccountData,
+          createdAt: localAccountData.createdAt.toDate(),
+        });
+
+        if (localAccountData?.photoURL)
+          setIdFile({ url: localAccountData?.photoURL });
+        if (localAccountData?.signatureURL)
+          setSignatureFile({ url: localAccountData?.signatureURL });
 
         setLoading(false);
       } catch (e) {
+        open(e.message, 'error');
+
         if (!isMounted.current) return;
 
         setError(e.message);
@@ -104,7 +150,7 @@ const IDFormComponent = () => {
     if (!!currentUser.uid) getUserData();
 
     return () => (isMounted.current = false);
-  }, [currentUser.uid]);
+  }, [currentUser.uid, id, open]);
 
   const handleNickChange = (e) => {
     setData((prev) => ({
@@ -132,18 +178,32 @@ const IDFormComponent = () => {
       const photoStorageRef = idFile?.file
         ? ref(
             storage,
-            `/users/photo/${currentUser.uid}.${idFile.file.name.split('.')[1]}`,
+            `/users/photo/${
+              accountData.level === 'College' ? 'college' : 'shs'
+            }-${currentUser.uid}.${idFile.file.name.split('.')[1]}`,
           )
         : '';
 
       const signatureStorageRef = signatureFile?.file
         ? ref(
             storage,
-            `users/signature/${currentUser.uid}.${
-              signatureFile.file.name.split('.')[1]
-            }`,
+            `users/signature/${
+              accountData.level === 'College' ? 'college' : 'shs'
+            }-${currentUser.uid}.${signatureFile.file.name.split('.')[1]}`,
           )
         : '';
+
+      if (!photoStorageRef && !idFile.url) {
+        setError('ID Photo cannot be empty');
+        setLoading(false);
+        return;
+      }
+
+      if (!signatureStorageRef && !signatureFile.url) {
+        setError('E-signature cannot be empty');
+        setLoading(false);
+        return;
+      }
 
       const uploadFiles = async (photoRef, signatureRef) => {
         const photo = photoRef
@@ -164,16 +224,16 @@ const IDFormComponent = () => {
           ? ''
           : photoRef
           ? await getDownloadURL(photoRef)
-          : data?.photoURL
-          ? data.photoURL
+          : accountData?.photoURL
+          ? accountData?.photoURL
           : '';
 
         const signature = signatureFile.del
           ? ''
           : signatureRef
           ? await getDownloadURL(signatureRef)
-          : data?.signatureURL
-          ? data.signatureURL
+          : accountData?.signatureURL
+          ? accountData?.signatureURL
           : '';
 
         return Promise.all([photo, signature]);
@@ -184,14 +244,22 @@ const IDFormComponent = () => {
         signatureStorageRef,
       );
 
-      await updateDoc(doc(db, 'users', currentUser.uid), {
-        name: data.name,
+      const userDocRef = doc(db, 'users', currentUser.uid);
+      const userAcccountDocRef = doc(userDocRef, 'accounts', accountID);
+
+      await updateDoc(userDocRef, {
+        name: data?.name,
+        createdAt: serverTimestamp(),
+      });
+
+      await updateDoc(userAcccountDocRef, {
         photoURL,
         signatureURL,
+        createdAt: serverTimestamp(),
       });
 
       const successMessage =
-        !data?.photoURL || !data?.signatureURL
+        !accountData?.photoURL || !accountData?.signatureURL
           ? 'Successfully uploaded images'
           : photoStorageRef && signatureStorageRef
           ? 'Successfully updated images'
@@ -199,7 +267,7 @@ const IDFormComponent = () => {
 
       open(successMessage, 'success');
 
-      navigate('/preview');
+      navigate(`/preview/${id}`);
     } catch (e) {
       open(e.message, 'error');
 
@@ -233,7 +301,7 @@ const IDFormComponent = () => {
               label='First Name'
               type='text'
               variant='filled'
-              value={loading ? '' : data.name?.first}
+              value={loading ? '' : data?.name?.first || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -251,7 +319,7 @@ const IDFormComponent = () => {
               label='Middle Name'
               type='text'
               variant='filled'
-              value={loading ? '' : data.name?.middle}
+              value={loading ? '' : data?.name?.middle || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -269,43 +337,7 @@ const IDFormComponent = () => {
               label='Last Name'
               type='text'
               variant='filled'
-              value={loading ? '' : data.name?.last}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    {loading && <CircularProgress size={25} />}
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-              }}
-            />
-
-            <TextField
-              id='idnumber-input'
-              disabled
-              name='idnumber'
-              label='ID number'
-              type='text'
-              variant='filled'
-              value={data.idNumber}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    {loading && <CircularProgress size={25} />}
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-              }}
-            />
-
-            <TextField
-              id='course-input'
-              disabled
-              name='course'
-              label='Course'
-              type='text'
-              variant='filled'
-              value={data.course?.abbreviation}
+              value={loading ? '' : data?.name?.last || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -323,8 +355,64 @@ const IDFormComponent = () => {
               type='text'
               variant='filled'
               pattern='[a-zA-Z]*'
-              value={data.name?.nick}
+              value={loading ? '' : data?.name?.nick || ''}
               onChange={handleNickChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {loading && <CircularProgress size={25} />}
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            />
+
+            <TextField
+              id='idnumber-input'
+              disabled
+              name='idnumber'
+              label='ID number'
+              type='text'
+              variant='filled'
+              value={loading ? '' : accountData?.idNumber || ''}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {loading && <CircularProgress size={25} />}
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            />
+
+            <TextField
+              id='level-input'
+              disabled
+              name='level'
+              label='Level'
+              type='text'
+              variant='filled'
+              value={loading ? '' : accountData?.level || ''}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {loading && <CircularProgress size={25} />}
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            />
+
+            <TextField
+              id='course-input'
+              disabled
+              name='course'
+              label={accountData?.level === 'College' ? 'Course' : 'Strand'}
+              type='text'
+              variant='filled'
+              value={
+                loading ? '' : accountData?.course || accountData?.strand || ''
+              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -357,7 +445,7 @@ const IDFormComponent = () => {
                     fullWidth
                   >
                     {!idFile.url ? (
-                      <>Upload ID Picture</>
+                      <>Attach ID Picture</>
                     ) : (
                       <>Change ID Picture</>
                     )}
@@ -404,7 +492,7 @@ const IDFormComponent = () => {
                     fullWidth
                   >
                     {!signatureFile.url ? (
-                      <>Upload E-Signature</>
+                      <>Attach E-Signature</>
                     ) : (
                       <>Change E-Signature</>
                     )}

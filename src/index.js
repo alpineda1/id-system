@@ -1,6 +1,6 @@
 import App from 'app/app';
 import 'index.scss';
-import { StrictMode } from 'react';
+import React, { StrictMode } from 'react';
 import { render } from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 

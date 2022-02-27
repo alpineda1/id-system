@@ -21,7 +21,7 @@ import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
 import { db } from 'firebase.app';
 import { doc, getDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ToolbarStyledComponent = styled(Toolbar)(({ theme }) => ({
@@ -97,22 +97,33 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
   const [onTop, setOnTop] = useState(true);
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [popoverElement, setPopoverElement] = useState(null);
+  const [popoverElement, setPopoverElement] = useState(() => {});
+
+  const isMounted = useRef(false);
 
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const classes = useStyles();
 
   useEffect(() => {
+    isMounted.current = true;
+
     const getUserData = async () => {
       const userDocumentRef = doc(db, 'users', currentUser.uid);
       const dataRef = await getDoc(userDocumentRef);
-      setData(dataRef?.data());
 
+      if (!isMounted.current) return;
+
+      setData(dataRef?.data());
       setLoading(false);
     };
 
     if (!!currentUser.uid) getUserData();
+
+    return () => {
+      isMounted.current = false;
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [currentUser.uid]);
 
   const handlePopoverOpen = (e) => {
@@ -120,7 +131,7 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
   };
 
   const handlePopoverClose = () => {
-    setPopoverElement(null);
+    setPopoverElement(() => {});
   };
 
   const handleScroll = () => {
@@ -167,14 +178,14 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
                 className={classes.avatar}
                 onClick={handlePopoverOpen}
               >
-                {data.name?.first[0]}
-                {data.name?.last[0]}
+                {data?.name?.first[0]}
+                {data?.name?.last[0]}
               </Avatar>
 
               <Popover
                 id='account-popover'
                 className={classes.popover}
-                anchorEl={popoverElement}
+                anchorEl={popoverElement || null}
                 open={open}
                 anchorOrigin={{
                   vertical: 'bottom',
@@ -190,10 +201,10 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
                   <ListItem alignItems='flex-start'>
                     <ListItemText>
                       <Typography variant='h6'>
-                        {data.name?.first} {data.name?.last}
+                        {data?.name?.first} {data?.name?.last}
                       </Typography>
                       <Typography variant='body1'>
-                        {data.course?.abbreviation}
+                        {data?.course?.abbreviation}
                       </Typography>
                     </ListItemText>
                   </ListItem>

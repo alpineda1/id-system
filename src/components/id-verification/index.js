@@ -3,7 +3,7 @@ import { Alert, Container, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from 'contexts/auth';
 import { db } from 'firebase.app';
 import { doc, getDoc } from 'firebase/firestore';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const IdVerificationComponent = () => {
   const [error, setError] = useState('');
@@ -15,6 +15,8 @@ const IdVerificationComponent = () => {
   const { currentUser } = useAuth();
 
   useEffect(() => {
+    isMounted.current = true;
+
     return () => (isMounted.current = false);
   }, []);
 

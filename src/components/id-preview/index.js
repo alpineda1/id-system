@@ -7,8 +7,17 @@ import LoadingComponent from 'components/utils/loading';
 import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
 import { db } from 'firebase.app';
-import { doc, getDoc } from 'firebase/firestore';
-import { useEffect, useRef, useState } from 'react';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  where,
+} from 'firebase/firestore';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -109,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IDPreviewComponent = () => {
+const StudentIDPreviewComponent = () => {
   const [data, setData] = useState({
     name: {
       first: '',
@@ -122,6 +131,12 @@ const IDPreviewComponent = () => {
     },
     idNumber: '',
   });
+  const [accountData, setAccountData] = useState({
+    idNumber: '',
+    course: '',
+    strand: '',
+    level: '',
+  });
   const [loading, setLoading] = useState(true);
 
   const isMounted = useRef(true);
@@ -131,14 +146,34 @@ const IDPreviewComponent = () => {
   const { currentUser } = useAuth();
   const { open } = useSnackbar();
   const theme = useTheme();
+  const { id } = useParams();
 
   useEffect(() => {
+    isMounted.current = true;
+
     const getUserData = async () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
+        const queryRef = id
+          ? query(
+              collection(userDocumentRef, 'accounts'),
+              where('idNumber', '==', id),
+            )
+          : query(
+              collection(userDocumentRef, 'accounts'),
+              orderBy('createdAt'),
+            );
+
         const dataRef = await getDoc(userDocumentRef);
+        const querySnapshot = await getDocs(queryRef);
+
         const data = dataRef.data();
+        const localAccountData = querySnapshot.docs.slice(-1)[0].data();
+
+        if (!isMounted.current) return;
+
         setData(data);
+        setAccountData(localAccountData);
 
         setLoading(false);
       } catch (e) {
@@ -153,7 +188,7 @@ const IDPreviewComponent = () => {
     if (!!currentUser.uid) getUserData();
 
     return () => (isMounted.current = false);
-  }, [currentUser.uid, open]);
+  }, [currentUser.uid, open, id]);
 
   return (
     <Container maxWidth='sm' sx={{ width: '600px' }}>
@@ -164,13 +199,16 @@ const IDPreviewComponent = () => {
               <LoadingComponent />
             ) : (
               <>
-                <div className={classes.cardPhotoContainer}>
-                  <img
-                    className={classes.cardPhoto}
-                    src={data.photoURL || ''}
-                    alt='Identification'
-                  />
-                </div>
+                {accountData?.photoURL && (
+                  <div className={classes.cardPhotoContainer}>
+                    <img
+                      className={classes.cardPhoto}
+                      src={accountData.photoURL || ''}
+                      alt='Identification'
+                    />
+                  </div>
+                )}
+
                 <div className={classes.cardDetails}>
                   <Stack className={classes.centerStack} spacing={3}>
                     <img
@@ -199,11 +237,13 @@ const IDPreviewComponent = () => {
                           </Typography>
                         </Stack>
 
-                        <div className={classes.idNumber}>{data?.idNumber}</div>
+                        <div className={classes.idNumber}>
+                          {accountData?.idNumber}
+                        </div>
                       </Stack>
 
                       <div className={classes.course}>
-                        {data?.course?.abbreviation}
+                        {accountData?.course}
                       </div>
                     </Stack>
                   </Stack>
@@ -231,11 +271,13 @@ const IDPreviewComponent = () => {
                   <Grid item xs={6}>
                     <Stack spacing={2} className={classes.centerStack}>
                       <div className={classes.signatureContainer}>
-                        <img
-                          className={classes.signature}
-                          src={data?.signatureURL}
-                          alt='Student signature'
-                        />
+                        {accountData?.signatureURL && (
+                          <img
+                            className={classes.signature}
+                            src={accountData?.signatureURL}
+                            alt='Student signature'
+                          />
+                        )}
                       </div>
 
                       <Divider sx={{ width: '100%' }} />
@@ -266,7 +308,7 @@ const IDPreviewComponent = () => {
 
                       <Stack spacing={0.5} className={classes.centerStack}>
                         <Typography variant='body2'>
-                          Stanley Glenn Brucal
+                          Stanley Glenn E. Brucal
                         </Typography>
 
                         <Typography variant='body2'>Registrar</Typography>
@@ -303,4 +345,4 @@ const IDPreviewComponent = () => {
   );
 };
 
-export default IDPreviewComponent;
+export default StudentIDPreviewComponent;
