@@ -21,6 +21,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [currentUserRoles, setCurrentUserRoles] = useState([]);
+  const [currentUserRolesLoading, setCurrentUserRolesLoading] = useState(true);
   const [hasID, setHasID] = useState(false);
   const [hasIDLoading, setHasIDLoading] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -34,11 +35,19 @@ export const AuthContextProvider = ({ children }) => {
       logout: () => signOut(auth),
       currentUser,
       currentUserRoles,
+      currentUserRolesLoading,
       hasID,
       hasIDLoading,
       loading,
     }),
-    [currentUser, currentUserRoles, hasID, hasIDLoading, loading],
+    [
+      currentUser,
+      currentUserRoles,
+      currentUserRolesLoading,
+      hasID,
+      hasIDLoading,
+      loading,
+    ],
   );
 
   onAuthStateChanged(auth, async (currentUser) => {
@@ -53,6 +62,7 @@ export const AuthContextProvider = ({ children }) => {
       const data = dataRef.data();
 
       setCurrentUserRoles(data?.roles || []);
+      setCurrentUserRolesLoading(false);
       setHasID(!!data?.photoURL && !!data?.signatureURL);
       setHasIDLoading(false);
     };
