@@ -63,7 +63,7 @@ const screens = [
     fullscreen: true,
   },
   {
-    path: 'form/*',
+    path: 'form/:id',
     element: <IDFormScreen />,
     ScreenRoute: UserRoute,
     fullscreen: true,

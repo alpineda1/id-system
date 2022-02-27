@@ -16,10 +16,19 @@ import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
 import { db, storage } from 'firebase.app';
-import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const UploadButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'file',
@@ -70,6 +79,13 @@ const IDFormComponent = () => {
     },
     idNumber: '',
   });
+  const [accountID, setAccountID] = useState('');
+  const [accountData, setAccountData] = useState({
+    idNumber: '',
+    course: '',
+    strand: '',
+    level: '',
+  });
   const [error, setError] = useState('');
   const [idFile, setIdFile] = useState('');
   const [signatureFile, setSignatureFile] = useState('');
@@ -81,17 +97,25 @@ const IDFormComponent = () => {
   const { currentUser } = useAuth();
   const { open } = useSnackbar();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
+        const queryRef = query(
+          collection(userDocumentRef, 'accounts'),
+          where('idNumber', '==', id),
+        );
         const dataRef = await getDoc(userDocumentRef);
+        const querySnapshot = await getDocs(queryRef);
         const localData = dataRef.data();
 
         if (!isMounted.current) return;
 
         setData(localData);
+        setAccountID(querySnapshot.docs[0].id);
+        setAccountData(querySnapshot.docs[0].data());
 
         if (localData?.photoURL) setIdFile({ url: localData?.photoURL });
         if (localData?.signatureURL)
@@ -99,6 +123,8 @@ const IDFormComponent = () => {
 
         setLoading(false);
       } catch (e) {
+        open(e.message, 'error');
+
         if (!isMounted.current) return;
 
         setError(e.message);
@@ -109,7 +135,7 @@ const IDFormComponent = () => {
     if (!!currentUser.uid) getUserData();
 
     return () => (isMounted.current = false);
-  }, [currentUser.uid]);
+  }, [currentUser.uid, id, open]);
 
   const handleNickChange = (e) => {
     setData((prev) => ({
@@ -299,13 +325,50 @@ const IDFormComponent = () => {
             />
 
             <TextField
+              id='nickname-input'
+              name='Nickname'
+              label='Nickname'
+              type='text'
+              variant='filled'
+              pattern='[a-zA-Z]*'
+              value={loading ? '' : data?.name?.nick || ''}
+              onChange={handleNickChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {loading && <CircularProgress size={25} />}
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            />
+
+            <TextField
               id='idnumber-input'
               disabled
               name='idnumber'
               label='ID number'
               type='text'
               variant='filled'
-              value={loading ? '' : data?.idNumber || ''}
+              value={loading ? '' : accountData?.idNumber || ''}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {loading && <CircularProgress size={25} />}
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            />
+
+            <TextField
+              id='level-input'
+              disabled
+              name='level'
+              label='Level'
+              type='text'
+              variant='filled'
+              value={loading ? '' : accountData?.level || ''}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -320,29 +383,12 @@ const IDFormComponent = () => {
               id='course-input'
               disabled
               name='course'
-              label='Course'
+              label={accountData?.level === 'College' ? 'Course' : 'Strand'}
               type='text'
               variant='filled'
-              value={loading ? '' : data?.course?.abbreviation || ''}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    {loading && <CircularProgress size={25} />}
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-              }}
-            />
-
-            <TextField
-              id='nickname-input'
-              name='Nickname'
-              label='Nickname'
-              type='text'
-              variant='filled'
-              pattern='[a-zA-Z]*'
-              value={loading ? '' : data?.name?.nick || ''}
-              onChange={handleNickChange}
+              value={
+                loading ? '' : accountData?.course || accountData?.strand || ''
+              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
