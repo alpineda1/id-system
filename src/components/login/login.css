@@ -1,4 +1,9 @@
+form {
+    border: 3px solid 
+    #f1f1f1;}
+
 
 .background{
+    position: absolute;
     background-image: 'assets/APC bg.jpg';
 }
