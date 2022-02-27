@@ -265,7 +265,7 @@ const IDFormComponent = () => {
 
       open(successMessage, 'success');
 
-      navigate('/preview');
+      navigate(`/preview/${id}`);
     } catch (e) {
       open(e.message, 'error');
 

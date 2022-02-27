@@ -9,12 +9,6 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/system';
-import LoadingComponent from 'components/utils/loading';
-import { useAuth } from 'contexts/auth';
-import { useSnackbar } from 'contexts/snackbar';
-import { db } from 'firebase.app';
-import { collection, doc, getDocs } from 'firebase/firestore';
-import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,63 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IDListUserComponent = () => {
-  const [loading, setLoading] = useState(true);
-  const [userAccounts, setUserAccounts] = useState([]);
-
-  const isMounted = useRef(true);
-
+const IDListUserComponent = ({ userAccounts }) => {
   const classes = useStyles();
-
-  const { currentUser } = useAuth();
-  const { open } = useSnackbar();
   const theme = useTheme();
 
-  useEffect(() => {
-    isMounted.current = true;
-
-    const getUserAccounts = async () => {
-      if (!currentUser.uid) return;
-
-      setLoading(true);
-
-      try {
-        const userDocumentRef = doc(db, 'users', currentUser.uid);
-        const userAccountsCollectionRef = collection(
-          userDocumentRef,
-          'accounts',
-        );
-        const accountsRef = await getDocs(userAccountsCollectionRef);
-
-        if (accountsRef?.docs?.length <= 1) if (!isMounted.current) return;
-
-        setUserAccounts(
-          accountsRef?.docs
-            ?.map((doc) => doc.data())
-            .sort((a, b) =>
-              a?.createdAt.toDate() > b?.createdAt.toDate()
-                ? -1
-                : a?.createdAt.toDate() < b?.createdAt.toDate()
-                ? 1
-                : 0,
-            ),
-        );
-        setLoading(false);
-      } catch (e) {
-        open(e.message, 'error');
-
-        if (!isMounted.current) return;
-
-        setLoading(false);
-      }
-    };
-
-    getUserAccounts();
-
-    return () => (isMounted.current = false);
-  }, [currentUser.uid, open]);
-
-  return !loading ? (
+  return (
     <Container maxWidth='sm' sx={{ width: '100%' }}>
       <Stack spacing={3}>
         <Stack spacing={3}>
@@ -151,8 +93,6 @@ const IDListUserComponent = () => {
         </List>
       </Stack>
     </Container>
-  ) : (
-    <LoadingComponent />
   );
 };
 

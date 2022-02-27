@@ -57,6 +57,12 @@ const screens = [
     fullscreen: true,
   },
   {
+    path: 'preview/:id',
+    element: <IDPreviewScreen />,
+    ScreenRoute: HasIDRoute,
+    fullscreen: true,
+  },
+  {
     path: 'history/list',
     element: <HistoryListScreen />,
     ScreenRoute: PrivateRoute,

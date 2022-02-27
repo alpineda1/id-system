@@ -72,7 +72,7 @@ export const AuthContextProvider = ({ children }) => {
       setCurrentUserRoles(data?.roles || []);
       setCurrentUserRolesLoading(false);
       setCurrentUserAccounts(accountsData);
-      setHasID(accountsData.some((a) => a?.photoURL && a?.signatureURL));
+      setHasID(accountsData.some((a) => !!a?.photoURL && !!a?.signatureURL));
       setHasIDLoading(false);
     };
 
