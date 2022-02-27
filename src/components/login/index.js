@@ -5,6 +5,8 @@ import logo from 'assets/nu-apc.png';
 import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import 'style/login.css';
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,6 +66,7 @@ const LoginComponent = () => {
   };
 
   return (
+    <div className="background">
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
@@ -77,8 +80,8 @@ const LoginComponent = () => {
                 Login with <span className={styles.office}>Office 365</span>{' '}
                 Account
               </Typography>
+             
             </Stack>
-
             {error && <Alert severity='error'>{error}</Alert>}
 
             <TextField
@@ -109,6 +112,7 @@ const LoginComponent = () => {
           </LoadingButton>
         </Stack>
       </form>
+    </div>
     </div>
   );
 };
