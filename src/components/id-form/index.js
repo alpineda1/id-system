@@ -21,6 +21,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
   query,
   serverTimestamp,
   updateDoc,
@@ -103,23 +104,35 @@ const IDFormComponent = () => {
     const getUserData = async () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
-        const queryRef = query(
-          collection(userDocumentRef, 'accounts'),
-          where('idNumber', '==', id),
-        );
+        const queryRef = id
+          ? query(
+              collection(userDocumentRef, 'accounts'),
+              where('idNumber', '==', id),
+            )
+          : query(
+              collection(userDocumentRef, 'accounts'),
+              orderBy('createdAt'),
+            );
         const dataRef = await getDoc(userDocumentRef);
         const querySnapshot = await getDocs(queryRef);
         const localData = dataRef.data();
+        const localAccountData = querySnapshot.docs.slice(-1)[0].data();
 
         if (!isMounted.current) return;
 
         setData(localData);
-        setAccountID(querySnapshot.docs[0].id);
-        setAccountData(querySnapshot.docs[0].data());
+        setAccountID(querySnapshot.docs.slice(-1)[0].id);
+        setAccountData({
+          ...localAccountData,
+          createdAt: localAccountData.createdAt.toDate(),
+        });
 
-        if (localData?.photoURL) setIdFile({ url: localData?.photoURL });
-        if (localData?.signatureURL)
-          setSignatureFile({ url: localData?.signatureURL });
+        console.log(localAccountData?.photoURL);
+
+        if (localAccountData?.photoURL)
+          setIdFile({ url: localAccountData?.photoURL });
+        if (localAccountData?.signatureURL)
+          setSignatureFile({ url: localAccountData?.signatureURL });
 
         setLoading(false);
       } catch (e) {
@@ -207,16 +220,16 @@ const IDFormComponent = () => {
           ? ''
           : photoRef
           ? await getDownloadURL(photoRef)
-          : data?.photoURL
-          ? data?.photoURL
+          : accountData?.photoURL
+          ? accountData?.photoURL
           : '';
 
         const signature = signatureFile.del
           ? ''
           : signatureRef
           ? await getDownloadURL(signatureRef)
-          : data?.signatureURL
-          ? data?.signatureURL
+          : accountData?.signatureURL
+          ? accountData?.signatureURL
           : '';
 
         return Promise.all([photo, signature]);
@@ -232,17 +245,17 @@ const IDFormComponent = () => {
 
       await updateDoc(userDocRef, {
         name: data?.name,
-        submittedAt: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
 
       await updateDoc(userAcccountDocRef, {
         photoURL,
         signatureURL,
-        submittedAt: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
 
       const successMessage =
-        !data?.photoURL || !data?.signatureURL
+        !accountData?.photoURL || !accountData?.signatureURL
           ? 'Successfully uploaded images'
           : photoStorageRef && signatureStorageRef
           ? 'Successfully updated images'

@@ -90,11 +90,12 @@ const SignUpComponent = () => {
         last: lastnameRef?.current?.value || '',
         nick: nicknameRef?.current?.value || '',
       },
+      createdAt: serverTimestamp(),
     };
 
     const accountData = {
       course: courseRef?.current?.value || '',
-      createdAt: serverTimestamp(),
+      level: levelOfEducation,
       idNumber: idNumberRef?.current?.value || '',
     };
 
