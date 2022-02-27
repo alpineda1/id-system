@@ -21,7 +21,7 @@ import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
 import { db } from 'firebase.app';
 import { doc, getDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ToolbarStyledComponent = styled(Toolbar)(({ theme }) => ({

@@ -20,7 +20,9 @@ import HasIDRoute from 'routes/has-id';
 import NonAuthRoute from 'routes/non-auth';
 import PrivateRoute from 'routes/private';
 import PublicRoute from 'routes/public';
+import UserRoute from 'routes/user';
 import HistoryListScreen from 'screens/history-list';
+import IDFormScreen from 'screens/id-form';
 import IDPreviewScreen from 'screens/id-preview';
 import SignUpScreen from 'screens/signup';
 import './app.scss';
@@ -58,6 +60,13 @@ const screens = [
     path: 'history/list',
     element: <HistoryListScreen />,
     ScreenRoute: PrivateRoute,
+    fullscreen: true,
+  },
+  {
+    path: 'form/*',
+    element: <IDFormScreen />,
+    ScreenRoute: UserRoute,
+    fullscreen: true,
   },
 ];
 

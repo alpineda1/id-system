@@ -18,7 +18,7 @@ import { useSnackbar } from 'contexts/snackbar';
 import { db, storage } from 'firebase.app';
 import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const UploadButton = styled(Button, {

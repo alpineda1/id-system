@@ -14,8 +14,14 @@ import logo from 'assets/nu-apc.png';
 import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
 import { db } from 'firebase.app';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-import { useEffect, useRef, useState } from 'react';
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from 'firebase/firestore';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -87,9 +93,9 @@ const SignUpComponent = () => {
     };
 
     const accountData = {
-      level: levelOfEducation || '',
-      idNumber: idNumberRef?.current?.value || '',
       course: courseRef?.current?.value || '',
+      createdAt: serverTimestamp(),
+      idNumber: idNumberRef?.current?.value || '',
     };
 
     try {
@@ -100,8 +106,11 @@ const SignUpComponent = () => {
       const docRef = doc(db, 'users', user.uid);
       const accountCollectionRef = collection(docRef, 'accounts');
 
-      await setDoc(docRef, data);
-      await addDoc(accountCollectionRef, accountData);
+      await setDoc(docRef, { ...data, createdAt: serverTimestamp() });
+      await addDoc(accountCollectionRef, {
+        ...accountData,
+        createdAt: serverTimestamp(),
+      });
 
       navigate('/');
     } catch (e) {
