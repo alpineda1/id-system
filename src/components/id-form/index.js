@@ -101,6 +101,8 @@ const IDFormComponent = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    isMounted.current = true;
+
     const getUserData = async () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
@@ -126,8 +128,6 @@ const IDFormComponent = () => {
           ...localAccountData,
           createdAt: localAccountData.createdAt.toDate(),
         });
-
-        console.log(localAccountData?.photoURL);
 
         if (localAccountData?.photoURL)
           setIdFile({ url: localAccountData?.photoURL });
@@ -176,16 +176,18 @@ const IDFormComponent = () => {
       const photoStorageRef = idFile?.file
         ? ref(
             storage,
-            `/users/photo/${currentUser.uid}.${idFile.file.name.split('.')[1]}`,
+            `/users/photo/${
+              accountData.level === 'College' ? 'college' : 'shs'
+            }-${currentUser.uid}.${idFile.file.name.split('.')[1]}`,
           )
         : '';
 
       const signatureStorageRef = signatureFile?.file
         ? ref(
             storage,
-            `users/signature/${currentUser.uid}.${
-              signatureFile.file.name.split('.')[1]
-            }`,
+            `users/signature/${
+              accountData.level === 'College' ? 'college' : 'shs'
+            }-${currentUser.uid}.${signatureFile.file.name.split('.')[1]}`,
           )
         : '';
 

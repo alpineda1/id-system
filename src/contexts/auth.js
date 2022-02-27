@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import React, {
   createContext,
   useContext,
@@ -22,6 +22,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [currentUserRoles, setCurrentUserRoles] = useState([]);
   const [currentUserRolesLoading, setCurrentUserRolesLoading] = useState(true);
+  const [currentUserAccounts, setCurrentUserAccounts] = useState([]);
   const [hasID, setHasID] = useState(false);
   const [hasIDLoading, setHasIDLoading] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -36,6 +37,7 @@ export const AuthContextProvider = ({ children }) => {
       currentUser,
       currentUserRoles,
       currentUserRolesLoading,
+      currentUserAccounts,
       hasID,
       hasIDLoading,
       loading,
@@ -44,6 +46,7 @@ export const AuthContextProvider = ({ children }) => {
       currentUser,
       currentUserRoles,
       currentUserRolesLoading,
+      currentUserAccounts,
       hasID,
       hasIDLoading,
       loading,
@@ -58,12 +61,18 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const getUserData = async () => {
       const userDocumentRef = doc(db, 'users', currentUser?.uid);
+      const userAccountsCollectionRef = collection(userDocumentRef, 'accounts');
+
       const dataRef = await getDoc(userDocumentRef);
       const data = dataRef.data();
 
+      const accountsDataRef = await getDocs(userAccountsCollectionRef);
+      const accountsData = accountsDataRef.docs.map((doc) => doc.data());
+
       setCurrentUserRoles(data?.roles || []);
       setCurrentUserRolesLoading(false);
-      setHasID(!!data?.photoURL && !!data?.signatureURL);
+      setCurrentUserAccounts(accountsData);
+      setHasID(accountsData.some((a) => a?.photoURL && a?.signatureURL));
       setHasIDLoading(false);
     };
 

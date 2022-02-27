@@ -7,20 +7,14 @@ import NavbarComponent from './components/navbar';
 
 export const pages = [
   {
-    text: 'Select',
-    route: '/',
-    icon: 'cursor',
-    end: true,
-  },
-  {
     text: 'Form',
-    route: 'form',
+    route: '/form',
     icon: 'textbox',
-    end: true,
+    end: false,
   },
   {
     text: 'Preview',
-    route: 'preview',
+    route: '/preview',
     icon: 'identification-card',
     end: false,
     hasID: true,

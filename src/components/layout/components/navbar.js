@@ -21,7 +21,7 @@ import IconComponent from 'components/utils/icon';
 import { useAuth } from 'contexts/auth';
 import { db } from 'firebase.app';
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ToolbarStyledComponent = styled(Toolbar)(({ theme }) => ({
@@ -99,20 +99,31 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
   const [loading, setLoading] = useState(true);
   const [popoverElement, setPopoverElement] = useState(null);
 
+  const isMounted = useRef(false);
+
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const classes = useStyles();
 
   useEffect(() => {
+    isMounted.current = true;
+
     const getUserData = async () => {
       const userDocumentRef = doc(db, 'users', currentUser.uid);
       const dataRef = await getDoc(userDocumentRef);
-      setData(dataRef?.data());
 
+      if (!isMounted.current) return;
+
+      setData(dataRef?.data());
       setLoading(false);
     };
 
     if (!!currentUser.uid) getUserData();
+
+    return () => {
+      isMounted.current = false;
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [currentUser.uid]);
 
   const handlePopoverOpen = (e) => {

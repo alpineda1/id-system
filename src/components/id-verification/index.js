@@ -15,6 +15,8 @@ const IdVerificationComponent = () => {
   const { currentUser } = useAuth();
 
   useEffect(() => {
+    isMounted.current = true;
+
     return () => (isMounted.current = false);
   }, []);
 

@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IDPreviewComponent = () => {
+const StudentIDPreviewComponent = () => {
   const [data, setData] = useState({
     name: {
       first: '',
@@ -133,6 +133,8 @@ const IDPreviewComponent = () => {
   const theme = useTheme();
 
   useEffect(() => {
+    isMounted.current = true;
+
     const getUserData = async () => {
       try {
         const userDocumentRef = doc(db, 'users', currentUser.uid);
@@ -303,4 +305,4 @@ const IDPreviewComponent = () => {
   );
 };
 
-export default IDPreviewComponent;
+export default StudentIDPreviewComponent;

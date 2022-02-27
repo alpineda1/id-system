@@ -54,6 +54,8 @@ const SignUpComponent = () => {
   const { open } = useSnackbar();
 
   useEffect(() => {
+    isMounted.current = true;
+
     return () => (isMounted.current = false);
   }, []);
 
