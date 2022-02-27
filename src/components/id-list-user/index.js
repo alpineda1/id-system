@@ -21,7 +21,27 @@ const useStyles = makeStyles((theme) => ({
   cardItem: {
     borderRadius: theme.spacing(1.5),
     outline: `1px solid ${theme.palette.divider}`,
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100%',
+    overflow: 'hidden',
+  },
+  cardText: {
     padding: [theme.spacing(3), theme.spacing(4)].join(' '),
+  },
+  photoContainer: {
+    width: theme.spacing(20),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  photo: {
+    flex: 1,
+    objectFit: 'cover',
+    objectPosition: 'center',
+    minWidth: '100%',
+    minHeight: '100%',
   },
 }));
 
@@ -94,10 +114,7 @@ const IDListUserComponent = () => {
         <List>
           {userAccounts.length > 0 &&
             userAccounts.map(
-              (
-                { course, idNumber, level, photoURL, signatureURL, strand },
-                index,
-              ) => (
+              ({ course, idNumber, level, photoURL, strand }, index) => (
                 <Link to={`/form/${idNumber}`} key={index}>
                   <ListItemButton
                     sx={{
@@ -107,7 +124,17 @@ const IDListUserComponent = () => {
                     }}
                   >
                     <Box className={classes.cardItem} sx={{ width: '100%' }}>
-                      <ListItemText>
+                      {photoURL && (
+                        <div className={classes.photoContainer}>
+                          <img
+                            className={classes.photo}
+                            src={photoURL}
+                            alt='Identification'
+                          />
+                        </div>
+                      )}
+
+                      <ListItemText className={classes.cardText}>
                         <Typography variant='h5' gutterBottom>
                           {idNumber}
                         </Typography>
