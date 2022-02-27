@@ -7,7 +7,7 @@ import { collection, doc, getDocs } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const IDFormSelectComponent = () => {
+const IDPreviewSelectComponent = () => {
   const [loading, setLoading] = useState(true);
   const [userAccounts, setUserAccounts] = useState([]);
 
@@ -34,7 +34,7 @@ const IDFormSelectComponent = () => {
         const accountsRef = await getDocs(userAccountsCollectionRef);
 
         if (accountsRef?.docs?.length <= 1) {
-          navigate(`/form/${accountsRef?.docs?.[0].data().idNumber}`);
+          navigate(`/preview/${accountsRef?.docs?.[0].data().idNumber}`);
           return;
         }
 
@@ -67,10 +67,10 @@ const IDFormSelectComponent = () => {
   }, [currentUser.uid, open, navigate]);
 
   return !loading ? (
-    <IDListUserComponent prefix='form' userAccounts={userAccounts} />
+    <IDListUserComponent prefix='preview' userAccounts={userAccounts} />
   ) : (
     <LoadingComponent />
   );
 };
 
-export default IDFormSelectComponent;
+export default IDPreviewSelectComponent;

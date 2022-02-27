@@ -97,7 +97,7 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
   const [onTop, setOnTop] = useState(true);
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [popoverElement, setPopoverElement] = useState(null);
+  const [popoverElement, setPopoverElement] = useState(() => {});
 
   const isMounted = useRef(false);
 
@@ -131,7 +131,7 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
   };
 
   const handlePopoverClose = () => {
-    setPopoverElement(null);
+    setPopoverElement(() => {});
   };
 
   const handleScroll = () => {
@@ -185,7 +185,7 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
               <Popover
                 id='account-popover'
                 className={classes.popover}
-                anchorEl={popoverElement}
+                anchorEl={popoverElement || null}
                 open={open}
                 anchorOrigin={{
                   vertical: 'bottom',

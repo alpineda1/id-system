@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IDListUserComponent = ({ userAccounts }) => {
+const IDListUserComponent = ({ userAccounts, prefix = 'form' }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -57,7 +57,7 @@ const IDListUserComponent = ({ userAccounts }) => {
           {userAccounts.length > 0 &&
             userAccounts.map(
               ({ course, idNumber, level, photoURL, strand }, index) => (
-                <Link to={`/form/${idNumber}`} key={index}>
+                <Link to={`/${prefix}/${idNumber}`} key={index}>
                   <ListItemButton
                     sx={{
                       padding: 0,

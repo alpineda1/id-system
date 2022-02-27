@@ -115,8 +115,10 @@ const IDFormComponent = () => {
               collection(userDocumentRef, 'accounts'),
               orderBy('createdAt'),
             );
+
         const dataRef = await getDoc(userDocumentRef);
         const querySnapshot = await getDocs(queryRef);
+
         const localData = dataRef.data();
         const localAccountData = querySnapshot.docs.slice(-1)[0].data();
 
