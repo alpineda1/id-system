@@ -24,6 +24,13 @@ export const pages = [
   {
     text: 'Students List',
     route: '/students',
+    icon: 'clock-counter-clockwise',
+    end: false,
+    roles: ['admin'],
+  },
+  {
+    text: 'History',
+    route: '/history',
     icon: 'users',
     end: false,
     roles: ['admin'],

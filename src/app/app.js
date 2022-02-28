@@ -22,13 +22,12 @@ import NonAuthRoute from 'routes/non-auth';
 import PrivateRoute from 'routes/private';
 import PublicRoute from 'routes/public';
 import UserRoute from 'routes/user';
-import HistoryListScreen from 'screens/history-list';
-import IDFormScreen from 'screens/id-form';
-import IDPreviewScreen from 'screens/id-preview';
-import SignUpScreen from 'screens/signup';
-import UsersScreen from 'screens/users';
 import './app.scss';
 
+const HistoryScreen = lazy(() => import('screens/history'));
+const IDFormScreen = lazy(() => import('screens/id-form'));
+const IDPreviewScreen = lazy(() => import('screens/id-preview'));
+const SignUpScreen = lazy(() => import('screens/signup'));
 const HomeScreen = lazy(() => import('screens/home'));
 const LoginScreen = lazy(() => import('screens/login'));
 const NotFoundScreen = lazy(() => import('screens/not-found'));
@@ -65,14 +64,8 @@ const screens = [
     fullscreen: true,
   },
   {
-    path: 'history/list',
-    element: <HistoryListScreen />,
-    ScreenRoute: AdminRoute,
-    fullscreen: true,
-  },
-  {
-    path: 'students',
-    element: <UsersScreen />,
+    path: 'history',
+    element: <HistoryScreen />,
     ScreenRoute: AdminRoute,
     fullscreen: false,
   },
