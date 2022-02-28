@@ -20,6 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const HeaderStyle = {
+  width: "100%",
+  height: "110vh",
+  backgroundPosition:"center",
+  backgroundRepeat:"no-repeat",
+  backgroundSize: "cover",
+}
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -69,7 +76,7 @@ const LoginComponent = () => {
 
   return (
    
-  <div class='bg'>
+  <div class='bg' className={HeaderStyle}>
         <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
