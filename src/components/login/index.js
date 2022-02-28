@@ -69,8 +69,8 @@ const LoginComponent = () => {
 
   return (
     <div className='bg'>
-  <div className={styles.loginbg}>
-    <div className={styles.container}>
+  
+    <div className={styles.container} id="bg">
       <form className={styles.formcss} onSubmit={handleSubmit}>
         <Stack spacing={6}>
           <Stack spacing={3}>
@@ -117,7 +117,7 @@ const LoginComponent = () => {
       </form>
       </div>
     </div>
-    </div>
+
   );
 };
 
