@@ -20,14 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BGStyle = {
-  width: "100%",
-  height: "110vh",
-  backgroundPosition:"center",
-  backgroundRepeat:"no-repeat",
-  backgroundSize: "cover",
-  backgroundImage: {bgimg},
-}
+
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -76,7 +69,7 @@ const LoginComponent = () => {
   };
 
   return (
-  <div className= {BGStyle} style = {{backgroundImage: {bgimg}}}>
+  <div id="bg" style = {{backgroundImage: {bgimg}}}>
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
