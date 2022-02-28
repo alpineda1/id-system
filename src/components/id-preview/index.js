@@ -282,7 +282,7 @@ const StudentIDPreviewComponent = () => {
                         )}
                       </div>
 
-                      <Divider sx={{ width: '100%' }} />
+                      <Divider sx={{ width: '100%', zIndex: 1 }} />
 
                       <Stack spacing={0.5} className={classes.centerStack}>
                         <Typography variant='body2'>
@@ -297,7 +297,11 @@ const StudentIDPreviewComponent = () => {
                   </Grid>
 
                   <Grid item xs={6}>
-                    <Stack spacing={2} className={classes.centerStack}>
+                    <Stack
+                      spacing={2}
+                      className={classes.centerStack}
+                      sx={{ zIndex: 1 }}
+                    >
                       <div className={classes.signatureContainer}>
                         <img
                           className={classes.signature}
