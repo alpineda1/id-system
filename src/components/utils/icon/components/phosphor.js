@@ -33,6 +33,7 @@ import {
   UserCircle,
   UserCirclePlus,
   UserPlus,
+  Users,
   UsersThree,
 } from 'phosphor-react';
 
@@ -104,6 +105,8 @@ const Phosphor = ({ icon, weight }) => {
       return <UserCirclePlus weight={weight} />;
     case 'user-plus':
       return <UserPlus weight={weight} />;
+    case 'users':
+      return <Users weight={weight} />;
     case 'users-three':
       return <UsersThree weight={weight} />;
     default:

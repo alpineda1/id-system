@@ -11,10 +11,10 @@ const AdminRoute = ({ children }) => {
     <LoadingComponent />
   ) : !currentUser ? (
     <Navigate to='/login' replace />
-  ) : currentUserRoles.includes('admin') ? (
-    children
   ) : currentUserRolesLoading ? (
     <LoadingComponent />
+  ) : currentUserRoles.includes('admin') ? (
+    children
   ) : (
     <Navigate to='/' replace />
   );

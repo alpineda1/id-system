@@ -18,7 +18,7 @@ const ContentComponent = ({
   handleDrawerClose = () => {},
   handleToggleDrawer,
 }) => {
-  const { hasID } = useAuth();
+  const { currentUserRolesLoading, currentUserRoles, hasID } = useAuth();
 
   return (
     <Fragment>
@@ -36,6 +36,11 @@ const ContentComponent = ({
         {pages &&
           pages
             .filter((p) => (hasID ? p : !p.hasID))
+            .filter((p) =>
+              currentUserRolesLoading
+                ? p
+                : p.roles.some((r) => currentUserRoles.includes(r)),
+            )
             .map(({ text, route, icon, end = false }, index) => (
               <NavLink
                 className={({ isActive }) => (isActive ? 'is-active' : '')}
