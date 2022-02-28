@@ -226,8 +226,8 @@ const StudentIDPreviewComponent = () => {
                             className={classes.cardFullname}
                             variant='body1'
                           >
-                            {data?.name?.first}{' '}
-                            {data?.name?.middle && `${data?.name?.middle}.`}{' '}
+                            {data?.name?.first} {data?.name?.middle}
+                            {data?.name?.middle?.length === 1 && '.'}{' '}
                             {data?.name?.last}
                           </Typography>
 
@@ -286,8 +286,8 @@ const StudentIDPreviewComponent = () => {
 
                       <Stack spacing={0.5} className={classes.centerStack}>
                         <Typography variant='body2'>
-                          {data?.name?.first}{' '}
-                          {data?.name?.middle && `${data?.name?.middle}.`}{' '}
+                          {data?.name?.first} {data?.name?.middle}
+                          {data?.name?.middle?.length === 1 && '.'}{' '}
                           {data?.name?.last}
                         </Typography>
 
