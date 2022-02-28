@@ -7,6 +7,8 @@ import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.scss';
+import { app } from 'firebase.app';
+//import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 
 const useStyles = makeStyles((theme) => ({
   backgroundContainer: {
@@ -51,6 +53,8 @@ const LoginComponent = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const isMounted = useRef(true);
 
@@ -94,6 +98,23 @@ const LoginComponent = () => {
     }
   };
 
+  const handleLogin = () => {
+    app
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch((err) => {
+        switch (err.code) {
+          case "auth/email-already-in-use":
+          case "auth/invalid-email":
+            setEmailError(err.message);
+            break;
+          case "auth/weak-password":
+            setPasswordError(err.message);
+            break;
+          default:
+        }
+      });
+  };
   return (
     <>
       <div className={classes.backgroundContainer}>
@@ -135,6 +156,7 @@ const LoginComponent = () => {
                 variant='filled'
                 InputProps={{ disableUnderline: true }}
               />
+              <p className="errorMsg">{emailError}</p>
 
               <TextField
                 autoComplete='current-password'
@@ -146,9 +168,10 @@ const LoginComponent = () => {
                 variant='filled'
                 InputProps={{ disableUnderline: true }}
               />
+              <p className="errorMsg">{passwordError}</p>
             </Stack>
 
-            <LoadingButton loading={loading} type='submit' variant='contained'>
+            <LoadingButton loading={loading} type='submit' variant='contained' onClick={handleLogin}>
               Login
             </LoadingButton>
           </Stack>
