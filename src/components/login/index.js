@@ -6,7 +6,7 @@ import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-import background from 'assets/APC bg.jpg'
+//import background from 'assets/APC bg.jpg'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     color: '#DC3E15',
   },
-  loginbg: {
-    backgroundImage: {background}
-  }
 }));
 
 
