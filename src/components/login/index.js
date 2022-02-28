@@ -16,7 +16,13 @@ const useStyles = makeStyles((theme) => ({
   office: {
     fontWeight: 600,
     color: '#DC3E15',
-  
+  },
+  loginbg:{
+    backgroundImage: 'assets/APC bg.jpg',
+    height: "380px",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    position: 'absolute',
   },
 }));
 
@@ -68,7 +74,7 @@ const LoginComponent = () => {
   };
 
   return (
-  <div className="bg">
+  <div className={styles.loginbg}>
     <div className={styles.container}>
       <form className="formcss" onSubmit={handleSubmit}>
         <Stack spacing={6}>
