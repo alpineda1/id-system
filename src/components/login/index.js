@@ -103,7 +103,6 @@ const LoginComponent = () => {
         default:
           return setError(e.message);
       }
-      props.login({email, password})
     }
   };
 
@@ -136,8 +135,11 @@ const LoginComponent = () => {
                 </Typography>
               </Stack>
 
-              {error && <Alert severity='error' onClick={() => setError(null)}>{error}</Alert>}
-              {props.error || error}
+              {error && (
+                <Alert severity='error' onClick={() => setError(null)}>
+                  {error}
+                </Alert>
+              )}
 
               <TextField
                 autoComplete='email'
