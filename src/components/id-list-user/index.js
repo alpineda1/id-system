@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
+    borderRight: ['1px solid', theme.palette.divider].join(' '),
   },
   photo: {
     flex: 1,

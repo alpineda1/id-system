@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     overflow: 'hidden',
     height: '100%',
+    borderRight: ['1px solid', theme?.palette?.secondary?.dark].join(' '),
   },
   cardPhoto: {
     flex: 1,
@@ -78,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
   cardFullname: {
     fontSize: '1.2em !important',
     fontWeight: '600 !important',
+    textAlign: 'center',
     padding: [0, theme.spacing(5)].join(' '),
   },
   cardNickname: {
