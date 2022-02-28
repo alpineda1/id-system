@@ -17,16 +17,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     color: '#DC3E15',
   },
-  formcss:{ 
-    border: 1
-},
-  loginbg:{
-    backgroundImage: 'assets/APC bg.jpg',
-    height: "380px",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    position: 'absolute',
-  },
+ 
 }));
 
 
