@@ -41,9 +41,11 @@ export const AuthContextProvider = ({ children }) => {
       logout: () => signOut(auth),
       currentUser,
       currentUserRoles,
+      handleCurrentUserRolesChange: (value) => setCurrentUserRoles(value),
       currentUserRolesLoading,
       currentUserAccounts,
       hasID,
+      handleHasIDChange: (value) => setHasID(value),
       hasIDLoading,
       loading,
     }),
@@ -72,12 +74,12 @@ export const AuthContextProvider = ({ children }) => {
       const userAccountsCollectionRef = collection(userDocumentRef, 'accounts');
 
       const dataRef = await getDocFromServer(userDocumentRef);
-      const data = dataRef.data();
+      const data = dataRef?.data();
 
       const accountsDataRef = await getDocsFromServer(
         userAccountsCollectionRef,
       );
-      const accountsData = accountsDataRef.docs.map((doc) => doc.data());
+      const accountsData = accountsDataRef?.docs?.map((doc) => doc?.data());
 
       setCurrentUserRoles(data?.roles || []);
       setCurrentUserRolesLoading(false);

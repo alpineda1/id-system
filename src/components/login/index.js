@@ -135,7 +135,11 @@ const LoginComponent = () => {
                 </Typography>
               </Stack>
 
-              {error && <Alert severity='error'>{error}</Alert>}
+              {error && (
+                <Alert severity='error' onClick={() => setError(null)}>
+                  {error}
+                </Alert>
+              )}
 
               <TextField
                 autoComplete='email'
