@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
   loginpage: {
     backgroundSize: "cover",
-    backgroundImage: 'assets/APC bg.jpg'
-  }
+    backgroundImage: 'assets/APC bg.jpg',
+  },
 }));
 
 const LoginComponent = () => {
