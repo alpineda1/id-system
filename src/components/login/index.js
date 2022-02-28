@@ -65,6 +65,7 @@ const LoginComponent = () => {
   };
 
   return (
+  <body>
   <div id='bm-img'>
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
@@ -113,6 +114,7 @@ const LoginComponent = () => {
       </form>
       </div>
     </div>
+    </body>
   );
 };
 

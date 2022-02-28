@@ -4,6 +4,13 @@ form {
 }
 
 
-#id{
+body{
     background-image: 'assets/APC bg.jpg';
+}
+
+/*navbar*/
+.grad-bar {
+    width: 100%;
+    height: 15px;
+    background: #dfc010;
 }
