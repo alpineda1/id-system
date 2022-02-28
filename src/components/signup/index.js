@@ -92,7 +92,6 @@ const SignUpComponent = () => {
         last: lastnameRef?.current?.value || '',
         nick: nicknameRef?.current?.value || '',
       },
-      createdAt: serverTimestamp(),
     };
 
     const accountData = {

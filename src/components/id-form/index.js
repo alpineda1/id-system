@@ -95,7 +95,12 @@ const IDFormComponent = () => {
   const isMounted = useRef(true);
 
   const classes = useStyles();
-  const { currentUser } = useAuth();
+  const {
+    currentUser,
+    loading: currentUserLoading,
+    currentUserRolesLoading,
+    handleHasIDChange,
+  } = useAuth();
   const { open } = useSnackbar();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -147,10 +152,11 @@ const IDFormComponent = () => {
       }
     };
 
-    if (!!currentUser.uid) getUserData();
+    if (!!currentUser.uid && !currentUserLoading && !currentUserRolesLoading)
+      getUserData();
 
     return () => (isMounted.current = false);
-  }, [currentUser.uid, id, open]);
+  }, [currentUser.uid, id, open, currentUserLoading, currentUserRolesLoading]);
 
   const handleNickChange = (e) => {
     setData((prev) => ({
@@ -277,7 +283,9 @@ const IDFormComponent = () => {
 
       open(successMessage, 'success');
 
-      navigate(`/preview/${id}`);
+      handleHasIDChange(true);
+
+      navigate(id ? `/preview/${id}` : '/preview');
     } catch (e) {
       open(e.message, 'error');
 
