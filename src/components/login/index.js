@@ -15,12 +15,17 @@ const useStyles = makeStyles((theme) => ({
   office: {
     fontWeight: 600,
     color: '#DC3E15',
-  },
-  loginpage: {
-    backgroundSize: "cover",
-    backgroundImage: 'assets/APC bg.jpg',
+  
   },
 }));
+
+const HeaderStyle = {
+  width: "100%",
+  height: "110vh",
+  backgroundPosition:"center",
+  backgroundRepeat:"no-repeat",
+  backgroundSize: "cover",
+}
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -70,7 +75,7 @@ const LoginComponent = () => {
 
   return (
   <body>
-  <div className = {styles.loginpage}>
+  <div className = {HeaderStyle}>
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
