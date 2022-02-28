@@ -9,6 +9,7 @@ const StyledComponent = styled(Box, {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  position: 'relative',
   padding: [theme.spacing(4), theme.spacing(2)].join(' '),
   minHeight: !fullscreen
     ? 'initial'
