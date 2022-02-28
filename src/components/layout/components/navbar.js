@@ -41,7 +41,7 @@ const AppBarStyledComponent = styled(AppBar, {
   shouldForwardProp: (prop) =>
     prop !== 'drawerOpen' && prop !== 'noHover' && prop !== 'onTop',
 })(({ drawerOpen, noHover, onTop, theme }) => ({
-  background: theme.palette.background.dark, 
+  background: theme.palette.background.primary, 
   color: theme.palette.text.primary,
   boxShadow: theme.shadows[0],
   marginLeft: theme.spacing(0),
