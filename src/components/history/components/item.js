@@ -1,10 +1,4 @@
-import {
-  Grid,
-  ListItemButton as MaterialListItemButton,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { styled, useTheme } from '@mui/system';
 import React, { forwardRef } from 'react';
@@ -42,7 +36,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListItemButton = styled(MaterialListItemButton)(({ theme }) => ({
+const ListItem = styled(Box)(({ theme }) => ({
   width: '100%',
   padding: [theme.spacing(3), theme.spacing(4)].join(' '),
   borderRadius: theme.spacing(1.5),
@@ -56,7 +50,7 @@ const ItemComponent = forwardRef(({ data, index, classes }, ref) => {
 
   return (
     <div className={classes.itemWrapper} key={index} ref={ref}>
-      <ListItemButton>
+      <ListItem>
         <Stack spacing={2} className={classes.itemContainer}>
           <Grid container>
             <Grid
@@ -82,7 +76,7 @@ const ItemComponent = forwardRef(({ data, index, classes }, ref) => {
             </Grid>
           </Grid>
         </Stack>
-      </ListItemButton>
+      </ListItem>
     </div>
   );
 });

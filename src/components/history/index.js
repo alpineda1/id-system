@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import ItemComponent, { useStyles } from 'components/history/components/item';
 import VirtualListComponent from 'components/virtual-list';
 import { db } from 'firebase.app';
@@ -18,6 +18,11 @@ const HistoryComponent = () => {
   const [loading, setLoading] = useState(true);
   const [filterString, setFilterString] = useState('');
   const [filterLoading, setFilterLoading] = useState(false);
+  const [filterYear, setFilterYear] = useState([]);
+  const [filterLevel, setFilterLevel] = useState([
+    'College',
+    'Senior High School',
+  ]);
 
   const isMounted = useRef(true);
   const filterTimeout = useRef(0);
@@ -64,31 +69,65 @@ const HistoryComponent = () => {
     }, 350);
   };
 
-  const filteredData = data.filter((d) =>
-    filterString
-      ? normalizeText(d?.name?.first).includes(normalizeText(filterString)) ||
-        normalizeText(d?.name?.last).includes(normalizeText(filterString)) ||
-        normalizeText(d?.idNumber).includes(normalizeText(filterString))
-      : d,
-  );
+  const handleYearChange = (e) => {
+    const { value } = e?.target;
+    setFilterYear(typeof value === 'string' ? value.split(',') : value);
+  };
+
+  const handleLevelChange = (e) => {
+    const { value } = e?.target;
+    setFilterLevel(typeof value === 'string' ? value.split(',') : value);
+  };
+
+  const filteredData = data
+    .filter((d) =>
+      filterString
+        ? normalizeText(d?.name?.first).includes(normalizeText(filterString)) ||
+          normalizeText(d?.name?.last).includes(normalizeText(filterString)) ||
+          normalizeText(d?.idNumber).includes(normalizeText(filterString))
+        : d,
+    )
+    .filter((d) =>
+      filterYear.length > 0 ? filterYear.includes(d.idNumber.split('-')[0]) : d,
+    )
+    .filter((d) => filterLevel.includes(d?.level))
+    .sort((a, b) =>
+      a.createdAt.toDate() > b.createdAt.toDate()
+        ? -1
+        : a.createdAt.toDate() < b.createdAt.toDate()
+        ? 1
+        : 0,
+    );
 
   return (
     <Stack spacing={4} sx={{ width: '100%' }}>
-      <FilterComponent
-        functions={{ handleFilterChange }}
-        variables={{ filterLoading }}
-      />
+      <Stack spacing={2}>
+        <Typography variant='h6'>Filter options</Typography>
 
-      <div className={classes.itemMainContainer}>
-        <VirtualListComponent
-          cache={cache}
-          data={filteredData}
-          loading={loading}
-          Component={ItemComponent}
-          LoadingComponent={LoadingComponent}
-          classes={classes}
+        <FilterComponent
+          functions={{
+            handleFilterChange,
+            handleYearChange,
+            handleLevelChange,
+          }}
+          variables={{ filterLoading, filterYear, filterLevel }}
         />
-      </div>
+      </Stack>
+
+      <Stack spacing={2}>
+        <Typography variant='h6'>History list</Typography>
+
+        <div className={classes.itemMainContainer}>
+          <VirtualListComponent
+            cache={cache}
+            data={filteredData}
+            loading={loading}
+            Component={ItemComponent}
+            LoadingComponent={LoadingComponent}
+            classes={classes}
+          />
+        </div>
+      </Stack>
     </Stack>
   );
 };
