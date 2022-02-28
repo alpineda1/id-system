@@ -65,7 +65,7 @@ const LoginComponent = () => {
   };
 
   return (
-      <div className='background'>
+  <div class='bm-img'>
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
