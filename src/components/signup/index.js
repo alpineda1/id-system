@@ -114,11 +114,6 @@ const SignUpComponent = () => {
         createdAt: serverTimestamp(),
       });
 
-      await addDoc(collection(db, 'history'), {
-        ...accountData,
-        createdAt: serverTimestamp(),
-      });
-
       navigate('/');
     } catch (e) {
       open(e.message, 'error');

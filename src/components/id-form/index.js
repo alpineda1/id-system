@@ -17,6 +17,7 @@ import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
 import { db, storage } from 'firebase.app';
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -265,6 +266,14 @@ const IDFormComponent = () => {
 
       await updateDoc(userDocRef, {
         name: data?.name,
+        createdAt: serverTimestamp(),
+      });
+
+      await addDoc(collection(db, 'history'), {
+        ...data,
+        ...accountData,
+        photoURL,
+        signatureURL,
         createdAt: serverTimestamp(),
       });
 
