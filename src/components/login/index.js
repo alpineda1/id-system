@@ -101,14 +101,13 @@ const LoginComponent = () => {
   const handleLogin = () => {
     app
       .auth()
-      .createUserWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password)
       .catch((err) => {
         switch (err.code) {
-          case "auth/email-already-in-use":
           case "auth/invalid-email":
             setEmailError(err.message);
             break;
-          case "auth/weak-password":
+          case "auth/wrong-password":
             setPasswordError(err.message);
             break;
           default:
