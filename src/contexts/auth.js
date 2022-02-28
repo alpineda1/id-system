@@ -5,7 +5,12 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocFromServer,
+  getDocsFromServer,
+} from 'firebase/firestore';
 import React, {
   createContext,
   useContext,
@@ -63,10 +68,12 @@ export const AuthContextProvider = ({ children }) => {
       const userDocumentRef = doc(db, 'users', currentUser?.uid);
       const userAccountsCollectionRef = collection(userDocumentRef, 'accounts');
 
-      const dataRef = await getDoc(userDocumentRef);
+      const dataRef = await getDocFromServer(userDocumentRef);
       const data = dataRef.data();
 
-      const accountsDataRef = await getDocs(userAccountsCollectionRef);
+      const accountsDataRef = await getDocsFromServer(
+        userAccountsCollectionRef,
+      );
       const accountsData = accountsDataRef.docs.map((doc) => doc.data());
 
       setCurrentUserRoles(data?.roles || []);

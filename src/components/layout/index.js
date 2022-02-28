@@ -11,13 +11,22 @@ export const pages = [
     route: '/form',
     icon: 'textbox',
     end: false,
+    roles: ['user'],
   },
   {
     text: 'Preview',
     route: '/preview',
     icon: 'identification-card',
     end: false,
+    roles: ['user'],
     hasID: true,
+  },
+  {
+    text: 'Students List',
+    route: '/students',
+    icon: 'users',
+    end: false,
+    roles: ['admin'],
   },
 ];
 

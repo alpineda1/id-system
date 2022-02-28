@@ -16,6 +16,7 @@ import { SnackbarProvider } from 'contexts/snackbar';
 import { ThemeContextProvider } from 'contexts/theme';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react/cjs/react.production.min';
+import AdminRoute from 'routes/admin';
 import HasIDRoute from 'routes/has-id';
 import NonAuthRoute from 'routes/non-auth';
 import PrivateRoute from 'routes/private';
@@ -25,6 +26,7 @@ import HistoryListScreen from 'screens/history-list';
 import IDFormScreen from 'screens/id-form';
 import IDPreviewScreen from 'screens/id-preview';
 import SignUpScreen from 'screens/signup';
+import UsersScreen from 'screens/users';
 import './app.scss';
 
 const HomeScreen = lazy(() => import('screens/home'));
@@ -65,7 +67,13 @@ const screens = [
   {
     path: 'history/list',
     element: <HistoryListScreen />,
-    ScreenRoute: PrivateRoute,
+    ScreenRoute: AdminRoute,
+    fullscreen: true,
+  },
+  {
+    path: 'students',
+    element: <UsersScreen />,
+    ScreenRoute: AdminRoute,
     fullscreen: true,
   },
   {
