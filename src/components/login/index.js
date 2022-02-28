@@ -96,7 +96,7 @@ const LoginComponent = () => {
       setLoading(false);
 
       switch (e.code) {
-        case 'auth/invalid-email':
+        case 'auth/user-not-found':
           return setEmailError('Invalid email');
         case 'auth/wrong-password':
           return setPasswordError('Incorrect credentials');
