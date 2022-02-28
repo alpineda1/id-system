@@ -7,8 +7,6 @@ import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.scss';
-import { app } from 'firebase.app';
-//import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 
 const useStyles = makeStyles((theme) => ({
   backgroundContainer: {
@@ -53,8 +51,8 @@ const LoginComponent = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const isMounted = useRef(true);
 
@@ -70,11 +68,13 @@ const LoginComponent = () => {
 
   const handleEmailChange = (e) => {
     setError('');
+    setEmailError('');
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setError('');
+    setPasswordError('');
     setPassword(e.target.value);
   };
 
@@ -93,27 +93,19 @@ const LoginComponent = () => {
     } catch (e) {
       if (!isMounted.current) return;
 
-      setError(e.message);
       setLoading(false);
+
+      switch (e.code) {
+        case 'auth/invalid-email':
+          return setEmailError('Invalid email');
+        case 'auth/wrong-password':
+          return setPasswordError('Incorrect credentials');
+        default:
+          return setError(e.message);
+      }
     }
   };
 
-  const handleLogin = () => {
-    app
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch((err) => {
-        switch (err.code) {
-          case "auth/invalid-email":
-            setEmailError(err.message);
-            break;
-          case "auth/wrong-password":
-            setPasswordError(err.message);
-            break;
-          default:
-        }
-      });
-  };
   return (
     <>
       <div className={classes.backgroundContainer}>
@@ -151,11 +143,12 @@ const LoginComponent = () => {
                 label='Email'
                 onChange={handleEmailChange}
                 type='email'
+                error={!!emailError}
+                helperText={emailError ? emailError : null}
                 value={email}
                 variant='filled'
                 InputProps={{ disableUnderline: true }}
               />
-              <p className="errorMsg">{emailError}</p>
 
               <TextField
                 autoComplete='current-password'
@@ -163,14 +156,15 @@ const LoginComponent = () => {
                 label='Password'
                 onChange={handlePasswordChange}
                 type='password'
+                error={!!passwordError}
+                helperText={passwordError ? passwordError : null}
                 value={password}
                 variant='filled'
                 InputProps={{ disableUnderline: true }}
               />
-              <p className="errorMsg">{passwordError}</p>
             </Stack>
 
-            <LoadingButton loading={loading} type='submit' variant='contained' onClick={handleLogin}>
+            <LoadingButton loading={loading} type='submit' variant='contained'>
               Login
             </LoadingButton>
           </Stack>
