@@ -1,32 +1,50 @@
 import { LoadingButton } from '@mui/lab';
 import { Alert, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import background from 'assets/apc-building.jpg';
 import logo from 'assets/nu-apc.png';
 import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
-//import background from 'assets/APC bg.jpg'
+import './index.scss';
 
 const useStyles = makeStyles((theme) => ({
+  backgroundContainer: {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    height: '100%',
+    width: '100%',
+    top: 0,
+    left: 0,
+    zIndex: -2,
+  },
+  backgroundOverlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    zIndex: -1,
+  },
+  background: {
+    flex: 1,
+    objectFit: 'cover',
+    objectPosition: 'center',
+    minWidth: '100%',
+    minHeight: '100%',
+  },
   container: {
     width: '100%',
-    maxWidth: theme.spacing(50),
-    border: 1
+    maxWidth: theme.spacing(56),
+    padding: [theme.spacing(4), theme.spacing(3)].join(' '),
+    backgroundColor: theme.palette.background.default,
+    borderRadius: theme.spacing(1.5),
+    border: ['1px solid', theme.palette.divider].join(' '),
   },
   office: {
     fontWeight: 600,
     color: '#DC3E15',
   },
 }));
-
-const HeaderStyle = {
-  width: "100%",
-  height: "110vh",
-  backgroundPosition:"center",
-  backgroundRepeat:"no-repeat",
-  backgroundSize: "cover",
-}
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -36,7 +54,7 @@ const LoginComponent = () => {
 
   const isMounted = useRef(true);
 
-  const styles = useStyles();
+  const classes = useStyles();
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -77,58 +95,66 @@ const LoginComponent = () => {
   };
 
   return (
-   
-  <div class='bg' className={HeaderStyle}>
-        <div className={styles.container}>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={6}>
-          <Stack spacing={3}>
-            <Stack spacing={1}>
-              <img alt='NU-APC' src={logo} />
-              <Typography sx={{ textAlign: 'center' }} variant='h5'>
-                APC Identification System
-              </Typography>
-              <Typography sx={{ textAlign: 'center' }} variant='body1'>
-                Login with <span className={styles.office}>Office 365</span>{' '}
-                Account
-              </Typography>
+    <>
+      <div className={classes.backgroundContainer}>
+        <img
+          className={classes.background}
+          src={background}
+          alt='APC Building'
+        />
+      </div>
+
+      <div
+        className={`${classes.backgroundContainer} ${classes.backgroundOverlay}`}
+      />
+
+      <div className={classes.container}>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={6}>
+            <Stack spacing={3}>
+              <Stack spacing={1}>
+                <img alt='NU-APC' src={logo} />
+                <Typography sx={{ textAlign: 'center' }} variant='h5'>
+                  APC Identification System
+                </Typography>
+                <Typography sx={{ textAlign: 'center' }} variant='body1'>
+                  Login with <span className={classes.office}>Office 365</span>{' '}
+                  Account
+                </Typography>
+              </Stack>
+
+              {error && <Alert severity='error'>{error}</Alert>}
+
+              <TextField
+                autoComplete='email'
+                disabled={loading}
+                label='Email'
+                onChange={handleEmailChange}
+                type='email'
+                value={email}
+                variant='filled'
+                InputProps={{ disableUnderline: true }}
+              />
+
+              <TextField
+                autoComplete='current-password'
+                disabled={loading}
+                label='Password'
+                onChange={handlePasswordChange}
+                type='password'
+                value={password}
+                variant='filled'
+                InputProps={{ disableUnderline: true }}
+              />
             </Stack>
 
-            {error && <Alert severity='error'>{error}</Alert>}
-
-            <TextField
-              autoComplete='email'
-              disabled={loading}
-              label='Email'
-              onChange={handleEmailChange}
-              type='email'
-              value={email}
-              variant='filled'
-              InputProps={{ disableUnderline: true }}
-            />
-
-            <TextField
-              autoComplete='current-password'
-              disabled={loading}
-              label='Password'
-              onChange={handlePasswordChange}
-              type='password'
-              value={password}
-              variant='filled'
-              InputProps={{ disableUnderline: true }}
-            />
+            <LoadingButton loading={loading} type='submit' variant='contained'>
+              Login
+            </LoadingButton>
           </Stack>
-
-          <LoadingButton loading={loading} type='submit' variant='contained'>
-            Login
-          </LoadingButton>
-        </Stack>
-      </form>
+        </form>
       </div>
-      </div>
-
-  
-
+    </>
   );
 };
 

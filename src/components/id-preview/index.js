@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     overflow: 'hidden',
     height: '100%',
+    borderRight: ['1px solid', theme?.palette?.secondary?.dark].join(' '),
   },
   cardPhoto: {
     flex: 1,
@@ -78,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
   cardFullname: {
     fontSize: '1.2em !important',
     fontWeight: '600 !important',
+    textAlign: 'center',
     padding: [0, theme.spacing(5)].join(' '),
   },
   cardNickname: {
@@ -224,8 +226,8 @@ const StudentIDPreviewComponent = () => {
                             className={classes.cardFullname}
                             variant='body1'
                           >
-                            {data?.name?.first}{' '}
-                            {data?.name?.middle && `${data?.name?.middle}.`}{' '}
+                            {data?.name?.first} {data?.name?.middle}
+                            {data?.name?.middle?.length === 1 && '.'}{' '}
                             {data?.name?.last}
                           </Typography>
 
@@ -284,8 +286,8 @@ const StudentIDPreviewComponent = () => {
 
                       <Stack spacing={0.5} className={classes.centerStack}>
                         <Typography variant='body2'>
-                          {data?.name?.first}{' '}
-                          {data?.name?.middle && `${data?.name?.middle}.`}{' '}
+                          {data?.name?.first} {data?.name?.middle}
+                          {data?.name?.middle?.length === 1 && '.'}{' '}
                           {data?.name?.last}
                         </Typography>
 
