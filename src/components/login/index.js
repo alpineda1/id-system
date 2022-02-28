@@ -69,7 +69,7 @@ const LoginComponent = () => {
 
   return (
    
-  <body className='bg'>
+  <body class='bg'>
         <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
