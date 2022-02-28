@@ -20,13 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-var bgStyle = {
-  backgroundImage: 'assets/APC bg.jpg',
-  height: "380px",
-  backgroundPosition: "center",
-  backgroundSize: "cover",
-  position: "absolute",
-}
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -75,7 +68,7 @@ const LoginComponent = () => {
   };
 
   return (
-  <div className={bgStyle}>
+  <div className="bg">
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
