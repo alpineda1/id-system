@@ -200,11 +200,8 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
                 <List>
                   <ListItem alignItems='flex-start'>
                     <ListItemText>
-                      <Typography variant='h6'>
+                      <Typography variant='h6' gutterBottom>
                         {data?.name?.first} {data?.name?.last}
-                      </Typography>
-                      <Typography variant='body1'>
-                        {data?.course?.abbreviation}
                       </Typography>
                     </ListItemText>
                   </ListItem>
