@@ -5,17 +5,28 @@ import logo from 'assets/nu-apc.png';
 import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './login.css';
+//import background from 'assets/APC bg.jpg'
 
 const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     maxWidth: theme.spacing(50),
+    border: 1
   },
   office: {
     fontWeight: 600,
     color: '#DC3E15',
   },
 }));
+
+const HeaderStyle = {
+  width: "100%",
+  height: "110vh",
+  backgroundPosition:"center",
+  backgroundRepeat:"no-repeat",
+  backgroundSize: "cover",
+}
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -66,7 +77,9 @@ const LoginComponent = () => {
   };
 
   return (
-    <div className={styles.container}>
+   
+  <div class='bg' className={HeaderStyle}>
+        <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
           <Stack spacing={3}>
@@ -111,7 +124,11 @@ const LoginComponent = () => {
           </LoadingButton>
         </Stack>
       </form>
-    </div>
+      </div>
+      </div>
+
+  
+
   );
 };
 
