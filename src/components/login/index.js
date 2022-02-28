@@ -6,7 +6,7 @@ import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-import bgimg from 'assets/APC bg.jpg'
+//import bgimg from 'assets/APC bg.jpg'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,7 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
+var bgStyle = {
+  backgroundImage: 'assets/APC bg.jpg',
+  height: "380px",
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+  position: "absolute",
+}
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -69,7 +75,7 @@ const LoginComponent = () => {
   };
 
   return (
-  <div id="bg" style = {{backgroundImage: {bgimg}}}>
+  <div className={bgStyle}>
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
