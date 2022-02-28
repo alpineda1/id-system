@@ -68,7 +68,7 @@ const LoginComponent = () => {
   };
 
   return (
-    <div className='bg'>
+   
   
     <div className={styles.container} id="bg">
       <form className={styles.formcss} onSubmit={handleSubmit}>
@@ -116,7 +116,7 @@ const LoginComponent = () => {
         </Stack>
       </form>
       </div>
-    </div>
+  
 
   );
 };
