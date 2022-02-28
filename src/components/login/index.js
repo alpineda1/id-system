@@ -6,6 +6,7 @@ import { useAuth } from 'contexts/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
+import bgimg from 'assets/APC bg.jpg'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,6 +26,7 @@ const HeaderStyle = {
   backgroundPosition:"center",
   backgroundRepeat:"no-repeat",
   backgroundSize: "cover",
+  backgroundImage: {bgimg},
 }
 
 const LoginComponent = () => {
