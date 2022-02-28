@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
     maxWidth: theme.spacing(50),
+    border: 1
   },
   office: {
     fontWeight: 600,
@@ -73,7 +74,7 @@ const LoginComponent = () => {
    
   <body className={styles.loginbg}>
         <div className={styles.container}>
-      <form className={styles.formcss} onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
           <Stack spacing={3}>
             <Stack spacing={1}>
