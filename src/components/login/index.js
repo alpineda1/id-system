@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     color: '#DC3E15',
   },
-formcss:{
-border: 1
+  formcss:{ 
+    border: 1
 },
   loginbg:{
     backgroundImage: 'assets/APC bg.jpg',
@@ -77,6 +77,7 @@ const LoginComponent = () => {
   };
 
   return (
+    <div className='bg'>
   <div className={styles.loginbg}>
     <div className={styles.container}>
       <form className={styles.formcss} onSubmit={handleSubmit}>
@@ -125,7 +126,7 @@ const LoginComponent = () => {
       </form>
       </div>
     </div>
-   
+    </div>
   );
 };
 
