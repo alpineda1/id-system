@@ -97,8 +97,8 @@ const ContentComponent = ({
         </List>
       ) : (
         <List>
-          {[0, 1, 3].map((n) => (
-            <ItemComponent>
+          {[0, 1, 3].map((n, index) => (
+            <ItemComponent key={index}>
               <ListItemIcon>
                 <Skeleton variant='circular' width={24} height={24} />
               </ListItemIcon>

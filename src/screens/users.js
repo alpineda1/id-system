@@ -1,7 +1,8 @@
+import UsersComponent from 'components/users';
 import React from 'react';
 
 const UsersScreen = () => {
-  return <div>sdfsdf</div>;
+  return <UsersComponent />;
 };
 
 export default UsersScreen;

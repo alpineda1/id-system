@@ -1,13 +1,13 @@
 import App from 'app/app';
 import 'index.scss';
-import React, { StrictMode } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
 render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  // <StrictMode>
+  <App />,
+  // </StrictMode>,
   document.getElementById('root'),
 );
 

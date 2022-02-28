@@ -74,7 +74,7 @@ const screens = [
     path: 'students',
     element: <UsersScreen />,
     ScreenRoute: AdminRoute,
-    fullscreen: true,
+    fullscreen: false,
   },
   {
     path: 'form',
