@@ -208,7 +208,9 @@ const SignUpComponent = () => {
             <TextField
               autoComplete='on'
               disabled={loading}
-              label='Course'
+              label={
+                levelOfEducation === 'Senior High School' ? 'Strand' : 'Course'
+              }
               inputRef={courseRef}
               variant='filled'
               InputProps={{ disableUnderline: true }}
