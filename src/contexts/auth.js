@@ -65,6 +65,9 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const getUserData = async () => {
+      setCurrentUserRolesLoading(true);
+      setHasIDLoading(true);
+
       const userDocumentRef = doc(db, 'users', currentUser?.uid);
       const userAccountsCollectionRef = collection(userDocumentRef, 'accounts');
 

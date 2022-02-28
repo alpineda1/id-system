@@ -51,6 +51,8 @@ const LoginComponent = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const isMounted = useRef(true);
 
@@ -66,11 +68,13 @@ const LoginComponent = () => {
 
   const handleEmailChange = (e) => {
     setError('');
+    setEmailError('');
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setError('');
+    setPasswordError('');
     setPassword(e.target.value);
   };
 
@@ -89,8 +93,16 @@ const LoginComponent = () => {
     } catch (e) {
       if (!isMounted.current) return;
 
-      setError(e.message);
       setLoading(false);
+
+      switch (e.code) {
+        case 'auth/invalid-email':
+          return setEmailError('Invalid email');
+        case 'auth/wrong-password':
+          return setPasswordError('Incorrect credentials');
+        default:
+          return setError(e.message);
+      }
     }
   };
 
@@ -131,6 +143,8 @@ const LoginComponent = () => {
                 label='Email'
                 onChange={handleEmailChange}
                 type='email'
+                error={!!emailError}
+                helperText={emailError ? emailError : null}
                 value={email}
                 variant='filled'
                 InputProps={{ disableUnderline: true }}
@@ -142,6 +156,8 @@ const LoginComponent = () => {
                 label='Password'
                 onChange={handlePasswordChange}
                 type='password'
+                error={!!passwordError}
+                helperText={passwordError ? passwordError : null}
                 value={password}
                 variant='filled'
                 InputProps={{ disableUnderline: true }}
