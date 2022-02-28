@@ -193,7 +193,17 @@ const IDFormComponent = () => {
           )
         : '';
 
+      if (!data?.name?.nick) {
+        window.scrollTo(0, 0);
+
+        setError('Nickname cannot be empty');
+        setLoading(false);
+        return;
+      }
+
       if (!photoStorageRef && !idFile.url) {
+        window.scrollTo(0, 0);
+
         setError('ID Photo cannot be empty');
         setLoading(false);
         return;
