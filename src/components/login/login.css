@@ -1,6 +1,6 @@
-.bg{
-   /* background-image: url('assets/APC bg.jpg');
-    */
+div .bg{
+   background-image: url('assets/APC bg.jpg');
+    
     background-color: rgb(255, 255, 255);
     min-height: 380px;
     background-position: center;
