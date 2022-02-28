@@ -4,7 +4,7 @@ const DarkTheme = {
       main: '#41509C',
       light: '#5161AD',
       dark: '#35438c',
-      white: '#FAC966'
+     
     },
     secondary: {
       main: '#F5C056',
