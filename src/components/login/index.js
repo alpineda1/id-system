@@ -70,7 +70,7 @@ const LoginComponent = () => {
   return (
   <div className="bg">
     <div className={styles.container}>
-      <form onSubmit={handleSubmit}>
+      <form className="formcss" onSubmit={handleSubmit}>
         <Stack spacing={6}>
           <Stack spacing={3}>
             <Stack spacing={1}>
