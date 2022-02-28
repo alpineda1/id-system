@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     color: '#DC3E15',
   },
+  loginpage: {
+    backgroundSize: "cover",
+    backgroundImage: 'assets/APC bg.jpg'
+  }
 }));
 
 const LoginComponent = () => {
@@ -66,7 +70,7 @@ const LoginComponent = () => {
 
   return (
   <body>
-  <div id='bm-img'>
+  <div className = {styles.loginpage}>
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={6}>
