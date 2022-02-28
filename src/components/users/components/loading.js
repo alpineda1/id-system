@@ -19,8 +19,8 @@ const LoadingComponent = () => {
 
   return (
     <Stack>
-      {[0, 1, 2, 3].map(() => (
-        <div className={classes.itemContainer}>
+      {[0, 1, 2, 3].map((_, index) => (
+        <div className={classes.itemContainer} key={index}>
           <Stack spacing={2}>
             <Skeleton height={50} width={`${randomWidth(50, 80)}%`} />
 

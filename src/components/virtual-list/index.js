@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const refreshCache = (cache) => {
-  if (cache) cache.clearAll();
+  if (!cache) return;
+  cache.clearAll();
 };
 
 const VirtualListComponent = ({
@@ -55,7 +56,7 @@ const VirtualListComponent = ({
                 width={width}
                 rowCount={data.length}
                 rowHeight={cache.rowHeight}
-                overscanRowCount={5}
+                overscanRowCount={1}
                 rowRenderer={CacheMeasurerComponent}
               />
             </div>
