@@ -52,6 +52,10 @@ const ItemComponent = forwardRef(({ data, index, classes }, ref) => {
     <div className={classes.itemWrapper} key={index} ref={ref}>
       <ListItem>
         <Stack spacing={2} className={classes.itemContainer}>
+          {data.reason && (
+            <Typography variant='body1'>{data.reason}</Typography>
+          )}
+
           <Grid container>
             <Grid
               item

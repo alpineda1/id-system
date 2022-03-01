@@ -1,4 +1,5 @@
 import { makeStyles } from '@mui/styles';
+import EmptyListComponent from 'components/empty-list';
 import React, { useEffect, useRef } from 'react';
 import { AutoSizer, List, WindowScroller } from 'react-virtualized';
 import CacheMeasurerComponent from './components/cache-measurer';
@@ -34,8 +35,10 @@ const VirtualListComponent = ({
     };
   }, [cache]);
 
-  return loading || (data && data.length <= 0) ? (
+  return loading ? (
     <LoadingComponent />
+  ) : data && data.length <= 0 ? (
+    <EmptyListComponent />
   ) : (
     <WindowScroller className={localClasses.windowScroller}>
       {({ height, registerChild, isScrolling, scrollTop }) => (

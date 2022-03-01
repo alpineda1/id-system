@@ -5,8 +5,6 @@ import ContentComponent from './drawer/content';
 import PermanentComponent from './drawer/permanent';
 import PersistentComponent from './drawer/persistent';
 
-// import
-
 const DrawerComponent = ({
   drawerOpen,
   handleDrawerClose,

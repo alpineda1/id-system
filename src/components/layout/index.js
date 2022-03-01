@@ -28,13 +28,13 @@ export const pages = [
     end: false,
     roles: ['admin'],
   },
-  // {
-  //   text: 'History',
-  //   route: '/history',
-  //   icon: 'users',
-  //   end: false,
-  //   roles: ['admin'],
-  // },
+  {
+    text: 'History',
+    route: '/history',
+    icon: 'users',
+    end: false,
+    roles: ['admin'],
+  },
 ];
 
 export const utils = [];

@@ -277,6 +277,12 @@ const IDFormComponent = () => {
         photoURL,
         signatureURL,
         createdAt: serverTimestamp(),
+        reason:
+          !accountData?.photoURL || !accountData?.signatureURL
+            ? 'Uploaded ID photo and signature for the first time'
+            : photoStorageRef && signatureStorageRef
+            ? 'Updated ID photo and signature'
+            : 'Changed nickname',
       });
 
       await updateDoc(userAcccountDocRef, {

@@ -14,7 +14,7 @@ const HomeScreen = ({ children }) => {
   ) : currentUserRolesLoading ? (
     <LoadingComponent />
   ) : currentUserRoles.includes('admin') ? (
-    <Navigate to='/history' replace />
+    <Navigate to='/students' replace />
   ) : currentUserRoles.includes('user') ? (
     <Navigate to='/form' replace />
   ) : (
