@@ -41,7 +41,7 @@ const AppBarStyledComponent = styled(AppBar, {
   shouldForwardProp: (prop) =>
     prop !== 'drawerOpen' && prop !== 'noHover' && prop !== 'onTop',
 })(({ drawerOpen, noHover, onTop, theme }) => ({
-  background: theme.palette.primary.light, 
+  background: theme.palette.primary.light,
   color: theme.palette.text.primary,
   boxShadow: theme.shadows[0],
   marginLeft: theme.spacing(0),
@@ -179,7 +179,6 @@ const NavbarComponent = ({ drawerOpen, handleDrawerOpen, noHover }) => {
                 onClick={handlePopoverOpen}
               >
                 {data?.name?.first[0]}
-                {data?.name?.last[0]}
               </Avatar>
 
               <Popover
