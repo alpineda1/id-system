@@ -116,7 +116,7 @@ const HistoryComponent = () => {
   return (
     <Stack spacing={4} sx={{ width: '100%' }}>
       <Stack spacing={2}>
-        <Typography variant='h6'>Filter options</Typography>
+        <Typography variant='h6'>Filter Options</Typography>
 
         <FilterComponent
           functions={{
@@ -137,7 +137,7 @@ const HistoryComponent = () => {
       </Stack>
 
       <Stack spacing={2}>
-        <Typography variant='h6'>History list</Typography>
+        <Typography variant='h6'>History List</Typography>
 
         <div className={classes.itemMainContainer}>
           <VirtualListComponent
