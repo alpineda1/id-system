@@ -31,6 +31,7 @@ const SignUpScreen = lazy(() => import('screens/signup'));
 const HomeScreen = lazy(() => import('screens/home'));
 const LoginScreen = lazy(() => import('screens/login'));
 const NotFoundScreen = lazy(() => import('screens/not-found'));
+const UsersScreen = lazy(() => import('screens/users'));
 
 const screens = [
   {
@@ -75,6 +76,12 @@ const screens = [
     ScreenRoute: UserRoute,
     fullscreen: true,
   },
+  // {
+  //   path: 'students',
+  //   element: <UsersScreen />,
+  //   ScreenRoute: AdminRoute,
+  //   fullscreen: false,
+  // },
   {
     path: 'form/:id',
     element: <IDFormScreen />,

@@ -125,6 +125,8 @@ const IDFormComponent = () => {
         const dataRef = await getDoc(userDocumentRef);
         const querySnapshot = await getDocs(queryRef);
 
+        console.log(dataRef);
+
         const localData = dataRef.data();
         const localAccountData = querySnapshot.docs.slice(-1)[0].data();
 
