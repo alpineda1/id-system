@@ -23,6 +23,10 @@ const HistoryComponent = () => {
     'College',
     'Senior High School',
   ]);
+  const [filterDateFrom, setFilterDateFrom] = useState(
+    new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+  );
+  const [filterDateTo, setFilterDateTo] = useState(new Date());
 
   const isMounted = useRef(true);
   const filterTimeout = useRef(0);
@@ -79,6 +83,14 @@ const HistoryComponent = () => {
     setFilterLevel(typeof value === 'string' ? value.split(',') : value);
   };
 
+  const handleDateFromChange = (e) => {
+    setFilterDateFrom(e);
+  };
+
+  const handleDateToChange = (e) => {
+    setFilterDateTo(e);
+  };
+
   const filteredData = data
     .filter((d) =>
       filterString
@@ -97,25 +109,35 @@ const HistoryComponent = () => {
         : a.createdAt.toDate() < b.createdAt.toDate()
         ? 1
         : 0,
-    );
+    )
+    .filter((d) => (filterDateFrom ? d.createdAt.toDate() > filterDateFrom : d))
+    .filter((d) => (filterDateTo ? d.createdAt.toDate() < filterDateTo : d));
 
   return (
     <Stack spacing={4} sx={{ width: '100%' }}>
       <Stack spacing={2}>
-        <Typography variant='h6'>Filter options</Typography>
+        <Typography variant='h6'>Filter Options</Typography>
 
         <FilterComponent
           functions={{
             handleFilterChange,
             handleYearChange,
             handleLevelChange,
+            handleDateFromChange,
+            handleDateToChange,
           }}
-          variables={{ filterLoading, filterYear, filterLevel }}
+          variables={{
+            filterLoading,
+            filterYear,
+            filterLevel,
+            filterDateFrom,
+            filterDateTo,
+          }}
         />
       </Stack>
 
       <Stack spacing={2}>
-        <Typography variant='h6'>History list</Typography>
+        <Typography variant='h6'>History List</Typography>
 
         <div className={classes.itemMainContainer}>
           <VirtualListComponent

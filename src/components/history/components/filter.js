@@ -1,3 +1,5 @@
+import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {
   Checkbox,
   CircularProgress,
@@ -65,7 +67,7 @@ const FilterComponent = ({ variables, functions }) => {
           md={6}
           sx={{
             paddingRight: mdUp && theme.spacing(1),
-            paddingBottom: !mdUp && theme.spacing(1),
+            paddingBottom: theme.spacing(1),
           }}
         >
           <FormControl fullWidth>
@@ -101,6 +103,7 @@ const FilterComponent = ({ variables, functions }) => {
           xs={12}
           md={6}
           sx={{
+            paddingBottom: theme.spacing(1),
             paddingLeft: mdUp && theme.spacing(1),
             paddingTop: !mdUp && theme.spacing(1),
           }}
@@ -133,6 +136,73 @@ const FilterComponent = ({ variables, functions }) => {
               ))}
             </Select>
           </FormControl>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            paddingTop: theme.spacing(1),
+            paddingRight: mdUp && theme.spacing(1),
+            paddingBottom: !mdUp && theme.spacing(1),
+          }}
+        >
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DesktopDatePicker
+              label='Submitted from'
+              mask='____-__-__'
+              inputFormat='yyyy-MM-dd'
+              InputProps={{ disableUnderline: true }}
+              renderInput={(params) => (
+                <TextField variant='filled' {...params} />
+              )}
+              components={{
+                OpenPickerIcon: () => (
+                  <IconComponent
+                    icon='calendar'
+                    iconType='phosphor'
+                    weight='duotone'
+                  />
+                ),
+              }}
+              onChange={functions.handleDateFromChange}
+              value={variables.filterDateFrom}
+            />
+          </LocalizationProvider>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            paddingLeft: mdUp && theme.spacing(1),
+            paddingTop: theme.spacing(1),
+          }}
+        >
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DesktopDatePicker
+              label='Submitted to'
+              mask='____-__-__'
+              inputFormat='yyyy-MM-dd'
+              InputProps={{ disableUnderline: true }}
+              renderInput={(params) => (
+                <TextField variant='filled' {...params} />
+              )}
+              components={{
+                OpenPickerIcon: () => (
+                  <IconComponent
+                    icon='calendar'
+                    iconType='phosphor'
+                    weight='duotone'
+                  />
+                ),
+              }}
+              onChange={functions.handleDateToChange}
+              value={variables.filterDateTo}
+            />
+          </LocalizationProvider>
         </Grid>
       </Grid>
     </Stack>
