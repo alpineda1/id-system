@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const UsersComponent = () => {
-  const [data, setData] = useState();
+  // const [data, setData] = useState();
 
   const isMounted = useRef(true);
 
