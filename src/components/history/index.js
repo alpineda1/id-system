@@ -23,6 +23,10 @@ const HistoryComponent = () => {
     'College',
     'Senior High School',
   ]);
+  const [filterDateFrom, setFilterDateFrom] = useState(
+    new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+  );
+  const [filterDateTo, setFilterDateTo] = useState(new Date());
 
   const isMounted = useRef(true);
   const filterTimeout = useRef(0);
@@ -79,6 +83,14 @@ const HistoryComponent = () => {
     setFilterLevel(typeof value === 'string' ? value.split(',') : value);
   };
 
+  const handleDateFromChange = (e) => {
+    setFilterDateFrom(e);
+  };
+
+  const handleDateToChange = (e) => {
+    setFilterDateTo(e);
+  };
+
   const filteredData = data
     .filter((d) =>
       filterString
@@ -97,7 +109,9 @@ const HistoryComponent = () => {
         : a.createdAt.toDate() < b.createdAt.toDate()
         ? 1
         : 0,
-    );
+    )
+    .filter((d) => (filterDateFrom ? d.createdAt.toDate() > filterDateFrom : d))
+    .filter((d) => (filterDateTo ? d.createdAt.toDate() < filterDateTo : d));
 
   return (
     <Stack spacing={4} sx={{ width: '100%' }}>
@@ -109,8 +123,16 @@ const HistoryComponent = () => {
             handleFilterChange,
             handleYearChange,
             handleLevelChange,
+            handleDateFromChange,
+            handleDateToChange,
           }}
-          variables={{ filterLoading, filterYear, filterLevel }}
+          variables={{
+            filterLoading,
+            filterYear,
+            filterLevel,
+            filterDateFrom,
+            filterDateTo,
+          }}
         />
       </Stack>
 
