@@ -55,6 +55,8 @@ const UsersComponent = () => {
           setData((prevData) => [
             ...prevData,
             ...userQuerySnapshot.docs.map((dd) => ({
+              id: dd.id,
+              uid: d.id,
               ...dd.data(),
               ...d.data(),
             })),
@@ -117,15 +119,15 @@ const UsersComponent = () => {
       filterYear.length > 0 ? filterYear.includes(d.idNumber.split('-')[0]) : d,
     )
     .filter((d) => filterLevel.includes(d?.level))
-    .sort((a, b) =>
-      a.createdAt.toDate() > b.createdAt.toDate()
-        ? -1
-        : a.createdAt.toDate() < b.createdAt.toDate()
-        ? 1
-        : 0,
-    )
     .filter((d) => (filterDateFrom ? d.createdAt.toDate() > filterDateFrom : d))
-    .filter((d) => (filterDateTo ? d.createdAt.toDate() < filterDateTo : d));
+    .filter((d) => (filterDateTo ? d.createdAt.toDate() < filterDateTo : d))
+    .sort((a, b) =>
+      a?.name?.last > b?.name?.last
+        ? 1
+        : a?.name?.last < b?.name?.last
+        ? -1
+        : 0,
+    );
 
   return (
     <Stack spacing={4} sx={{ width: '100%' }}>

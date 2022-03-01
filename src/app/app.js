@@ -83,7 +83,7 @@ const screens = [
     fullscreen: false,
   },
   {
-    path: 'student/:uid/:id',
+    path: 'students/:uid/:id',
     element: <UsersScreen />,
     ScreenRoute: AdminRoute,
     fullscreen: true,

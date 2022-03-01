@@ -1,7 +1,15 @@
-import { Box, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  Grid,
+  ListItemButton as MaterialListItemButton,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { styled, useTheme } from '@mui/system';
 import React, { forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const useStyles = makeStyles((theme) => ({
   itemMainContainer: {
@@ -36,6 +44,13 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ListItemButton = styled(MaterialListItemButton)(({ theme }) => ({
+  width: '100%',
+  padding: [theme.spacing(3), theme.spacing(4)].join(' '),
+  borderRadius: theme.spacing(1.5),
+  border: ['1px solid', theme.palette.divider].join(' '),
+}));
+
 const ListItem = styled(Box)(({ theme }) => ({
   width: '100%',
   padding: [theme.spacing(3), theme.spacing(4)].join(' '),
@@ -45,42 +60,75 @@ const ListItem = styled(Box)(({ theme }) => ({
 
 const ItemComponent = forwardRef(({ data, index, classes }, ref) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <div className={classes.itemWrapper} key={index} ref={ref}>
-      <ListItem>
-        <Stack spacing={2} className={classes.itemContainer}>
-          {data.reason && (
-            <Typography variant='body1'>{data.reason}</Typography>
-          )}
+      {data.photoURL && data.signatureURL ? (
+        <ListItemButton
+          onClick={() => navigate(`/students/${data.uid}/${data.id}`)}
+        >
+          <Stack spacing={2} className={classes.itemContainer}>
+            <Grid container>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                className={classes.gridItem}
+                sx={{ marginBottom: !lgAbove && theme.spacing(2) }}
+              >
+                <Stack>
+                  <Typography variant='h6'>
+                    {data?.name?.first} {data?.name?.last}
+                  </Typography>
+                  <Typography variant='body1'>{data?.idNumber}</Typography>
+                </Stack>
+              </Grid>
 
-          <Grid container>
-            <Grid
-              item
-              xs={12}
-              lg={6}
-              className={classes.gridItem}
-              sx={{ marginBottom: !lgAbove && theme.spacing(2) }}
-            >
-              <Stack>
-                <Typography variant='h6'>
-                  {data?.name?.first} {data?.name?.last}
-                </Typography>
-                <Typography variant='body1'>{data?.idNumber}</Typography>
-              </Stack>
+              <Grid item xs={12} lg={6} className={classes.gridItem}>
+                <Stack>
+                  <Typography variant='body2'>{data?.level}</Typography>
+                  <Typography variant='body2'>{data?.course}</Typography>
+                </Stack>
+              </Grid>
             </Grid>
+          </Stack>
+        </ListItemButton>
+      ) : (
+        <ListItem>
+          <Stack spacing={2} className={classes.itemContainer}>
+            {data.reason && (
+              <Typography variant='body1'>{data.reason}</Typography>
+            )}
 
-            <Grid item xs={12} lg={6} className={classes.gridItem}>
-              <Stack>
-                <Typography variant='body2'>{data?.level}</Typography>
-                <Typography variant='body2'>{data?.course}</Typography>
-              </Stack>
+            <Grid container>
+              <Grid
+                item
+                xs={12}
+                lg={6}
+                className={classes.gridItem}
+                sx={{ marginBottom: !lgAbove && theme.spacing(2) }}
+              >
+                <Stack>
+                  <Typography variant='h6'>
+                    {data?.name?.first} {data?.name?.last}
+                  </Typography>
+                  <Typography variant='body1'>{data?.idNumber}</Typography>
+                </Stack>
+              </Grid>
+
+              <Grid item xs={12} lg={6} className={classes.gridItem}>
+                <Stack>
+                  <Typography variant='body2'>{data?.level}</Typography>
+                  <Typography variant='body2'>{data?.course}</Typography>
+                </Stack>
+              </Grid>
             </Grid>
-          </Grid>
-        </Stack>
-      </ListItem>
+          </Stack>
+        </ListItem>
+      )}
     </div>
   );
 });
