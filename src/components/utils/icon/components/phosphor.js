@@ -6,6 +6,7 @@ import {
   Calendar,
   CaretLeft,
   ChartBar,
+  ClockCounterClockwise,
   Compass,
   Cursor,
   EnvelopeSimple,
@@ -55,6 +56,8 @@ const Phosphor = ({ icon, weight }) => {
       return <ChartBar weight={weight} />;
     case 'compass':
       return <Compass weight={weight} />;
+    case 'clock-counter-clockwise':
+      return <ClockCounterClockwise weight={weight} />;
     case 'cursor':
       return <Cursor weight={weight} />;
     case 'envelope-simple':

@@ -17,6 +17,7 @@ import { useAuth } from 'contexts/auth';
 import { useSnackbar } from 'contexts/snackbar';
 import { db, storage } from 'firebase.app';
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -123,6 +124,8 @@ const IDFormComponent = () => {
 
         const dataRef = await getDoc(userDocumentRef);
         const querySnapshot = await getDocs(queryRef);
+
+        console.log(dataRef);
 
         const localData = dataRef.data();
         const localAccountData = querySnapshot.docs.slice(-1)[0].data();
@@ -266,6 +269,20 @@ const IDFormComponent = () => {
       await updateDoc(userDocRef, {
         name: data?.name,
         createdAt: serverTimestamp(),
+      });
+
+      await addDoc(collection(db, 'history'), {
+        ...data,
+        ...accountData,
+        photoURL,
+        signatureURL,
+        createdAt: serverTimestamp(),
+        reason:
+          !accountData?.photoURL || !accountData?.signatureURL
+            ? 'Uploaded ID photo and signature for the first time'
+            : photoStorageRef && signatureStorageRef
+            ? 'Updated ID photo and signature'
+            : 'Changed nickname',
       });
 
       await updateDoc(userAcccountDocRef, {
