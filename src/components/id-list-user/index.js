@@ -2,6 +2,7 @@ import {
   Box,
   Container,
   List,
+  ListItem,
   ListItemButton,
   ListItemText,
   Stack,
@@ -40,7 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IDListUserComponent = ({ userAccounts, prefix = 'form' }) => {
+const IDListUserComponent = ({
+  userAccounts,
+  prefix = 'form',
+  disabledItem = {},
+}) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -57,9 +62,12 @@ const IDListUserComponent = ({ userAccounts, prefix = 'form' }) => {
         <List>
           {userAccounts.length > 0 &&
             userAccounts.map(
-              ({ course, idNumber, level, photoURL, strand }, index) => (
-                <Link to={`/${prefix}/${idNumber}`} key={index}>
-                  <ListItemButton
+              ({ course, idNumber, level, photoURL, strand }, index) =>
+                Object.keys(disabledItem)?.length > 0 &&
+                userAccounts[index][disabledItem?.param] ===
+                  disabledItem?.value ? (
+                  <ListItem
+                    key={index}
                     sx={{
                       padding: 0,
                       margin: [theme.spacing(3), 0].join(' '),
@@ -87,9 +95,40 @@ const IDListUserComponent = ({ userAccounts, prefix = 'form' }) => {
                         </Typography>
                       </ListItemText>
                     </Box>
-                  </ListItemButton>
-                </Link>
-              ),
+                  </ListItem>
+                ) : (
+                  <Link to={`/${prefix}/${idNumber}`} key={index}>
+                    <ListItemButton
+                      sx={{
+                        padding: 0,
+                        margin: [theme.spacing(3), 0].join(' '),
+                        borderRadius: theme.spacing(1.5),
+                      }}
+                    >
+                      <Box className={classes.cardItem} sx={{ width: '100%' }}>
+                        {photoURL && (
+                          <div className={classes.photoContainer}>
+                            <img
+                              className={classes.photo}
+                              src={photoURL}
+                              alt='Identification'
+                            />
+                          </div>
+                        )}
+
+                        <ListItemText className={classes.cardText}>
+                          <Typography variant='h5' gutterBottom>
+                            {idNumber}
+                          </Typography>
+                          <Typography variant='body1'>{level}</Typography>
+                          <Typography variant='body1'>
+                            {course || strand}
+                          </Typography>
+                        </ListItemText>
+                      </Box>
+                    </ListItemButton>
+                  </Link>
+                ),
             )}
         </List>
       </Stack>

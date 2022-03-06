@@ -67,7 +67,11 @@ const IDPreviewSelectComponent = () => {
   }, [currentUser.uid, open, navigate]);
 
   return !loading ? (
-    <IDListUserComponent prefix='preview' userAccounts={userAccounts} />
+    <IDListUserComponent
+      prefix='preview'
+      userAccounts={userAccounts}
+      disabledItem={{ param: 'level', value: 'Senior High School' }}
+    />
   ) : (
     <LoadingComponent />
   );
