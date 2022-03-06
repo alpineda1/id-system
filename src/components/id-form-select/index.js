@@ -67,7 +67,11 @@ const IDFormSelectComponent = () => {
   }, [currentUser.uid, open, navigate]);
 
   return !loading ? (
-    <IDListUserComponent prefix='form' userAccounts={userAccounts} />
+    <IDListUserComponent
+      prefix='form'
+      userAccounts={userAccounts}
+      disabledItem={{ param: 'level', value: 'Senior High School' }}
+    />
   ) : (
     <LoadingComponent />
   );
