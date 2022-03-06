@@ -125,8 +125,6 @@ const IDFormComponent = () => {
         const dataRef = await getDoc(userDocumentRef);
         const querySnapshot = await getDocs(queryRef);
 
-        console.log(dataRef);
-
         const localData = dataRef.data();
         const localAccountData = querySnapshot.docs.slice(-1)[0].data();
 
@@ -458,46 +456,78 @@ const IDFormComponent = () => {
               }}
             />
 
-            <Stack className={classes.uploadContainer}>
-              {idFile.url && (
-                <img className={classes.image} src={idFile.url} alt='Random' />
-              )}
+            <Stack spacing={2}>
+              <Stack spacing={1}>
+                <Typography variant='body1'>
+                  Please uplaod your picture (headshot up to your chest) here.
+                  Make sure the photo is well lighted.
+                </Typography>
 
-              <Stack direction='row'>
-                <label className={classes.label} htmlFor='id-photo'>
-                  <Input
-                    accept='image/*'
-                    id='id-photo'
-                    type='file'
-                    onChange={handlePhotoUpload}
-                  />
+                <ul>
+                  <li>
+                    <Typography variant='body1'>
+                      For male students, please wear a shirt with collar. For
+                      female students, please wear a blouse with collar.
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant='body1'>
+                      Please use a white background.
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant='body1'>
+                      Image size: 2 inches x 2 inches.
+                    </Typography>
+                  </li>
+                </ul>
+              </Stack>
 
-                  <UploadButton
-                    disabled={loading}
-                    file={idFile}
-                    variant='contained'
-                    component='span'
-                    fullWidth
-                  >
-                    {!idFile.url ? (
-                      <>Attach ID Picture</>
-                    ) : (
-                      <>Change ID Picture</>
-                    )}
-                  </UploadButton>
-                </label>
-
+              <Stack className={classes.uploadContainer}>
                 {idFile.url && (
-                  <RemoveButton
-                    color='secondary'
-                    disabled={loading}
-                    file={idFile}
-                    onClick={() => setIdFile({ del: true })}
-                    variant='contained'
-                  >
-                    <IconComponent icon='trash' />
-                  </RemoveButton>
+                  <img
+                    className={classes.image}
+                    src={idFile.url}
+                    alt='Random'
+                  />
                 )}
+
+                <Stack direction='row'>
+                  <label className={classes.label} htmlFor='id-photo'>
+                    <Input
+                      accept='image/*'
+                      id='id-photo'
+                      type='file'
+                      onChange={handlePhotoUpload}
+                    />
+
+                    <UploadButton
+                      disabled={loading}
+                      file={idFile}
+                      variant='contained'
+                      component='span'
+                      fullWidth
+                    >
+                      {!idFile.url ? (
+                        <>Attach ID Picture</>
+                      ) : (
+                        <>Change ID Picture</>
+                      )}
+                    </UploadButton>
+                  </label>
+
+                  {idFile.url && (
+                    <RemoveButton
+                      color='secondary'
+                      disabled={loading}
+                      file={idFile}
+                      onClick={() => setIdFile({ del: true })}
+                      variant='contained'
+                    >
+                      <IconComponent icon='trash' />
+                    </RemoveButton>
+                  )}
+                </Stack>
               </Stack>
             </Stack>
 
