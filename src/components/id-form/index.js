@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(1.5),
     outline: '1px solid #dddddd',
   },
+  noBreakline: {
+    whiteSpace: 'nowrap',
+  },
 }));
 
 const IDFormComponent = () => {
@@ -168,11 +171,13 @@ const IDFormComponent = () => {
 
   const handlePhotoUpload = (e) => {
     const file = e.target?.files?.[0];
+    setError('');
     setIdFile({ file, url: URL.createObjectURL(file) });
   };
 
   const handleSignatureUpload = (e) => {
     const file = e.target?.files?.[0];
+    setError('');
     setSignatureFile({ file, url: URL.createObjectURL(file) });
   };
 
@@ -180,6 +185,31 @@ const IDFormComponent = () => {
     e.preventDefault();
 
     setLoading(true);
+
+    if (
+      idFile?.file?.name?.split('.')?.[0] !== `PIC${accountData.idNumber}` &&
+      idFile?.file
+    ) {
+      window.scrollTo(0, 0);
+      setError(
+        "The file name of ID photo doesn't comply with the requirements",
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (
+      signatureFile?.file?.name?.split('.')?.[0] !==
+        `SIG${accountData.idNumber}` &&
+      signatureFile?.file
+    ) {
+      window.scrollTo(0, 0);
+      setError(
+        "The file name of the signature doesn't comply with the requirements",
+      );
+      setLoading(false);
+      return;
+    }
 
     try {
       const photoStorageRef = idFile?.file
@@ -217,6 +247,8 @@ const IDFormComponent = () => {
       }
 
       if (!signatureStorageRef && !signatureFile.url) {
+        window.scrollTo(0, 0);
+
         setError('E-signature cannot be empty');
         setLoading(false);
         return;
@@ -459,11 +491,22 @@ const IDFormComponent = () => {
             <Stack spacing={2}>
               <Stack spacing={1}>
                 <Typography variant='body1'>
-                  Please uplaod your picture (headshot up to your chest) here.
+                  Please upload your picture (headshot up to your chest) here.
                   Make sure the photo is well lighted.
                 </Typography>
 
                 <ul>
+                  <li>
+                    <Typography component='span' variant='body1'>
+                      Filename: <code>PICnumber.jpg</code> or <code>.png</code>.
+                      For example:{' '}
+                      <span className={classes.noBreakline}>
+                        <strong>
+                          <code>PIC2021-123456.jpg</code>
+                        </strong>
+                      </span>
+                    </Typography>
+                  </li>
                   <li>
                     <Typography variant='body1'>
                       For male students, please wear a shirt with collar. For
@@ -531,50 +574,88 @@ const IDFormComponent = () => {
               </Stack>
             </Stack>
 
-            <Stack className={classes.uploadContainer}>
-              {signatureFile.url && (
-                <img
-                  className={classes.image}
-                  src={signatureFile.url}
-                  alt='Random'
-                />
-              )}
+            <Stack spacing={2}>
+              <Stack spacing={1}>
+                <Stack>
+                  <Typography variant='body1'>
+                    Please upload a picture of your signature.
+                  </Typography>
 
-              <Stack direction='row'>
-                <label className={classes.label} htmlFor='signature'>
-                  <Input
-                    accept='image/*'
-                    id='signature'
-                    type='file'
-                    onChange={handleSignatureUpload}
-                  />
+                  <Typography variant='body1'>How to do this:</Typography>
+                </Stack>
 
-                  <UploadButton
-                    disabled={loading}
-                    file={signatureFile}
-                    variant='contained'
-                    component='span'
-                    fullWidth
-                  >
-                    {!signatureFile.url ? (
-                      <>Attach E-Signature</>
-                    ) : (
-                      <>Change E-Signature</>
-                    )}
-                  </UploadButton>
-                </label>
+                <ul>
+                  <li>
+                    <Typography variant='body1'>
+                      Make sure the image has either a <strong>white</strong> or
+                      a <strong>transparent</strong> background.
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography variant='body1'>
+                      Your signature must be within 1 inch tall and 2 inches
+                      wide only.
+                    </Typography>
+                  </li>
+                  <li>
+                    <Typography component='span' variant='body1'>
+                      Filename: <code>SIGidnumber.jpg</code> or{' '}
+                      <code>.png</code>. For example:{' '}
+                      <span className={classes.noBreakline}>
+                        <strong>
+                          <code>SIG2021-123456.jpg</code>
+                        </strong>
+                      </span>
+                    </Typography>
+                  </li>
+                </ul>
+              </Stack>
 
+              <Stack className={classes.uploadContainer}>
                 {signatureFile.url && (
-                  <RemoveButton
-                    color='secondary'
-                    disabled={loading}
-                    file={signatureFile}
-                    onClick={() => setSignatureFile({ del: true })}
-                    variant='contained'
-                  >
-                    <IconComponent icon='trash' />
-                  </RemoveButton>
+                  <img
+                    className={classes.image}
+                    src={signatureFile.url}
+                    alt='Random'
+                  />
                 )}
+
+                <Stack direction='row'>
+                  <label className={classes.label} htmlFor='signature'>
+                    <Input
+                      accept='image/*'
+                      id='signature'
+                      type='file'
+                      onChange={handleSignatureUpload}
+                    />
+
+                    <UploadButton
+                      disabled={loading}
+                      file={signatureFile}
+                      variant='contained'
+                      component='span'
+                      fullWidth
+                    >
+                      {!signatureFile.url ? (
+                        <>Attach E-Signature</>
+                      ) : (
+                        <>Change E-Signature</>
+                      )}
+                    </UploadButton>
+                  </label>
+
+                  {signatureFile.url && (
+                    <RemoveButton
+                      color='secondary'
+                      disabled={loading}
+                      file={signatureFile}
+                      onClick={() => setSignatureFile({ del: true })}
+                      variant='contained'
+                    >
+                      <IconComponent icon='trash' />
+                    </RemoveButton>
+                  )}
+                </Stack>
               </Stack>
             </Stack>
           </Stack>
