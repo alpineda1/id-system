@@ -127,7 +127,7 @@ const LoginComponent = () => {
               <Stack spacing={1}>
                 <img alt='NU-APC' src={logo} />
                 <Typography sx={{ textAlign: 'center' }} variant='h5'>
-                  APC Identification System
+                  APC Student ID System
                 </Typography>
                 <Typography sx={{ textAlign: 'center' }} variant='body1'>
                   Login with <span className={classes.office}>Office 365</span>{' '}
