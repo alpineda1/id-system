@@ -498,7 +498,8 @@ const IDFormComponent = () => {
                 <ul>
                   <li>
                     <Typography component='span' variant='body1'>
-                      Filename: <code>PICnumber.jpg</code> or <code>.png</code>.
+                      The filename must be <code>PICnumber</code> followed by
+                      the file extension <code>.jpg</code> or <code>.png</code>.
                       For example:{' '}
                       <span className={classes.noBreakline}>
                         <strong>
@@ -576,13 +577,9 @@ const IDFormComponent = () => {
 
             <Stack spacing={2}>
               <Stack spacing={1}>
-                <Stack>
-                  <Typography variant='body1'>
-                    Please upload a picture of your signature.
-                  </Typography>
-
-                  <Typography variant='body1'>How to do this:</Typography>
-                </Stack>
+                <Typography variant='body1'>
+                  Please upload a picture of your signature.
+                </Typography>
 
                 <ul>
                   <li>
@@ -599,8 +596,9 @@ const IDFormComponent = () => {
                   </li>
                   <li>
                     <Typography component='span' variant='body1'>
-                      Filename: <code>SIGidnumber.jpg</code> or{' '}
-                      <code>.png</code>. For example:{' '}
+                      The filename must be <code>SIGnumber</code> followed by
+                      the file extension <code>.jpg</code> or <code>.png</code>.
+                      For example:{' '}
                       <span className={classes.noBreakline}>
                         <strong>
                           <code>SIG2021-123456.jpg</code>
